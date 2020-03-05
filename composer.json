@@ -1,0 +1,28 @@
+{
+    "name": "andreeasabadis/quiz-app",
+    "authors": [
+        {
+            "name": "Andreea Sabadis",
+            "email": "andreea.sabadis@evozon.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:andreiuta97/mvc-framework-skeleton.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:andreiuta97/reallyOrm.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:andreiuta97/codeHighlightLib.git"
+        }
+    ],
+    "require": {
+        "andreeasabadis/mvc-framework-skeleton": "dev-master",
+        "really-orm-skeleton": "dev-master",
+        "andreeasabadis/code-highlight-lib": "dev-master"
+    }
+}
