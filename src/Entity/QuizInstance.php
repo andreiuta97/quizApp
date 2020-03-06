@@ -6,6 +6,10 @@ namespace QuizApp\Entity;
 
 class QuizInstance extends QuizTemplate
 {
+    /**
+     * @ORM score
+     * @var int
+     */
     private $score;
 
     public function __construct(int $id, string $name, string $type, int $score)

@@ -22,33 +22,27 @@
     <!--Custom css-->
     <link rel="stylesheet" href="assets/css/custom-css.css">
 
-    <title>Candidate - Quiz success page</title>
+    <title>Sign in - page</title>
 </head>
 
-<body>
+<body class="text-center">
     <!--Header-->
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 mb-3 bg-light border-bottom shadow-sm">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Project name</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <span class="p-2 text-dark">Hello, Candidate name!</span>
-        </nav>
-        <a class="btn btn-danger" href="#">Logout</a>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-light border-bottom shadow-sm ">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Quiz App</h5>
     </div>
 
-    <!--Breadcrumbs-->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb px-3 py-0 mb-3">
-            <li class="breadcrumb-item" ><a href="#">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Quiz success page</li>
-        </ol>
-    </nav>
-
-    <div class="container">
-        <!--Page title block-->
-        <div class="text-center">
-            <h1>Congrats!</h1>
-            <img src="assets/img/giphy.gif" alt="">
+    <!--Sign in form-->
+    <form class="form-signin" action="/login" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <div>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input name='email' type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
         </div>
-    </div>
+        <div>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input name='password' type="password" id="inputPassword" class="form-control" placeholder="Password">
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
 </body>
 </html>

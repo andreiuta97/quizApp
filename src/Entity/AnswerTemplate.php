@@ -4,9 +4,19 @@
 namespace QuizApp\Entity;
 
 
-class AnswerTemplate
+use ReallyOrm\Entity\AbstractEntity;
+
+class AnswerTemplate extends AbstractEntity
 {
+    /**
+     * @ORM id
+     * @var int
+     */
     private $id;
+    /**
+     * @ORM text
+     * @var string
+     */
     private $text;
 
     public function __construct

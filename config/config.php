@@ -8,10 +8,10 @@ use Framework\Dispatcher\Dispatcher;
 
 return [
     'renderer' => [
-        Renderer::CONFIG_KEY_BASE_VIEW_PATH => dirname(__DIR__) . '/View/'
+        Renderer::CONFIG_KEY_BASE_VIEW_PATH => '/var/www/quizApp/src/views/'
     ],
     'dispatcher' => [
-        Dispatcher::CONFIG_CONTROLLER_NAMESPACE => 'Framework\Controller',
+        Dispatcher::CONFIG_CONTROLLER_NAMESPACE => 'QuizApp\Controller',
         Dispatcher::CONFIG_CONTROLLER_SUFFIX => 'Controller',
     ],
     'router' => [
@@ -39,6 +39,24 @@ return [
                 Router::CONFIG_KEY_PATH => '/user/(?<id>\d+)/setRole/(?<role>(ADMIN|GUEST))\?p=(?<priority>\d+)',
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'post',
+            ],
+            'get_login_page' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getLogin',
+            ],
+            'login_page' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/login',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'toGoTo',
+            ],
+            'admin_page' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/admin-dashboard',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getAdminDashboard',
             ],
         ]
     ],

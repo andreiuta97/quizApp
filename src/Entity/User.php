@@ -2,12 +2,34 @@
 
 namespace QuizApp\Entity;
 
-class User
+use ReallyOrm\Entity\AbstractEntity;
+
+class User extends AbstractEntity
 {
+    /**
+     * @ORM id
+     * @var int
+     */
     private $id;
+    /**
+     * @ORM name
+     * @var string
+     */
     private $name;
+    /**
+     * @ORM email
+     * @var string
+     */
     private $email;
+    /**
+     * @ORM password
+     * @var string
+     */
     private $password;
+    /**
+     * @ORM role
+     * @var string
+     */
     private $role;
 
     public function __construct

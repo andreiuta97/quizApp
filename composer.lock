@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fca40f1ffa8b0451660d5914c4ce90c",
+    "content-hash": "c05b410521f98328a8e2f6f4ee01f458",
     "packages": [
         {
             "name": "andreeasabadis/code-highlight-lib",
@@ -438,16 +438,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.10.2",
+            "version": "v1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9"
+                "reference": "451c3cd1418cf640de218914901e51b064abb093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
-                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/451c3cd1418cf640de218914901e51b064abb093",
+                "reference": "451c3cd1418cf640de218914901e51b064abb093",
                 "shasum": ""
             },
             "require": {
@@ -497,7 +497,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2020-01-20T15:57:02+00:00"
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -939,12 +939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/andreiuta97/reallyOrm.git",
-                "reference": "ea8b931b10f9a79e23aebd055d4c48d1ff322eb9"
+                "reference": "b9b38e0b323c365583687f9105e4b495686b23b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andreiuta97/reallyOrm/zipball/ea8b931b10f9a79e23aebd055d4c48d1ff322eb9",
-                "reference": "ea8b931b10f9a79e23aebd055d4c48d1ff322eb9",
+                "url": "https://api.github.com/repos/andreiuta97/reallyOrm/zipball/b9b38e0b323c365583687f9105e4b495686b23b2",
+                "reference": "b9b38e0b323c365583687f9105e4b495686b23b2",
                 "shasum": ""
             },
             "require": {
@@ -971,7 +971,7 @@
                 "source": "https://github.com/andreiuta97/reallyOrm/tree/master",
                 "issues": "https://github.com/andreiuta97/reallyOrm/issues"
             },
-            "time": "2020-03-03T17:24:42+00:00"
+            "time": "2020-03-06T16:05:56+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1876,6 +1876,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-pdo": "*"
+    },
     "platform-dev": []
 }
