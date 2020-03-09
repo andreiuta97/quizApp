@@ -24,17 +24,17 @@ class QuestionTemplate extends AbstractEntity
      */
     private $type;
 
-    public function __construct
-    (
-        int $id,
-        string $text,
-        string $type
-    )
-    {
-        $this->id = $id;
-        $this->text = $text;
-        $this->type = $type;
-    }
+//    public function __construct
+//    (
+//        int $id,
+//        string $text,
+//        string $type
+//    )
+//    {
+//        $this->id = $id;
+//        $this->text = $text;
+//        $this->type = $type;
+//    }
 
     /**
      * @return int

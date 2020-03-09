@@ -1,0 +1,52 @@
+<?php
+require_once('partials/head.phtml');
+?>
+    <title>Admin - Question details</title>
+</head>
+
+<body>
+    <?php
+        require_once('partials/header.phtml');
+    ?>
+
+    <!--Breadcrumbs-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb px-3 py-0 mb-3">
+            <li class="breadcrumb-item" ><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Question details</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <!--Page title block-->
+        <div class="text-center">
+            <h1>New question / Edit question</h1>
+        </div>
+
+        <!--Question details form-->
+        <form>
+            <div class="form-group">
+                <label for="questionText">Question text</label>
+                <textarea name="questionText" class="form-control" id="questionText" placeholder="Question text"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="questionType">Question type</label>
+                <textarea name="questionType" class="form-control" id="questionType" placeholder="Question type"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="quizzes">Quizzes</label>
+                <select class="form-control" id="quizzes" multiple>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save question</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

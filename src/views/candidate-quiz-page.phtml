@@ -1,0 +1,42 @@
+<?php
+require_once('partials/head.phtml');
+?>
+
+    <title>Candidate - Quiz page</title>
+</head>
+
+<body>
+    <?php
+        require_once('partials/header.phtml');
+    ?>
+
+    <!--Breadcrumbs-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb px-3 py-0 mb-3">
+            <li class="breadcrumb-item" ><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Quiz page</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <!--Page title block-->
+        <div class="text-center">
+            <h1>Quiz name</h1>
+        </div>
+
+        <!--Quiz form-->
+        <div class="">
+            <p class="font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac efficitur dolor. Morbi sed dictum felis, ac pharetra nulla. Morbi sit amet sollicitudin tellus, maximus molestie tellus ?</p>
+        </div>
+        <form>
+            <div class="form-group">
+                <textarea class="form-control" id="questionResponse" placeholder="Question response"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Next</button> /
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

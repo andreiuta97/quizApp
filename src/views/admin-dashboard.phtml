@@ -1,0 +1,32 @@
+<?php
+    require_once('partials/head.phtml');
+?>
+
+    <title>Admin - dashboard</title>
+</head>
+
+<body>
+    <?php
+        require_once('partials/header.phtml');
+    ?>
+
+    <!--Breadcrumbs-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb px-3 py-0 mb-3">
+            <li class="breadcrumb-item active" aria-current="page"><a href="#">Dashboard</a></li>
+        </ol>
+    </nav>
+
+    <!--Main content-->
+    <div class="container">
+        <!--Page title block-->
+        <div class="text-center">
+            <h1>Welcome, <?php echo $user->getName();?></h1>
+            <a href="/listQuizzes" class="btn btn-primary m-2">Quizzes</a>
+            <a href="/listUsers" class="btn btn-primary m-2">Users</a>
+            <a href="/listQuestions" class="btn btn-primary m-2">Questions</a>
+            <a href="/listResults" class="btn btn-primary m-2">Results</a>
+        </div>
+    </div>
+</body>
+</html>

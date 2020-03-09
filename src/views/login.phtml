@@ -1,0 +1,27 @@
+<?php
+    require_once('partials/head.phtml');
+?>
+
+    <title>Sign in - page</title>
+</head>
+
+<body class="text-center">
+    <!--Header-->
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-light border-bottom shadow-sm ">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Quiz App</h5>
+    </div>
+    <!--Sign in form-->
+    <form class="form-signin" action="/login" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <div>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
+        </div>
+        <div>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password">
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+</body>
+</html>

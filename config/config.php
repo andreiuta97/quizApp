@@ -52,15 +52,36 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'toGoTo',
             ],
-            'admin_page' => [
-                Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/admin-dashboard',
+            'logout_page' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/',
                 Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'getAdminDashboard',
+                Router::CONFIG_KEY_ACTION => 'logout',
+            ],
+            'get_quizzes' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/listQuizzes',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getQuizzes',
+            ],
+            'get_users' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/listUsers',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getUsers',
+            ],
+            'get_questions' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/listQuestions',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getQuestions',
+            ],
+            'get_results' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/listResults',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getResults',
             ],
         ]
     ],
-    ''
-
-
 ];

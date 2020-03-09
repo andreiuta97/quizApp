@@ -3,15 +3,22 @@
 use Framework\Contracts\DispatcherInterface;
 use Framework\Contracts\RendererInterface;
 use Framework\Contracts\RouterInterface;
+use QuizApp\Controller\QuestionTemplateController;
+use QuizApp\Controller\QuizTemplateController;
 use QuizApp\Controller\UserController;
 use Framework\Dispatcher\Dispatcher;
 use Framework\Renderer\Renderer;
 use Framework\Router\Router;
 use Framework\DependencyInjection\SymfonyContainer;
+use QuizApp\Entity\QuestionTemplate;
+use QuizApp\Entity\QuizTemplate;
 use QuizApp\Entity\User;
+use QuizApp\Repository\QuestionTemplateRepository;
+use QuizApp\Repository\QuizTemplateRepository;
 use QuizApp\Repository\UserRepository;
+use QuizApp\Service\QuestionTemplateService;
+use QuizApp\Service\QuizTemplateService;
 use ReallyOrm\Hydrator\HydratorInterface;
-use ReallyOrm\Repository\RepositoryInterface;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 use ReallyOrm\Test\Hydrator\Hydrator;
 use ReallyOrm\Test\Repository\RepositoryManager;
@@ -67,11 +74,43 @@ $containerBuilder->register(UserRepository::class, UserRepository::class)
     ->addArgument(new Reference(HydratorInterface::class))
     ->addTag('repository');
 
+$containerBuilder->register(QuestionTemplateRepository::class, QuestionTemplateRepository::class)
+    ->addArgument(new Reference(PDO::class))
+    ->addArgument(QuestionTemplate::class)
+    ->addArgument(new Reference(HydratorInterface::class))
+    ->addTag('repository');
+
+$containerBuilder->register(QuizTemplateRepository::class, QuizTemplateRepository::class)
+    ->addArgument(new Reference(PDO::class))
+    ->addArgument(QuizTemplate::class)
+    ->addArgument(new Reference(HydratorInterface::class))
+    ->addTag('repository');
+
+// Configure Services
+
+$containerBuilder->register(QuestionTemplateService::class, QuestionTemplateService::class)
+    ->addArgument(new Reference(QuestionTemplateRepository::class));
+
+$containerBuilder->register(QuizTemplateService::class, QuizTemplateService::class)
+    ->addArgument(new Reference(QuizTemplateRepository::class));
+
 
 // Configure Controllers
 $containerBuilder->register(UserController::class, UserController::class)
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
+    ->addTag('controller');
+
+$containerBuilder->register(QuestionTemplateController::class, QuestionTemplateController::class)
+    ->addArgument(new Reference(RendererInterface::class))
+    ->addArgument(new Reference(RepositoryManagerInterface::class))
+    ->addArgument(new Reference(QuestionTemplateService::class))
+    ->addTag('controller');
+
+$containerBuilder->register(QuizTemplateController::class, QuizTemplateController::class)
+    ->addArgument(new Reference(RendererInterface::class))
+    ->addArgument(new Reference(RepositoryManagerInterface::class))
+    ->addArgument(new Reference(QuizTemplateService::class))
     ->addTag('controller');
 
 // Configure Dispatcher
@@ -91,10 +130,5 @@ foreach ($containerBuilder->findTaggedServiceIds('repository') as $id => $value)
     $repository = $containerBuilder->getDefinition($id);
     $repoManager->addMethodCall('addRepository', [$repository]);
 }
-
-
-
-// .........
-
 
 return new SymfonyContainer($containerBuilder);

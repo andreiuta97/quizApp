@@ -1,0 +1,57 @@
+<?php
+require_once('partials/head.phtml');
+?>
+
+    <title>Admin - User details</title>
+</head>
+
+<body>
+    <?php
+        require_once('partials/header.phtml');
+    ?>
+
+    <!--Breadcrumbs-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb px-3 py-0 mb-3">
+            <li class="breadcrumb-item" ><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User details</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <!--Page title block-->
+        <div class="text-center">
+            <h1>New user / Edit user</h1>
+        </div>
+
+        <!--User details form-->
+        <form>
+            <div class="form-group">
+                <label for="userName">Name</label>
+                <input type="text" class="form-control" id="userName" placeholder="User name">
+            </div>
+            <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input type="email" class="form-control" id="userEmail" placeholder="User email">
+            </div>
+            <div class="form-group">
+                <label for="userPassword">Password</label>
+                <input type="password" class="form-control" id="userPassword" placeholder="User password">
+            </div>
+            <div class="form-group">
+                <label for="userRole">Role</label>
+                <select class="form-control" id="userRole">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
