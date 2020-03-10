@@ -18,6 +18,7 @@ use QuizApp\Repository\QuizTemplateRepository;
 use QuizApp\Repository\UserRepository;
 use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizTemplateService;
+use QuizApp\Service\UserService;
 use ReallyOrm\Hydrator\HydratorInterface;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 use ReallyOrm\Test\Hydrator\Hydrator;
@@ -87,18 +88,21 @@ $containerBuilder->register(QuizTemplateRepository::class, QuizTemplateRepositor
     ->addTag('repository');
 
 // Configure Services
-
 $containerBuilder->register(QuestionTemplateService::class, QuestionTemplateService::class)
     ->addArgument(new Reference(QuestionTemplateRepository::class));
 
 $containerBuilder->register(QuizTemplateService::class, QuizTemplateService::class)
     ->addArgument(new Reference(QuizTemplateRepository::class));
 
+$containerBuilder->register(UserService::class, UserService::class)
+    ->addArgument(new Reference(UserRepository::class));
+
 
 // Configure Controllers
 $containerBuilder->register(UserController::class, UserController::class)
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
+    ->addArgument(new Reference(UserService::class))
     ->addTag('controller');
 
 $containerBuilder->register(QuestionTemplateController::class, QuestionTemplateController::class)

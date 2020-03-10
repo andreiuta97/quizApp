@@ -28,12 +28,6 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'get',
             ],
-            'delete_user' => [
-                Router::CONFIG_KEY_METHOD => 'DELETE',
-                Router::CONFIG_KEY_PATH => '/user/(?<id>\d+)',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'delete',
-            ],
             'view_user_role' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/user/(?<id>\d+)/setRole/(?<role>(ADMIN|GUEST))\?p=(?<priority>\d+)',
@@ -111,6 +105,36 @@ return [
                 Router::CONFIG_KEY_PATH => '/deleteQuestion/(?<id>\d+)',
                 Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
                 Router::CONFIG_KEY_ACTION => 'deleteQuestion',
+            ],
+            'add_new_user' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/newUser',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'addNewUser',
+            ],
+            'add_user' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/newUser',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'addUser',
+            ],
+            'edit_user' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/editUser/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'editUser',
+            ],
+            'update_user' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/editUser/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'updateUser',
+            ],
+            'delete_user' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/deleteUser/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'deleteUser',
             ],
         ]
     ],
