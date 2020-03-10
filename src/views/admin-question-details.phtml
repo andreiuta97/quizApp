@@ -24,23 +24,16 @@ require_once('partials/head.phtml');
         </div>
 
         <!--Question details form-->
-        <form>
+        <form action="" method="post">
             <div class="form-group">
                 <label for="questionText">Question text</label>
-                <textarea name="questionText" class="form-control" id="questionText" placeholder="Question text"></textarea>
+                <textarea name="text" class="form-control" id="questionText" placeholder="Question text"></textarea>
             </div>
             <div class="form-group">
                 <label for="questionType">Question type</label>
-                <textarea name="questionType" class="form-control" id="questionType" placeholder="Question type"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="quizzes">Quizzes</label>
-                <select class="form-control" id="quizzes" multiple>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                <select name="type" class="form-control" id="questionType" multiple>
+                    <option value="Text">Text</option>
+                    <option value="Code">Code</option>
                 </select>
             </div>
             <div class="text-center">

@@ -8,7 +8,9 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Psr\Http\Message\RequestInterface;
+use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Entity\User;
+use QuizApp\Repository\QuestionTemplateRepository;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class UserController extends AbstractController
@@ -59,11 +61,6 @@ class UserController extends AbstractController
     public function getUsers(Request $request, array $requestAttributes): Response
     {
         return $this->renderer->renderView('admin-users-listing.phtml', $requestAttributes);
-    }
-
-    public function getQuestions(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('admin-questions-listing.phtml', $requestAttributes);
     }
 
     public function getResults(Request $request, array $requestAttributes): Response

@@ -73,7 +73,7 @@ return [
             'get_questions' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/listQuestions',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
                 Router::CONFIG_KEY_ACTION => 'getQuestions',
             ],
             'get_results' => [
@@ -81,6 +81,36 @@ return [
                 Router::CONFIG_KEY_PATH => '/listResults',
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'getResults',
+            ],
+            'add_new_question' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/newQuestion',
+                Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
+                Router::CONFIG_KEY_ACTION => 'addNewQuestion',
+            ],
+            'add_question' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/newQuestion',
+                Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
+                Router::CONFIG_KEY_ACTION => 'addQuestion',
+            ],
+            'edit_question' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/editQuestion/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
+                Router::CONFIG_KEY_ACTION => 'editQuestion',
+            ],
+            'update_question' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/editQuestion/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
+                Router::CONFIG_KEY_ACTION => 'updateQuestion',
+            ],
+            'delete_question' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/deleteQuestion/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
+                Router::CONFIG_KEY_ACTION => 'deleteQuestion',
             ],
         ]
     ],

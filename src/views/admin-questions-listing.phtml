@@ -40,7 +40,7 @@ require_once('partials/head.phtml');
                 </form>
             </div>
             <div class="col-12 col-md-6 d-flex align-items-end justify-content-end">
-                <a class="btn btn-primary py-1" href="#">Add new question</a>
+                <a class="btn btn-primary py-1" href="/newQuestion">Add new question</a>
             </div>
         </div>
 
@@ -56,30 +56,19 @@ require_once('partials/head.phtml');
                 </tr>
                 </thead>
                 <tbody>
+                <?php /** @var $questions \QuizApp\Entity\QuestionTemplate[] */?>
+                <?php foreach ($questions as $question) :?>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>asd asad asdadadsad</td>
+                    <?php /** @var $question \QuizApp\Entity\QuestionTemplate */?>
+                    <th scope="row"><?php echo $question->getId()?></th>
+                    <td><?php echo $question->getText()?></td>
+                    <td><?php echo $question->getType()?></td>
                     <td class="text-center">
-                        <a class="btn btn-primary py-1" href="#">Edit</a>
-                        <a class="btn btn-danger py-1" href="#">Delete</a>
+                        <a class="btn btn-primary py-1" href="/editQuestion/<?php echo $question->getId()?>">Edit</a>
+                        <a class="btn btn-danger py-1" href="/deleteQuestion/<?php echo $question->getId()?>">Delete</a>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>asd asad asdadadsad</td>
-                    <td class="text-center">
-                        <a class="btn btn-primary py-1" href="#">Edit</a>
-                        <a class="btn btn-danger py-1" href="#">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>asd asad asdadadsad</td>
-                    <td class="text-center">
-                        <a class="btn btn-primary py-1" href="#">Edit</a>
-                        <a class="btn btn-danger py-1" href="#">Delete</a>
-                    </td>
-                </tr>
+                <?php endforeach?>
                 </tbody>
             </table>
         </div>
