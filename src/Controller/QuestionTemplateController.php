@@ -92,11 +92,14 @@ class QuestionTemplateController extends AbstractController
 
     public function addNewQuestion(Request $request, array $requestAttributes): Response
     {
-        return $this->renderer->renderView('admin-question-details.phtml', $requestAttributes);
+        return $this->renderer->renderView('admin-question-add.phtml', $requestAttributes);
     }
 
     public function editQuestion(Request $request, array $requestAttributes): Response
     {
-        return $this->renderer->renderView('admin-question-details.phtml', $requestAttributes);
+        $id = $requestAttributes['id'];
+        $question = $this->questionTemplateService->getQuestion($id);
+
+        return $this->renderer->renderView('admin-question-edit.phtml', ['question' => $question]);
     }
 }

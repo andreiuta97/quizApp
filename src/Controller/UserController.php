@@ -8,10 +8,7 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
-use Psr\Http\Message\RequestInterface;
-use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Entity\User;
-use QuizApp\Repository\QuestionTemplateRepository;
 use QuizApp\Service\UserService;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
@@ -57,11 +54,6 @@ class UserController extends AbstractController
         }
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml', ['user' => $user]);
-    }
-
-    public function getQuizzes(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('admin-quizzes-listing.phtml', $requestAttributes);
     }
 
     public function getResults(Request $request, array $requestAttributes): Response
@@ -137,12 +129,15 @@ class UserController extends AbstractController
 
     public function addNewUser(Request $request, array $requestAttributes): Response
     {
-        return $this->renderer->renderView('admin-user-details.phtml', $requestAttributes);
+        return $this->renderer->renderView('admin-user-add.phtml', $requestAttributes);
     }
 
     public function editUser(Request $request, array $requestAttributes): Response
     {
-        return $this->renderer->renderView('admin-user-details.phtml', $requestAttributes);
+        $id = $requestAttributes['id'];
+        $user = $this->userService->getUser($id);
+
+        return $this->renderer->renderView('admin-user-edit.phtml', ['user' => $user]);
     }
 
 }

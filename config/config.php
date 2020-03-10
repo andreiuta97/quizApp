@@ -76,6 +76,36 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'getResults',
             ],
+            'add_new_user' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/newUser',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'addNewUser',
+            ],
+            'add_user' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/newUser',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'addUser',
+            ],
+            'edit_user' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/editUser/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'editUser',
+            ],
+            'update_user' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/editUser/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'updateUser',
+            ],
+            'delete_user' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/deleteUser/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'deleteUser',
+            ],
             'add_new_question' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/newQuestion',
@@ -106,35 +136,35 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'questionTemplate',
                 Router::CONFIG_KEY_ACTION => 'deleteQuestion',
             ],
-            'add_new_user' => [
+            'add_new_quiz' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/newUser',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'addNewUser',
+                Router::CONFIG_KEY_PATH => '/newQuiz',
+                Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
+                Router::CONFIG_KEY_ACTION => 'addNewQuiz',
             ],
-            'add_user' => [
+            'add_quiz' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
-                Router::CONFIG_KEY_PATH => '/newUser',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'addUser',
+                Router::CONFIG_KEY_PATH => '/newQuiz',
+                Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
+                Router::CONFIG_KEY_ACTION => 'addQuiz',
             ],
-            'edit_user' => [
+            'edit_quiz' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/editUser/(?<id>\d+)',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'editUser',
+                Router::CONFIG_KEY_PATH => '/editQuiz/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
+                Router::CONFIG_KEY_ACTION => 'editQuiz',
             ],
-            'update_user' => [
+            'update_quiz' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
-                Router::CONFIG_KEY_PATH => '/editUser/(?<id>\d+)',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'updateUser',
+                Router::CONFIG_KEY_PATH => '/editQuiz/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
+                Router::CONFIG_KEY_ACTION => 'updateQuiz',
             ],
-            'delete_user' => [
+            'delete_quiz' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/deleteUser/(?<id>\d+)',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'deleteUser',
+                Router::CONFIG_KEY_PATH => '/deleteQuiz/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
+                Router::CONFIG_KEY_ACTION => 'deleteQuiz',
             ],
         ]
     ],

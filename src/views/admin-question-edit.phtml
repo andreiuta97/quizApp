@@ -20,20 +20,20 @@ require_once('partials/head.phtml');
     <div class="container">
         <!--Page title block-->
         <div class="text-center">
-            <h1>New question / Edit question</h1>
+            <h1>Edit question</h1>
         </div>
 
         <!--Question details form-->
         <form action="" method="post">
             <div class="form-group">
                 <label for="questionText">Question text</label>
-                <textarea name="text" class="form-control" id="questionText" placeholder="Question text"></textarea>
+                <textarea name="text" class="form-control" id="questionText" placeholder="Question text"><?php echo $question->getText();?></textarea>
             </div>
             <div class="form-group">
                 <label for="questionType">Question type</label>
-                <select name="type" class="form-control" id="questionType" multiple>
-                    <option value="Text">Text</option>
-                    <option value="Code">Code</option>
+                <select name="type" class="form-control" id="questionType" multiple >
+                    <option value="Text" <?php if($question->getType() == 'Text'){echo("selected");}?>>Text</option>
+                    <option value="Code" <?php if($question->getType() == 'Code'){echo("selected");}?>>Code</option>
                 </select>
             </div>
             <div class="text-center">
