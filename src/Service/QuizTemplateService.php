@@ -3,26 +3,34 @@
 
 namespace QuizApp\Service;
 
+use Framework\Contracts\SessionInterface;
+use Framework\Http\Request;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
 
 class QuizTemplateService
 {
     private $quizTemplateRepo;
+    private $session;
 
     public function __construct
     (
-        QuizTemplateRepository $quizTemplateRepo
+        QuizTemplateRepository $quizTemplateRepo,
+        SessionInterface $session
     )
     {
         $this->quizTemplateRepo = $quizTemplateRepo;
+        $this->session = $session;
     }
 
     public function add(array $info)
     {
+        $createdBy = $this->session->get('id');
+
         $quiz = new QuizTemplate();
-        $quiz->setName($info['text']);
+        $quiz->setName($info['name']);
         $quiz->setType($info['type']);
+        $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
     }
@@ -34,9 +42,12 @@ class QuizTemplateService
 
     public function update(int $id, array $info)
     {
+        $createdBy = $this->session->get('id');
+
         $quiz = $this->getQuiz($id);
-        $quiz->setName($info['text']);
+        $quiz->setName($info['name']);
         $quiz->setType($info['type']);
+        $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
     }

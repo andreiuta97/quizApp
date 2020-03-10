@@ -20,18 +20,18 @@ require_once('partials/head.phtml');
     <div class="container">
         <!--Page title block-->
         <div class="text-center">
-            <h1>New quiz / Edit quiz</h1>
+            <h1>Edit quiz</h1>
         </div>
 
         <!--Quiz details form-->
         <form action="" method="post">
             <div class="form-group">
                 <label for="quizName">Name</label>
-                <input name="name" type="text" class="form-control" id="quizName" placeholder="Quiz name">
+                <input name="name" type="text" class="form-control" id="quizName" placeholder="Quiz name" value="<?php echo $quiz->getName();?>">
             </div>
             <div class="form-group">
                 <label for="quizType">Type</label>
-                <input name="type" type="text" class="form-control" id="quizType" placeholder="Quiz Type">
+                <input name="type" type="text" class="form-control" id="quizType" placeholder="Quiz Type" value="<?php echo $quiz->getType();?>">
             </div>
             <div class="form-group">
                 <label for="quizQuestions">Questions</label>

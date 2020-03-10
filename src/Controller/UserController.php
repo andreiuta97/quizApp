@@ -34,46 +34,6 @@ class UserController extends AbstractController
         $this->userService=$userService;
     }
 
-    public function getLogin(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('login.phtml', $requestAttributes);
-    }
-
-    public function toGoTo(Request $request, array $requestAttributes): Response
-    {
-        $email = $request->getParameter('email');
-        $password = $request->getParameter('password');
-
-        $userRepo = $this->repositoryManager->getRepository(User::class);
-        $user = $userRepo->findOneBy(['email' => $email, 'password' => $password]);
-        if(!$user){
-            return $this->renderer->renderView('exceptions-page.phtml', $requestAttributes);
-        }
-        if($user->getRole()==='Admin'){
-            return $this->renderer->renderView('admin-dashboard.phtml', ['user' => $user]);
-        }
-
-        return $this->renderer->renderView('candidate-quiz-listing.phtml', ['user' => $user]);
-    }
-
-    public function getResults(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('admin-results-listing.phtml', $requestAttributes);
-    }
-
-    public function logout(Request $request, array $requestAttributes):Response
-    {
-        return $this->renderer->renderView('login.phtml', $requestAttributes);
-    }
-
-
-
-
-
-
-
-
-
     public function addUser(Request $request, array $requestAttributes): Response
     {
         $info = $request->getParameters();
@@ -124,6 +84,7 @@ class UserController extends AbstractController
         $criteria = new Criteria();
         $users = $userRepo->findBy($criteria);
         $users = ['users' => $users];
+
         return $this->renderer->renderView('admin-users-listing.phtml', $users);
     }
 
@@ -138,6 +99,11 @@ class UserController extends AbstractController
         $user = $this->userService->getUser($id);
 
         return $this->renderer->renderView('admin-user-edit.phtml', ['user' => $user]);
+    }
+
+    public function getResults(Request $request, array $requestAttributes): Response
+    {
+        return $this->renderer->renderView('admin-results-listing.phtml', $requestAttributes);
     }
 
 }

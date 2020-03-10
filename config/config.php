@@ -37,25 +37,25 @@ return [
             'get_login_page' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_CONTROLLER => 'authentication',
                 Router::CONFIG_KEY_ACTION => 'getLogin',
             ],
             'login_page' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/login',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_CONTROLLER => 'authentication',
                 Router::CONFIG_KEY_ACTION => 'toGoTo',
             ],
             'logout_page' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_CONTROLLER => 'authentication',
                 Router::CONFIG_KEY_ACTION => 'logout',
             ],
             'get_quizzes' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/listQuizzes',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
                 Router::CONFIG_KEY_ACTION => 'getQuizzes',
             ],
             'get_users' => [

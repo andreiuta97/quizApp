@@ -7,7 +7,7 @@ use ReallyOrm\Entity\AbstractEntity;
 class User extends AbstractEntity
 {
     /**
-     * @ORM id
+     * @Identifier id
      * @var int
      */
     private $id;

@@ -4,16 +4,23 @@
 namespace QuizApp\Service;
 
 
+use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Repository\QuestionTemplateRepository;
 
 class QuestionTemplateService
 {
     private $questionTemplateRepo;
+    private $session;
 
-    public function __construct(QuestionTemplateRepository $questionTemplateRepo)
+    public function __construct
+    (
+        QuestionTemplateRepository $questionTemplateRepo,
+        SessionInterface $session
+    )
     {
         $this->questionTemplateRepo = $questionTemplateRepo;
+        $this->session = $session;
     }
 
     public function add(array $info)

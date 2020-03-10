@@ -4,19 +4,23 @@
 namespace QuizApp\Service;
 
 
+use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\User;
 use QuizApp\Repository\UserRepository;
 
 class UserService
 {
     private $userRepo;
+    private $session;
 
     public function __construct
     (
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        SessionInterface $session
     )
     {
         $this->userRepo = $userRepo;
+        $this->session = $session;
     }
 
     public function add(array $info)

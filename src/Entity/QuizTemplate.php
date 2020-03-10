@@ -9,7 +9,7 @@ use ReallyOrm\Entity\AbstractEntity;
 class QuizTemplate extends AbstractEntity
 {
     /**
-     * @ORM id
+     * @Identifier id
      * @var int
      */
     private $id;
@@ -23,6 +23,11 @@ class QuizTemplate extends AbstractEntity
      * @var string
      */
     private $type;
+    /**
+     * @ORM createdBy
+     * @var int
+     */
+    private $createdBy;
 //
 //    public function __construct
 //    (
@@ -61,6 +66,14 @@ class QuizTemplate extends AbstractEntity
     }
 
     /**
+     * @return int
+     */
+    public function getCreatedBy(): int
+    {
+        return $this->createdBy;
+    }
+
+    /**
      * @param string $name
      */
     public function setName(string $name)
@@ -74,5 +87,13 @@ class QuizTemplate extends AbstractEntity
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @param int $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
     }
 }

@@ -9,7 +9,7 @@ use ReallyOrm\Entity\AbstractEntity;
 class QuestionTemplate extends AbstractEntity
 {
     /**
-     * @ORM id
+     * @Identifier id
      * @var int
      */
     private $id;

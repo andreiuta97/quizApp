@@ -3,6 +3,9 @@
 use Framework\Contracts\DispatcherInterface;
 use Framework\Contracts\RendererInterface;
 use Framework\Contracts\RouterInterface;
+use Framework\Contracts\SessionInterface;
+use Framework\Session\Session;
+use QuizApp\Controller\AuthenticationController;
 use QuizApp\Controller\QuestionTemplateController;
 use QuizApp\Controller\QuizTemplateController;
 use QuizApp\Controller\UserController;
@@ -16,6 +19,7 @@ use QuizApp\Entity\User;
 use QuizApp\Repository\QuestionTemplateRepository;
 use QuizApp\Repository\QuizTemplateRepository;
 use QuizApp\Repository\UserRepository;
+use QuizApp\Service\AuthenticationService;
 use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizTemplateService;
 use QuizApp\Service\UserService;
@@ -51,9 +55,11 @@ $containerBuilder->setParameter('options', $options);
 // Configure Router
 $containerBuilder->register(RouterInterface::class, Router::class)
     ->addArgument('%routerConfig%');
+
 // Configure Renderer
 $containerBuilder->register(RendererInterface::class, Renderer::class)
     ->addArgument('%rendererConfig%');
+
 // Configure Repository Manager
 $containerBuilder->register(RepositoryManagerInterface::class, RepositoryManager::class);
 
@@ -67,6 +73,9 @@ $containerBuilder->register(PDO::class, PDO::class)
     ->addArgument('%username%')
     ->addArgument('%password%')
     ->addArgument('%options%');
+
+// Configure Session
+$containerBuilder->register(SessionInterface::class, Session::class);
 
 // Configure Repository
 $containerBuilder->register(UserRepository::class, UserRepository::class)
@@ -89,13 +98,20 @@ $containerBuilder->register(QuizTemplateRepository::class, QuizTemplateRepositor
 
 // Configure Services
 $containerBuilder->register(QuestionTemplateService::class, QuestionTemplateService::class)
-    ->addArgument(new Reference(QuestionTemplateRepository::class));
+    ->addArgument(new Reference(QuestionTemplateRepository::class))
+    ->addArgument(new Reference(SessionInterface::class));
 
 $containerBuilder->register(QuizTemplateService::class, QuizTemplateService::class)
-    ->addArgument(new Reference(QuizTemplateRepository::class));
+    ->addArgument(new Reference(QuizTemplateRepository::class))
+    ->addArgument(new Reference(SessionInterface::class));
 
 $containerBuilder->register(UserService::class, UserService::class)
-    ->addArgument(new Reference(UserRepository::class));
+    ->addArgument(new Reference(UserRepository::class))
+    ->addArgument(new Reference(SessionInterface::class));
+
+$containerBuilder->register(AuthenticationService::class, AuthenticationService::class)
+    ->addArgument(new Reference(UserRepository::class))
+    ->addArgument(new Reference(SessionInterface::class));
 
 
 // Configure Controllers
@@ -115,6 +131,12 @@ $containerBuilder->register(QuizTemplateController::class, QuizTemplateControlle
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(QuizTemplateService::class))
+    ->addTag('controller');
+
+$containerBuilder->register(AuthenticationController::class, AuthenticationController::class)
+    ->addArgument(new Reference(RendererInterface::class))
+    ->addArgument(new Reference(RepositoryManagerInterface::class))
+    ->addArgument(new Reference(AuthenticationService::class))
     ->addTag('controller');
 
 // Configure Dispatcher
