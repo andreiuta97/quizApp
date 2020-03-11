@@ -36,6 +36,10 @@ require_once('partials/head.phtml');
                     <option value="Code" <?php if($question->getType() == 'Code'){echo("selected");}?>>Code</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="answerText">Answer text</label>
+                <textarea name="text" class="form-control" id="answerText" placeholder="Answer text"></textarea>
+            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Save question</button>
             </div>

@@ -9,6 +9,7 @@ use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\User;
+use QuizApp\Service\AuthenticationService;
 use QuizApp\Service\UserService;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
@@ -21,17 +22,53 @@ class UserController extends AbstractController
      */
     private $repositoryManager;
     private $userService;
+    /**
+     * @var AuthenticationService
+     */
+    private $authenticationService;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
-        UserService $userService
+        UserService $userService,
+        AuthenticationService $authenticationService
     )
     {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
-        $this->userService=$userService;
+        $this->userService = $userService;
+        $this->authenticationService = $authenticationService;
+    }
+
+    public function adminDashboard()
+    {
+        $user = $this->authenticationService->getLoggedUser();
+
+        if ($user === null) {
+            throw new \Exception("Not logged");
+        }
+
+        if ($user->getRole() !== 'Admin') {
+            throw new \Exception("Not admin");
+        }
+
+        return $this->renderer->renderView('admin-dashboard.phtml', ['user' => $user]);
+    }
+
+    public function candidateHomepage()
+    {
+        $user = $this->authenticationService->getLoggedUser();
+
+        if ($user === null) {
+            throw new \Exception("Not logged");
+        }
+
+        if ($user->getRole() !== 'Candidate') {
+            throw new \Exception("Not candidate");
+        }
+
+        return $this->renderer->renderView('candidate-quiz-listing.phtml', ['user' => $user]);
     }
 
     public function addUser(Request $request, array $requestAttributes): Response
@@ -99,10 +136,5 @@ class UserController extends AbstractController
         $user = $this->userService->getUser($id);
 
         return $this->renderer->renderView('admin-user-edit.phtml', ['user' => $user]);
-    }
-
-    public function getResults(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('admin-results-listing.phtml', $requestAttributes);
     }
 }

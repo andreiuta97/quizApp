@@ -8,6 +8,7 @@ use Framework\Session\Session;
 use QuizApp\Controller\AuthenticationController;
 use QuizApp\Controller\QuestionTemplateController;
 use QuizApp\Controller\QuizTemplateController;
+use QuizApp\Controller\ResultController;
 use QuizApp\Controller\UserController;
 use Framework\Dispatcher\Dispatcher;
 use Framework\Renderer\Renderer;
@@ -119,6 +120,7 @@ $containerBuilder->register(UserController::class, UserController::class)
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(UserService::class))
+    ->addArgument(new Reference(AuthenticationService::class))
     ->addTag('controller');
 
 $containerBuilder->register(QuestionTemplateController::class, QuestionTemplateController::class)
@@ -138,6 +140,11 @@ $containerBuilder->register(AuthenticationController::class, AuthenticationContr
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(AuthenticationService::class))
+    ->addTag('controller');
+
+$containerBuilder->register(ResultController::class, ResultController::class)
+    ->addArgument(new Reference(RendererInterface::class))
+    ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addTag('controller');
 
 // Configure Dispatcher

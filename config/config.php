@@ -7,6 +7,8 @@ use Framework\Router\Router;
 use Framework\Dispatcher\Dispatcher;
 
 return [
+    'host' => 'local.quiz.com',
+    'schema' => 'http',
     'renderer' => [
         Renderer::CONFIG_KEY_BASE_VIEW_PATH => '/var/www/quizApp/src/views/'
     ],
@@ -44,7 +46,19 @@ return [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/login',
                 Router::CONFIG_KEY_CONTROLLER => 'authentication',
-                Router::CONFIG_KEY_ACTION => 'toGoTo',
+                Router::CONFIG_KEY_ACTION => 'getDashboard',
+            ],
+            'admin_dashboard' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/admin/dashboard',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'adminDashboard',
+            ],
+            'candidate_homepage' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/candidate/homepage',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'candidateHomepage',
             ],
             'logout_page' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
@@ -73,7 +87,7 @@ return [
             'get_results' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/listResults',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_CONTROLLER => 'result',
                 Router::CONFIG_KEY_ACTION => 'getResults',
             ],
             'add_new_user' => [

@@ -25,7 +25,6 @@ class QuizTemplateService
 
     public function add(array $info)
     {
-        $this->session->start();
         $createdBy = $this->session->get('id');
 
         $quiz = new QuizTemplate();
@@ -34,6 +33,9 @@ class QuizTemplateService
         $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
+
+        $this->quizTemplateRepo->saveQuestionsForQuiz($quiz->getId(), $info['questions'] );
+
     }
 
     public function getQuiz(int $id)
@@ -43,7 +45,6 @@ class QuizTemplateService
 
     public function update(int $id, array $info)
     {
-        $this->session->start();
         $createdBy = $this->session->get('id');
 
         $quiz = $this->getQuiz($id);
@@ -52,6 +53,7 @@ class QuizTemplateService
         $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
+        $this->quizTemplateRepo->saveQuestionsForQuiz($quiz->getId(), $info['questions'] );
     }
 
     public function delete(int $id)

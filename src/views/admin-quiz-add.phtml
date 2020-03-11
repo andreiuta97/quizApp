@@ -35,7 +35,7 @@ require_once('partials/header.phtml');
         </div>
         <div class="form-group">
             <label for="quizQuestions">Questions</label>
-            <select class="form-control" id="quizQuestions" multiple>
+            <select name="questions[]" class="form-control" id="quizQuestions" multiple>
                 <?php /** @var $questions \QuizApp\Entity\QuestionTemplate[] */?>
                 <?php foreach ($questions as $question) :?>
                 <option value="<?php echo $question->getId()?>"><?php echo $question->getText()?></option>

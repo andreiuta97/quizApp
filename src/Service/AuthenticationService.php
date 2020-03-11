@@ -5,6 +5,7 @@ namespace QuizApp\Service;
 
 
 use Framework\Contracts\SessionInterface;
+use QuizApp\Entity\User;
 use QuizApp\Repository\UserRepository;
 
 class AuthenticationService
@@ -24,9 +25,8 @@ class AuthenticationService
 
     public function login(string $email, string $password)
     {
-        $this->session->start();
         $user = $this->userRepo->findOneBy(['email' => $email, 'password' => $password]);
-        if(!$user){
+        if (!$user) {
             // TODO throw exception
             return '';
         }
@@ -37,6 +37,16 @@ class AuthenticationService
         $this->session->get('name');
 
         return $user->getRole();
+    }
+
+    public function getLoggedUser(): ?User
+    {
+        if (!isset($_SESSION['id'])) {
+            return null;
+        }
+
+        $id = $this->session->get('id');
+        return $this->userRepo->find($id);
     }
 
 //    public function getName()

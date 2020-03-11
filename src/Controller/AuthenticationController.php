@@ -8,6 +8,7 @@ use Framework\Contracts\RendererInterface;
 use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
+use Framework\Http\Stream;
 use QuizApp\Entity\User;
 use QuizApp\Service\AuthenticationService;
 use ReallyOrm\Repository\RepositoryManagerInterface;
@@ -34,9 +35,9 @@ class AuthenticationController extends AbstractController
         return $this->renderer->renderView('login.phtml', $requestAttributes);
     }
 
-    public function toGoTo(Request $request, array $requestAttributes): Response
+    public function getDashboard(Request $request, array $requestAttributes): Response
     {
-
+        //$this->session=$this
         $email = $request->getParameter('email');
         $password = $request->getParameter('password');
         $role = $this->authenticationService->login($email, $password);
@@ -44,10 +45,18 @@ class AuthenticationController extends AbstractController
         $user = $userRepo->findOneBy(['email' => $email, 'password' => $password]);
 
         if ($role === 'Admin') {
-            return $this->renderer->renderView('admin-dashboard.phtml', ['user' => $user]);
+            $body = Stream::createFromString('');
+            $response = new Response($body, '1.1', 301, '');
+            /** @var Response $redirect */
+            $redirect = $response->withHeader('Location', 'http://local.quiz.com/admin/dashboard');
+            return $redirect;
         }
         if ($role === 'Candidate') {
-            return $this->renderer->renderView('candidate-quiz-listing.phtml', ['user' => $user]);
+            $body = Stream::createFromString('');
+            $response = new Response($body, '1.1', 301, '');
+            /** @var Response $redirect */
+            $redirect = $response->withHeader('Location', 'http://local.quiz.com/candidate/homepage');
+            return $redirect;
         }
     }
 
