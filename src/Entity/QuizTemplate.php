@@ -24,7 +24,7 @@ class QuizTemplate extends AbstractEntity
      */
     private $type;
     /**
-     * @ORM createdBy
+     * @ORM created_by
      * @var int
      */
     private $createdBy;

@@ -105,5 +105,4 @@ class UserController extends AbstractController
     {
         return $this->renderer->renderView('admin-results-listing.phtml', $requestAttributes);
     }
-
 }

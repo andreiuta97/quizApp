@@ -25,6 +25,7 @@ class QuizTemplateService
 
     public function add(array $info)
     {
+        $this->session->start();
         $createdBy = $this->session->get('id');
 
         $quiz = new QuizTemplate();
@@ -42,6 +43,7 @@ class QuizTemplateService
 
     public function update(int $id, array $info)
     {
+        $this->session->start();
         $createdBy = $this->session->get('id');
 
         $quiz = $this->getQuiz($id);
