@@ -131,6 +131,7 @@ $containerBuilder->register(QuizTemplateController::class, QuizTemplateControlle
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(QuizTemplateService::class))
+    ->addArgument(new Reference(QuestionTemplateService::class))
     ->addTag('controller');
 
 $containerBuilder->register(AuthenticationController::class, AuthenticationController::class)

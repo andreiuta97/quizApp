@@ -9,7 +9,9 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
+use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Entity\QuizTemplate;
+use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizTemplateService;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
@@ -24,17 +26,20 @@ class QuizTemplateController extends AbstractController
      * @var QuizTemplateService
      */
     private $quizTemplateService;
+    private $questionTemplateService;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
-        QuizTemplateService $quizTemplateService
+        QuizTemplateService $quizTemplateService,
+        QuestionTemplateService $questionTemplateService
     )
     {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizTemplateService = $quizTemplateService;
+        $this->questionTemplateService = $questionTemplateService;
     }
 
     public function addQuiz(Request $request, array $requestAttributes): Response
@@ -44,6 +49,7 @@ class QuizTemplateController extends AbstractController
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
         $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+
 
         return $response;
     }
@@ -92,14 +98,21 @@ class QuizTemplateController extends AbstractController
 
     public function addNewQuiz(Request $request, array $requestAttributes): Response
     {
-        return $this->renderer->renderView('admin-quiz-add.phtml', $requestAttributes);
+        $questionRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
+        $criteria = new Criteria();
+        $questions = $questionRepo->findBy($criteria);
+
+        return $this->renderer->renderView('admin-quiz-add.phtml', ['questions' => $questions]);
     }
 
     public function editQuiz(Request $request, array $requestAttributes): Response
     {
         $id = $requestAttributes['id'];
         $quiz = $this->quizTemplateService->getQuiz($id);
+        $questionRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
+        $criteria = new Criteria();
+        $questions = $questionRepo->findBy($criteria);
 
-        return $this->renderer->renderView('admin-quiz-edit.phtml', ['quiz' => $quiz]);
+        return $this->renderer->renderView('admin-quiz-edit.phtml', ['quiz' => $quiz, 'questions' => $questions]);
     }
 }
