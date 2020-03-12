@@ -12,7 +12,7 @@ require_once('partials/header.phtml');
 <!--Breadcrumbs-->
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 py-0 mb-3">
-        <li class="breadcrumb-item" ><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item" ><a href="/admin/dashboard">Dashboard</a></li>
         <li class="breadcrumb-item active" aria-current="page">Question details</li>
     </ol>
 </nav>
@@ -39,7 +39,7 @@ require_once('partials/header.phtml');
         </div>
         <div class="form-group">
             <label for="answerText">Answer text</label>
-            <textarea name="text" class="form-control" id="answerText" placeholder="Answer text"></textarea>
+            <textarea name="answer" class="form-control" id="answerText" placeholder="Answer text"></textarea>
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Save question</button>

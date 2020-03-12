@@ -34,7 +34,7 @@ class QuizTemplateService
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
 
-        $this->quizTemplateRepo->saveQuestionsForQuiz($quiz->getId(), $info['questions'] );
+        $this->quizTemplateRepo->saveQuestionsForQuiz($quiz->getId(), $info['questions']);
 
     }
 
@@ -53,7 +53,7 @@ class QuizTemplateService
         $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
-        $this->quizTemplateRepo->saveQuestionsForQuiz($quiz->getId(), $info['questions'] );
+        $this->quizTemplateRepo->saveQuestionsForQuiz($quiz->getId(), $info['questions']);
     }
 
     public function delete(int $id)

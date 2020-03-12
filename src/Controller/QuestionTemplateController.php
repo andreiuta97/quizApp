@@ -9,7 +9,11 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
+use QuizApp\Entity\AnswerTemplate;
 use QuizApp\Entity\QuestionTemplate;
+use QuizApp\Entity\QuizTemplate;
+use QuizApp\Repository\QuestionTemplateRepository;
+use QuizApp\Repository\QuizTemplateRepository;
 use QuizApp\Service\QuestionTemplateService;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
@@ -99,7 +103,13 @@ class QuestionTemplateController extends AbstractController
     {
         $id = $requestAttributes['id'];
         $question = $this->questionTemplateService->getQuestion($id);
+        $answerRepo = $this->repositoryManager->getRepository(AnswerTemplate::class);
+        $answer = $answerRepo->findOneBy(['question_template_id' => $question->getId()]);
 
-        return $this->renderer->renderView('admin-question-edit.phtml', ['question' => $question]);
+        $questionRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
+        $questionAnswer = $questionRepo->getAnswerForQuestion($id);
+
+
+        return $this->renderer->renderView('admin-question-edit.phtml', ['question' => $question, 'answer' => $answer, 'questionAnswer' => $questionAnswer]);
     }
 }
