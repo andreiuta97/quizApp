@@ -35,7 +35,7 @@ class AuthenticationController extends AbstractController
         return $this->renderer->renderView('login.phtml', $requestAttributes);
     }
 
-    public function getDashboard(Request $request, array $requestAttributes): Response
+    public function redirectAtLogin(Request $request, array $requestAttributes): Response
     {
         //$this->session=$this
         $email = $request->getParameter('email');

@@ -12,11 +12,11 @@ class QuizInstance extends QuizTemplate
      */
     private $score;
 
-    public function __construct(int $id, string $name, string $type, int $score)
-    {
-        parent::__construct($id, $name, $type);
-        $this->score = $score;
-    }
+//    public function __construct(int $id, string $name, string $type, int $score)
+//    {
+//        parent::__construct($id, $name, $type);
+//        $this->score = $score;
+//    }
 
     /**
      * @return int

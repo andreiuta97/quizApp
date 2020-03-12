@@ -46,7 +46,7 @@ return [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/login',
                 Router::CONFIG_KEY_CONTROLLER => 'authentication',
-                Router::CONFIG_KEY_ACTION => 'getDashboard',
+                Router::CONFIG_KEY_ACTION => 'redirectAtLogin',
             ],
             'admin_dashboard' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
@@ -56,7 +56,7 @@ return [
             ],
             'candidate_homepage' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/candidate/homepage',
+                Router::CONFIG_KEY_PATH => '/candidate',
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'candidateHomepage',
             ],
@@ -179,6 +179,13 @@ return [
                 Router::CONFIG_KEY_PATH => '/deleteQuiz/(?<id>\d+)',
                 Router::CONFIG_KEY_CONTROLLER => 'quizTemplate',
                 Router::CONFIG_KEY_ACTION => 'deleteQuiz',
+            ],
+            //CANDIDATE
+            'get_quizzes_candidate' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/candidate/homepage',
+                Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
+                Router::CONFIG_KEY_ACTION => 'getQuizzes',
             ],
         ]
     ],

@@ -27,26 +27,22 @@ require_once('partials/head.phtml');
             <thead>
             <tr>
                 <th scope="col">Quiz name</th>
+                <th scope="col">Quiz type</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
+            <?php /** @var $quizzes \QuizApp\Entity\QuizTemplate[] */?>
+            <?php foreach ($quizzes as $quiz) :?>
             <tr>
-                <th scope="row">ASd dsadsada asdadads</th>
+                <?php /** @var $quiz \QuizApp\Entity\QuizTemplate */?>
+                <th scope="row"><?php echo $quiz->getName()?></th>
+                <td><?php echo $quiz->getType()?></td>
                 <td class="text-center">
                     <a class="btn btn-primary py-1" href="#">Start quiz</a>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">asdasddas asdaddasd</th>
-                <td class="text-center">
-                    <a class="btn btn-primary py-1" href="#">Start quiz</a>
-                </td>            </tr>
-            <tr>
-                <th scope="row">ZXC sadasd asdasdadas</th>
-                <td class="text-center">
-                    <a class="btn btn-primary py-1" href="#">Start quiz</a>
-                </td>            </tr>
+            <?php endforeach?>
             </tbody>
         </table>
     </div>

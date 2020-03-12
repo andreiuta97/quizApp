@@ -4,7 +4,6 @@
 namespace QuizApp\Service;
 
 use Framework\Contracts\SessionInterface;
-use Framework\Http\Request;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
 
