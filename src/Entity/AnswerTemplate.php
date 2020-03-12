@@ -22,17 +22,7 @@ class AnswerTemplate extends AbstractEntity
      * @ORM question_template_id
      * @var int
      */
-    private $questionId;
-
-//    public function __construct
-//    (
-//        int $id,
-//        string $text
-//    )
-//    {
-//        $this->id = $id;
-//        $this->text = $text;
-//    }
+    private $questionTemplateId;
 
     /**
      * @return int
@@ -50,9 +40,12 @@ class AnswerTemplate extends AbstractEntity
         return $this->text;
     }
 
-    public function getQuestionId(): int
+    /**
+     * @return int
+     */
+    public function getQuestionTemplateId(): int
     {
-        return $this->questionId;
+        return $this->questionTemplateId;
     }
 
     /**
@@ -64,11 +57,11 @@ class AnswerTemplate extends AbstractEntity
     }
 
     /**
-     * @param int $questionId
+     * @param int $questionTemplateId
      */
-    public function setQuestionId(int $questionId): void
+    public function setQuestionTemplateId(int $questionTemplateId): void
     {
-        $this->questionId = $questionId;
+        $this->questionTemplateId = $questionTemplateId;
     }
 
 }

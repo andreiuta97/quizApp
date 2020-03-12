@@ -13,28 +13,34 @@ require_once('partials/head.phtml');
     <!--Breadcrumbs-->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb px-3 py-0 mb-3">
-            <li class="breadcrumb-item" ><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item" ><a href="/candidate/homepage">Dashboard</a></li>
             <li class="breadcrumb-item active" aria-current="page">Quiz page</li>
         </ol>
     </nav>
 
     <div class="container">
         <!--Page title block-->
-        <div class="text-center">
-            <h1>Quiz name</h1>
-        </div>
+<!--        <div class="text-center">-->
+<!--            --><?php ///** @var $quiz \QuizApp\Entity\QuizInstance */?>
+<!--            <h1>--><?php //echo $quiz->getName()?><!--</h1>-->
+<!--        </div>-->
 
         <!--Quiz form-->
         <div class="">
-            <p class="font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac efficitur dolor. Morbi sed dictum felis, ac pharetra nulla. Morbi sit amet sollicitudin tellus, maximus molestie tellus ?</p>
+            <?php /** @var $question \QuizApp\Entity\QuestionInstance */?>
+            <p class="font-weight-bold"><?php echo $question->getText()?></p>
         </div>
-        <form>
+        <form action="" method="get">
             <div class="form-group">
-                <textarea class="form-control" id="questionResponse" placeholder="Question response"></textarea>
+                <?php /** @var $answer \QuizApp\Entity\AnswerInstance */?>
+                <textarea name="answer" class="form-control" id="questionResponse" placeholder="<?php echo $answer->getText()?>"></textarea>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Next</button> /
-                <button type="submit" class="btn btn-primary">Save</button>
+                <?php if(!$isLastQuestion):?>
+                <button formmethod="post" formaction="/user/answer/<?php echo $answer->getId()?>/<?php echo $questionInstanceIndex?>" type="submit" class="btn btn-primary">Next</button>
+                <?php else: ?>
+                <button formmethod="POST" formaction="/user/answer/<?php echo $answer->getId()?>" type="submit" class="btn btn-primary">Save</button>
+                <?php endif; ?>
             </div>
         </form>
     </div>

@@ -90,7 +90,6 @@ class QuizTemplateController extends AbstractController
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
         $quizRepo = $this->repositoryManager->getRepository(QuizTemplate::class);
-        // get filters and pagination from request
         $criteria = new Criteria();
         $quizzes = $quizRepo->findBy($criteria);
         $quizzes = ['quizzes' => $quizzes];
@@ -116,18 +115,9 @@ class QuizTemplateController extends AbstractController
         $questionRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
         $criteria = new Criteria();
         $questions = $questionRepo->findBy($criteria);
-
-        /**
-         * @var $quizRepo QuizTemplateRepository
-         */
-        $quizRepo = $this->repositoryManager->getRepository(QuizTemplate::class);
-        $quizQuestions = $quizRepo->getQuestionIdsForQuiz($quiz->getId());
+        $quizQuestions = $questionRepo->getQuestionIdsForQuiz($quiz->getId());
 
         return $this->renderer->renderView('admin-quiz-edit.phtml', ['quiz' => $quiz, 'questions' => $questions, 'quizQuestions' => $quizQuestions]);
     }
 
-    public function getQuestionsNumber($questions)
-    {
-        return count($questions);
-    }
 }

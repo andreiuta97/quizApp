@@ -187,6 +187,36 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
                 Router::CONFIG_KEY_ACTION => 'getQuizzes',
             ],
+            'start_quiz' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/start/quiz/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
+                Router::CONFIG_KEY_ACTION => 'startQuiz',
+            ],
+            'get_question' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/quiz/question/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'questionInstance',
+                Router::CONFIG_KEY_ACTION => 'getQuestionInstance',
+            ],
+            'save_answer' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/user/answer/(?<id>\d+)/(?<offset>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'answerInstance',
+                Router::CONFIG_KEY_ACTION => 'saveAnswerInstance',
+            ],
+            'save_quiz' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/user/answer/(?<id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'answerInstance',
+                Router::CONFIG_KEY_ACTION => 'submitQuiz',
+            ],
+            'get_success_page' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/candidate/success',
+                Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
+                Router::CONFIG_KEY_ACTION => 'showSuccess',
+            ],
         ]
     ],
 ];

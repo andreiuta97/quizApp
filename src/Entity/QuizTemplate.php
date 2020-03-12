@@ -28,18 +28,6 @@ class QuizTemplate extends AbstractEntity
      * @var int
      */
     private $createdBy;
-//
-//    public function __construct
-//    (
-//        int $id,
-//        string $name,
-//        string $type
-//    )
-//    {
-//        $this->id = $id;
-//        $this->name = $name;
-//        $this->type = $type;
-//    }
 
     /**
      * @return int

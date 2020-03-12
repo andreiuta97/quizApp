@@ -39,7 +39,7 @@ class QuestionTemplateService
 
         $answer = new AnswerTemplate();
         $answer->setText($info['answer']);
-        $answer->setQuestionId($question->getId());
+        $answer->setQuestionTemplateId($question->getId());
 
         $this->answerTemplateRepo->insertOnDuplicateKeyUpdate($answer);
     }
@@ -60,7 +60,7 @@ class QuestionTemplateService
         $answer = new AnswerTemplate();
         $answer = $this->answerTemplateRepo->findOneBy(['question_template_id' => $question->getId()]);
         $answer->setText($info['answer']);
-        $answer->setQuestionId($question->getId());
+        $answer->setQuestionTemplateId($question->getId());
 
         $this->answerTemplateRepo->insertOnDuplicateKeyUpdate($answer);
     }

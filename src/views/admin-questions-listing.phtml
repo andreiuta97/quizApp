@@ -26,20 +26,7 @@ require_once('partials/head.phtml');
 
         <!--Table actions block-->
         <div class="row">
-            <div class="col-12 col-md-6">
-                <form action="">
-                    <label for="textSearch">Text search</label>
-                    <div class="input-group">
-                        <input type="text" id="textSearch" class="form-control" placeholder="">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-12 col-md-6 d-flex align-items-end justify-content-end">
+            <div class="col-12 d-flex align-items-end justify-content-end">
                 <a class="btn btn-primary py-1" href="/newQuestion">Add new question</a>
             </div>
         </div>
@@ -50,7 +37,7 @@ require_once('partials/head.phtml');
                 <thead>
                 <tr>
                     <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
-                    <th scope="col" class="sorting-header asc dsc">ID</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Text</th>
                     <th scope="col">Type</th>
                     <th scope="col">Actions</th>
@@ -73,21 +60,6 @@ require_once('partials/head.phtml');
                 </tbody>
             </table>
         </div>
-
-        <!--Pagination block-->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </body>
 </html>

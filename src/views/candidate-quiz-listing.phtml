@@ -39,7 +39,7 @@ require_once('partials/head.phtml');
                 <th scope="row"><?php echo $quiz->getName()?></th>
                 <td><?php echo $quiz->getType()?></td>
                 <td class="text-center">
-                    <a class="btn btn-primary py-1" href="#">Start quiz</a>
+                    <a class="btn btn-primary py-1" href="/start/quiz/<?php echo $quiz->getId()?>">Start quiz</a>
                 </td>
             </tr>
             <?php endforeach?>
