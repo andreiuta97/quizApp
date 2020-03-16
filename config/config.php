@@ -18,24 +18,6 @@ return [
     ],
     'router' => [
         'routes' => [
-            'view' => [
-                Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/user',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'get2',
-            ],
-            'view_user' => [
-                Router::CONFIG_KEY_METHOD => 'GET',
-                Router::CONFIG_KEY_PATH => '/user/(?<id>\d+)',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'get',
-            ],
-            'view_user_role' => [
-                Router::CONFIG_KEY_METHOD => 'POST',
-                Router::CONFIG_KEY_PATH => '/user/(?<id>\d+)/setRole/(?<role>(ADMIN|GUEST))\?p=(?<priority>\d+)',
-                Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'post',
-            ],
             'get_login_page' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/',
