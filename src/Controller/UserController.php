@@ -77,7 +77,7 @@ class UserController extends AbstractController
         $this->userService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers?page=1');
 
         return $response;
     }
@@ -98,7 +98,7 @@ class UserController extends AbstractController
         $this->userService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers?page=1');
 
         return $response;
     }
@@ -109,20 +109,19 @@ class UserController extends AbstractController
         $this->userService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers?page=1');
 
         return $response;
     }
 
     public function getUsers(Request $request, array $requestAttributes): Response
     {
-        $userRepo = $this->repositoryManager->getRepository(User::class);
-        // get filters and pagination from request
-        $criteria = new Criteria();
-        $users = $userRepo->findBy($criteria);
-        $users = ['users' => $users];
+        $page = (int)$request->getParameter('page');
+        $pages = $this->userService->getUserNumber();
+        $users = $this->userService->getUsers($page);
 
-        return $this->renderer->renderView('admin-users-listing.phtml', $users);
+        return $this->renderer->renderView('admin-users-listing.phtml',
+            ['users' => $users, 'page' => $page, 'pages' => $pages]);
     }
 
     public function addNewUser(Request $request, array $requestAttributes): Response

@@ -7,6 +7,7 @@ namespace QuizApp\Service;
 use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\User;
 use QuizApp\Repository\UserRepository;
+use ReallyOrm\Criteria\Criteria;
 
 class UserService
 {
@@ -37,6 +38,17 @@ class UserService
     public function getUser(int $id)
     {
         return $this->userRepo->find($id);
+    }
+
+    public function getUsers(int $currentPage)
+    {
+        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
+        return $this->userRepo->findBy($criteria);
+    }
+
+    public function getUserNumber()
+    {
+        return $this->userRepo->getNumberOfUsers();
     }
 
     public function update(int $id, array $info)
