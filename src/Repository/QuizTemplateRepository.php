@@ -12,6 +12,15 @@ class QuizTemplateRepository extends AbstractRepository
         return 'quiz_template';
     }
 
+    public function getNumberOfQuizzes(): array
+    {
+        $sql = 'SELECT count(*) as quizzesNumber FROM quiz_template';
+        $dbStmt = $this->pdo->prepare($sql);
+        $dbStmt->execute();
+
+        return $dbStmt->fetch();
+    }
+
     public function saveQuestionsForQuiz($id, $questions)
     {
         $sql = 'DELETE FROM quiz_question_template WHERE quiz_template_id = ?';

@@ -11,7 +11,6 @@ use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Entity\QuizTemplate;
-use QuizApp\Repository\QuizTemplateRepository;
 use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizTemplateService;
 use ReallyOrm\Criteria\Criteria;
@@ -49,7 +48,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes?page=1');
 
 
         return $response;
@@ -71,7 +70,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes?page=1');
 
         return $response;
     }
@@ -82,18 +81,19 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes?page=1');
 
         return $response;
     }
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $quizRepo = $this->repositoryManager->getRepository(QuizTemplate::class);
-        $criteria = new Criteria();
-        $quizzes = $quizRepo->findBy($criteria);
-        $quizzes = ['quizzes' => $quizzes];
-        return $this->renderer->renderView('admin-quizzes-listing.phtml', $quizzes);
+        $page = (int)$request->getParameter('page');
+        $pages = $this->quizTemplateService->getQuizzesNumber();
+        $quizzes = $this->quizTemplateService->getQuizzes($page);
+
+        return $this->renderer->renderView('admin-quizzes-listing.phtml',
+            ['quizzes' => $quizzes, 'page' => $page, 'pages' => $pages]);
     }
 
     public function addNewQuiz(Request $request, array $requestAttributes): Response
