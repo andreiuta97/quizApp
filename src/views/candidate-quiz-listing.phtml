@@ -49,17 +49,29 @@ require_once('partials/head.phtml');
 
     <!--Pagination block-->
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
+        <?php if ($pages['quizzesNumber'] > 5): ?>
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php if ($page === 1) echo 'disabled'; ?>">
+                    <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
+                </li>
+                <?php $count = $pages['quizzesNumber'] / 5;
+                if ($pages['quizzesNumber'] % 5 > 0) {
+                    $count += 1;
+                }
+                for ($pageNumber = 1; $pageNumber <= $count; $pageNumber++): ?>
+                    <li class="page-item <?php if ($page === $pageNumber) echo 'active'; ?>">
+                        <a class="page-link" href="?page=<?php echo $pageNumber; ?>">
+                            <?php echo $pageNumber; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+                <li class="page-item <?php if ($page === (int)$count) echo 'disabled'; ?>">
+                    <a class="page-link" href="?page=<?php echo $page + 1; ?>">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        <?php endif; ?>
     </nav>
 </body>
 </html>

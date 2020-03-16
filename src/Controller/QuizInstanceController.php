@@ -69,11 +69,13 @@ class QuizInstanceController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $quizRepo = $this->repositoryManager->getRepository(QuizTemplate::class);
-        $criteria = new Criteria();
-        $quizzes = $quizRepo->findBy($criteria);
+        $page=(int)$request->getParameter('page');
+        $pages=$this->quizTemplateRepository->getNumberOfQuizzes();
+        $criteria = new Criteria([], [], ($page - 1) * 5, 5);
+        $quizzes = $this->quizTemplateRepository->findBy($criteria);
 
-        return $this->renderer->renderView('candidate-quiz-listing.phtml', ['quizzes' => $quizzes]);
+        return $this->renderer->renderView('candidate-quiz-listing.phtml',
+            ['quizzes' => $quizzes, 'page' => $page, 'pages' => $pages]);
     }
 
     public function getQuizStarted(Request $request, array $requestAttributes): Response
