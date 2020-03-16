@@ -49,6 +49,17 @@ class QuestionTemplateService
         return $this->questionTemplateRepo->find($id);
     }
 
+    public function getQuestions(int $currentPage)
+    {
+        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
+        return $this->questionTemplateRepo->findBy($criteria);
+    }
+
+    public function getQuestionNumber()
+    {
+        return $this->questionTemplateRepo->getNumberOfQuestions();
+    }
+
     public function update(int $id, array $info)
     {
         $question = $this->getQuestion($id);

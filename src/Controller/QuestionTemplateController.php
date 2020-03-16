@@ -44,7 +44,7 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions?page=1');
 
         return $response;
     }
@@ -65,7 +65,7 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions?page=1');
 
         return $response;
     }
@@ -76,19 +76,19 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions?page=1');
 
         return $response;
     }
 
     public function getQuestions(Request $request, array $requestAttributes): Response
     {
-        $questionRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
-        // get filters and pagination from request
-        $criteria = new Criteria();
-        $questions = $questionRepo->findBy($criteria);
-        $questions = ['questions' => $questions];
-        return $this->renderer->renderView('admin-questions-listing.phtml', $questions);
+        $page = (int)$request->getParameter('page');
+        $pages = $this->questionTemplateService->getQuestionNumber();
+        $questions = $this->questionTemplateService->getQuestions($page);
+
+        return $this->renderer->renderView('admin-questions-listing.phtml',
+            ['questions' => $questions, 'page' => $page, 'pages' => $pages]);
     }
 
     public function addNewQuestion(Request $request, array $requestAttributes): Response
