@@ -8,19 +8,20 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
-use QuizApp\Entity\User;
 use QuizApp\Service\AuthenticationService;
+use QuizApp\Service\Paginator;
 use QuizApp\Service\UserService;
-use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class UserController extends AbstractController
 {
-
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+    /**
+     * @var UserService
+     */
     private $userService;
     /**
      * @var AuthenticationService
@@ -77,7 +78,7 @@ class UserController extends AbstractController
         $this->userService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
 
         return $response;
     }
@@ -98,7 +99,7 @@ class UserController extends AbstractController
         $this->userService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
 
         return $response;
     }
@@ -109,19 +110,22 @@ class UserController extends AbstractController
         $this->userService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
 
         return $response;
     }
 
     public function getUsers(Request $request, array $requestAttributes): Response
     {
-        $page = (int)$request->getParameter('page');
-        $pages = $this->userService->getUserNumber();
-        $users = $this->userService->getUsers($page);
+        $count = $this->userService->getUserNumber();
+        $paginator = new Paginator($count);
+        if (isset($requestAttributes['page'])) {
+            $paginator->setCurrentPage($requestAttributes['page']);
+        }
+        $users = $this->userService->getUsers($paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-users-listing.phtml',
-            ['users' => $users, 'page' => $page, 'pages' => $pages]);
+            ['users' => $users, 'count' => $count, 'paginator' => $paginator]);
     }
 
     public function addNewUser(Request $request, array $requestAttributes): Response

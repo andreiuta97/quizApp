@@ -35,18 +35,21 @@ class UserService
         $this->userRepo->insertOnDuplicateKeyUpdate($user);
     }
 
-    public function getUser(int $id)
+    public function getUser(int $id): User
     {
-        return $this->userRepo->find($id);
+        /**@var User $user * */
+        $user = $this->userRepo->find($id);
+
+        return $user;
     }
 
-    public function getUsers(int $currentPage)
+    public function getUsers(int $currentPage): array
     {
         $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
         return $this->userRepo->findBy($criteria);
     }
 
-    public function getUserNumber()
+    public function getUserNumber(): int
     {
         return $this->userRepo->getNumberOfUsers();
     }
