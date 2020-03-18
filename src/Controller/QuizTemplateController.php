@@ -11,6 +11,7 @@ use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Entity\QuizTemplate;
+use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizTemplateService;
 use ReallyOrm\Criteria\Criteria;
@@ -88,12 +89,15 @@ class QuizTemplateController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $page = (int)$request->getParameter('page');
-        $pages = $this->quizTemplateService->getQuizzesNumber();
-        $quizzes = $this->quizTemplateService->getQuizzes($page);
+        $count = $this->quizTemplateService->getQuizzesNumber();
+        $paginator = new Paginator($count);
+        if (isset($requestAttributes['page'])) {
+            $paginator->setCurrentPage($requestAttributes['page']);
+        }
+        $quizzes = $this->quizTemplateService->getQuizzes($paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-quizzes-listing.phtml',
-            ['quizzes' => $quizzes, 'page' => $page, 'pages' => $pages]);
+            ['quizzes' => $quizzes, 'count' => $count, 'paginator' => $paginator]);
     }
 
     public function addNewQuiz(Request $request, array $requestAttributes): Response

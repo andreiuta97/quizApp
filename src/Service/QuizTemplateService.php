@@ -38,18 +38,21 @@ class QuizTemplateService
 
     }
 
-    public function getQuiz(int $id)
+    public function getQuiz(int $id): QuizTemplate
     {
-        return $this->quizTemplateRepo->find($id);
+        /**@var QuizTemplate $quiz * */
+        $quiz = $this->quizTemplateRepo->find($id);
+
+        return $quiz;
     }
 
-    public function getQuizzes(int $currentPage)
+    public function getQuizzes(int $currentPage): array
     {
         $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
         return $this->quizTemplateRepo->findBy($criteria);
     }
 
-    public function getQuizzesNumber()
+    public function getQuizzesNumber(): int
     {
         return $this->quizTemplateRepo->getNumberOfQuizzes();
     }
