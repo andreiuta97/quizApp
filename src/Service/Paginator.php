@@ -63,7 +63,7 @@ class Paginator
      *
      * @return int|null
      */
-    public function getNextPage()
+    public function getNextPage(): ?int
     {
         if ($this->currentPage < $this->totalPages) {
             return $this->currentPage + 1;
@@ -79,5 +79,10 @@ class Paginator
     public function getTotalPages(): int
     {
         return $this->totalPages;
+    }
+
+    public function getTotalResults(): int
+    {
+        return $this->totalResults;
     }
 }
