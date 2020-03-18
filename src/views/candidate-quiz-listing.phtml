@@ -49,17 +49,28 @@ require_once('partials/head.phtml');
 
     <!--Pagination block-->
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
+        <?php if ($paginator->getTotalResults() > 5):
+            $currentPage = $paginator->getCurrentPage();
+            ?>
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php if ($currentPage === 1) echo 'disabled'; ?>">
+                    <a class="page-link"
+                       href="?page=<?php echo $currentPage-1; ?>">Previous</a>
+                </li>
+                <?php for ($pageNumber = 1; $pageNumber <= $paginator->getTotalPages(); $pageNumber++): ?>
+                    <li class="page-item <?php if ($currentPage === $pageNumber) echo 'active'; ?>">
+                        <a class="page-link" href="?page=<?php echo $pageNumber; ?>">
+                            <?php echo $pageNumber; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+                <li class="page-item <?php if ($currentPage === $paginator->getTotalPages()) echo 'disabled'; ?>">
+                    <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        <?php endif; ?>
     </nav>
 </body>
 </html>

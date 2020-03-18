@@ -13,7 +13,7 @@ class QuizInstanceRepository extends AbstractRepository
         return 'quiz_instance';
     }
 
-    public function getQuestionsNumber(int $quizTemplateId)
+    public function getQuestionsNumber(int $quizTemplateId): int
     {
         $sql = 'SELECT COUNT(id) FROM question_instance WHERE quiz_instance_id = ?';
 
@@ -24,11 +24,11 @@ class QuizInstanceRepository extends AbstractRepository
         return $dbStmt->fetchColumn();
     }
 
-    public function getResultsData()
+    public function getResultsData(): array
     {
-        $sql = "select quiz_instance.id as quiz_instance_id, user.name, quiz_template.id as quiz_template_id from quiz_instance 
-                    join user on quiz_instance.user_id = user.id 
-                    join quiz_template on quiz_instance.quiz_template_id = quiz_template.id";
+        $sql = "SELECT quiz_instance.id AS quiz_instance_id, user.name, quiz_template.id AS quiz_template_id FROM quiz_instance 
+                    JOIN user ON quiz_instance.user_id = user.id 
+                    JOIN quiz_template ON quiz_instance.quiz_template_id = quiz_template.id";
         $dbStmt = $this->pdo->prepare($sql);
         $dbStmt->execute();
         return $dbStmt->fetchAll();
@@ -39,7 +39,7 @@ class QuizInstanceRepository extends AbstractRepository
      *
      * @return array
      */
-    public function getCorrectAnswerIds() : array
+    public function getCorrectAnswerIds(): array
     {
         $sql = "select answer_instance.id from answer_instance 
                     join question_instance on question_instance.id = answer_instance.question_instance_id 
