@@ -12,13 +12,13 @@ class QuizTemplateRepository extends AbstractRepository
         return 'quiz_template';
     }
 
-    public function getNumberOfQuizzes(): array
+    public function getNumberOfQuizzes(): int
     {
         $sql = 'SELECT count(*) as quizzesNumber FROM quiz_template';
         $dbStmt = $this->pdo->prepare($sql);
         $dbStmt->execute();
 
-        return $dbStmt->fetch();
+        return $dbStmt->fetch(\PDO::FETCH_COLUMN);
     }
 
     public function saveQuestionsForQuiz($id, $questions)
