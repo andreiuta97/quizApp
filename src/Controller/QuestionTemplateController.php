@@ -10,10 +10,8 @@ use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\AnswerTemplate;
-use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionTemplateService;
-use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuestionTemplateController extends AbstractController
@@ -45,7 +43,7 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
 
         return $response;
     }
@@ -66,7 +64,7 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
 
         return $response;
     }
@@ -77,7 +75,7 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
 
         return $response;
     }
