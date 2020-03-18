@@ -12,6 +12,7 @@ use Framework\Http\Stream;
 use QuizApp\Entity\QuestionInstance;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
+use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
 use ReallyOrm\Criteria\Criteria;
@@ -69,11 +70,15 @@ class QuizInstanceController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $quizRepo = $this->repositoryManager->getRepository(QuizTemplate::class);
-        $criteria = new Criteria();
-        $quizzes = $quizRepo->findBy($criteria);
+        $count = $this->quizInstanceService->getQuizzesNumber();
+        $paginator = new Paginator($count);
+        if (isset($requestAttributes['page'])) {
+            $paginator->setCurrentPage($requestAttributes['page']);
+        }
+        $quizzes = $this->quizInstanceService->getQuizzes($paginator->getCurrentPage());
 
-        return $this->renderer->renderView('candidate-quiz-listing.phtml', ['quizzes' => $quizzes]);
+        return $this->renderer->renderView('candidate-quiz-listing.phtml',
+            ['quizzes' => $quizzes, 'paginator' => $paginator]);
     }
 
     public function getQuizStarted(Request $request, array $requestAttributes): Response
@@ -81,7 +86,7 @@ class QuizInstanceController extends AbstractController
         return $this->renderer->renderView('candidate-quiz-page.phtml', $requestAttributes);
     }
 
-    public function showSuccess(Request $request, array $requestAttributes)
+    public function showSuccess(Request $request, array $requestAttributes): Response
     {
         return $this->renderer->renderView('quiz-success-page.phtml', $requestAttributes);
     }

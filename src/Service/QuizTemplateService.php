@@ -6,6 +6,7 @@ namespace QuizApp\Service;
 use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
+use ReallyOrm\Criteria\Criteria;
 
 class QuizTemplateService
 {
@@ -37,9 +38,23 @@ class QuizTemplateService
 
     }
 
-    public function getQuiz(int $id)
+    public function getQuiz(int $id): QuizTemplate
     {
-        return $this->quizTemplateRepo->find($id);
+        /**@var QuizTemplate $quiz * */
+        $quiz = $this->quizTemplateRepo->find($id);
+
+        return $quiz;
+    }
+
+    public function getQuizzes(int $currentPage): array
+    {
+        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
+        return $this->quizTemplateRepo->findBy($criteria);
+    }
+
+    public function getQuizzesNumber(): int
+    {
+        return $this->quizTemplateRepo->getNumberOfQuizzes();
     }
 
     public function update(int $id, array $info)
