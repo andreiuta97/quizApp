@@ -2,66 +2,92 @@
 require_once('partials/head.phtml');
 ?>
 
-    <title>Admin - Users listing</title>
+<title>Admin - Users listing</title>
 </head>
 
 <body>
-    <?php
-        require_once('partials/header.phtml');
-    ?>
+<?php
+require_once('partials/header.phtml');
+?>
 
-    <!--Breadcrumbs-->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb px-3 py-0 mb-3">
-            <li class="breadcrumb-item" ><a href="/admin/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Users listing</li>
-        </ol>
-    </nav>
+<!--Breadcrumbs-->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 py-0 mb-3">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Users listing</li>
+    </ol>
+</nav>
 
-    <div class="container">
-        <!--Page title block-->
-        <div class="text-center">
-            <h1>Users listing</h1>
-        </div>
+<div class="container">
+    <!--Page title block-->
+    <div class="text-center">
+        <h1>Users listing</h1>
+    </div>
 
-        <!--Table actions block-->
-        <div class="row">
-            <div class="col-12 d-flex align-items-end justify-content-end">
-                <a class="btn btn-primary py-1 mb-3" href="/newUser">Add new user</a>
-            </div>
-        </div>
-
-        <!--Quiz listing table-->
-        <div class="table-responsive my-4">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Mail</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php /** @var $users \QuizApp\Entity\User[] */?>
-                <?php foreach ($users as $user) :?>
-                <tr>
-                    <?php /** @var $user \QuizApp\Entity\User */?>
-                    <th scope="row"><?php echo $user->getId()?></th>
-                    <td><?php echo $user->getName()?></td>
-                    <td><?php echo $user->getEmail()?></td>
-                    <td><?php echo $user->getRole()?></td>
-                    <td class="text-center">
-                        <a class="btn btn-primary py-1" href="/editUser/<?php echo $user->getId()?>">Edit</a>
-                        <a class="btn btn-danger py-1" href="/deleteUser/<?php echo $user->getId()?>">Delete</a>
-                    </td>
-                </tr>
-                <?php endforeach?>
-                </tbody>
-            </table>
+    <!--Table actions block-->
+    <div class="row">
+        <div class="col-12 d-flex align-items-end justify-content-end">
+            <a class="btn btn-primary py-1 mb-3" href="/newUser">Add new user</a>
         </div>
     </div>
+
+    <!--Quiz listing table-->
+    <div class="table-responsive my-4">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Mail</th>
+                <th scope="col">Role</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php /** @var $users \QuizApp\Entity\User[] */ ?>
+            <?php foreach ($users as $user) : ?>
+                <tr>
+                    <?php /** @var $user \QuizApp\Entity\User */ ?>
+                    <th scope="row"><?php echo $user->getId() ?></th>
+                    <td><?php echo $user->getName() ?></td>
+                    <td><?php echo $user->getEmail() ?></td>
+                    <td><?php echo $user->getRole() ?></td>
+                    <td class="text-center">
+                        <a class="btn btn-primary py-1" href="/editUser/<?php echo $user->getId() ?>">Edit</a>
+                        <a class="btn btn-danger py-1" href="/deleteUser/<?php echo $user->getId() ?>">Delete</a>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Pagination block-->
+    <nav aria-label="Page navigation example">
+        <?php if ($count > 5):
+            $currentPage = $paginator->getCurrentPage();
+            ?>
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php if ($currentPage === 1) echo 'disabled'; ?>">
+                    <a class="page-link"
+                       href="/listUsers?page=<?php echo $currentPage-1; ?>">Previous</a>
+                </li>
+                <?php for ($pageNumber = 1; $pageNumber <= $paginator->getTotalPages(); $pageNumber++): ?>
+                    <li class="page-item <?php if ($currentPage === $pageNumber) echo 'active'; ?>">
+                        <a class="page-link" href="/listUsers?page=<?php echo $pageNumber; ?>">
+                            <?php echo $pageNumber; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+                <li class="page-item <?php if ($currentPage === $paginator->getTotalPages()) echo 'disabled'; ?>">
+                    <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        <?php endif; ?>
+    </nav>
+</div>
 </body>
 </html>
