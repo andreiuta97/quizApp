@@ -92,7 +92,7 @@ class QuestionTemplateController extends AbstractController
         $questions = $this->questionTemplateService->getQuestions($paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-questions-listing.phtml',
-            ['questions' => $questions, 'count' => $count, 'paginator' => $paginator]);
+            ['questions' => $questions, 'paginator' => $paginator]);
     }
 
     public function addNewQuestion(Request $request, array $requestAttributes): Response

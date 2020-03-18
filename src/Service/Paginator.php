@@ -80,4 +80,9 @@ class Paginator
     {
         return $this->totalPages;
     }
+
+    public function getTotalResults(): int
+    {
+        return $this->totalResults;
+    }
 }
