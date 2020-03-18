@@ -53,7 +53,7 @@ class QuizInstanceService
         return $this->repositoryManager->getRepository(QuizTemplate::class)->findBy($criteria);
     }
 
-    public function getQuizzesNumber():int
+    public function getQuizzesNumber(): int
     {
         return $this->repositoryManager->getRepository(QuizTemplate::class)->getNumberOfQuizzes();
     }

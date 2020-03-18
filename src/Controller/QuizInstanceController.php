@@ -70,12 +70,12 @@ class QuizInstanceController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $count=$this->quizInstanceService->getQuizzesNumber();
-        $paginator=new Paginator($count);
+        $count = $this->quizInstanceService->getQuizzesNumber();
+        $paginator = new Paginator($count);
         if (isset($requestAttributes['page'])) {
             $paginator->setCurrentPage($requestAttributes['page']);
         }
-        $quizzes=$this->quizInstanceService->getQuizzes($paginator->getCurrentPage());
+        $quizzes = $this->quizInstanceService->getQuizzes($paginator->getCurrentPage());
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml',
             ['quizzes' => $quizzes, 'count' => $count, 'paginator' => $paginator]);
@@ -86,7 +86,7 @@ class QuizInstanceController extends AbstractController
         return $this->renderer->renderView('candidate-quiz-page.phtml', $requestAttributes);
     }
 
-    public function showSuccess(Request $request, array $requestAttributes)
+    public function showSuccess(Request $request, array $requestAttributes): Response
     {
         return $this->renderer->renderView('quiz-success-page.phtml', $requestAttributes);
     }
