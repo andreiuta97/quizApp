@@ -8,19 +8,20 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
-use QuizApp\Entity\User;
 use QuizApp\Service\AuthenticationService;
+use QuizApp\Service\Paginator;
 use QuizApp\Service\UserService;
-use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class UserController extends AbstractController
 {
-
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+    /**
+     * @var UserService
+     */
     private $userService;
     /**
      * @var AuthenticationService
@@ -116,13 +117,15 @@ class UserController extends AbstractController
 
     public function getUsers(Request $request, array $requestAttributes): Response
     {
-        $userRepo = $this->repositoryManager->getRepository(User::class);
-        // get filters and pagination from request
-        $criteria = new Criteria();
-        $users = $userRepo->findBy($criteria);
-        $users = ['users' => $users];
+        $count = $this->userService->getUserNumber();
+        $paginator = new Paginator($count);
+        if (isset($requestAttributes['page'])) {
+            $paginator->setCurrentPage($requestAttributes['page']);
+        }
+        $users = $this->userService->getUsers($paginator->getCurrentPage());
 
-        return $this->renderer->renderView('admin-users-listing.phtml', $users);
+        return $this->renderer->renderView('admin-users-listing.phtml',
+            ['users' => $users, 'count' => $count, 'paginator' => $paginator]);
     }
 
     public function addNewUser(Request $request, array $requestAttributes): Response
