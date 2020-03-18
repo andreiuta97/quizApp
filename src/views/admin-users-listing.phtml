@@ -14,19 +14,34 @@ require_once('partials/header.phtml');
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 py-0 mb-3">
         <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Users listing</li>
+        <li class="breadcrumb-item active" aria-current="page">Users</li>
     </ol>
 </nav>
 
 <div class="container">
     <!--Page title block-->
-    <div class="text-center">
-        <h1>Users listing</h1>
+    <div class="text-center pb-3">
+        <h1>Users</h1>
     </div>
 
     <!--Table actions block-->
     <div class="row">
-        <div class="col-12 d-flex align-items-end justify-content-end">
+        <div class="col-12 col-md-3">
+            <form action="" method="get">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <a class="btn btn-light dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        User role select
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/listUsers">All</a>
+                        <a class="dropdown-item" href="/listUsers/admin">Admin</a>
+                        <a class="dropdown-item" href="/listUsers/candidate">Candidate</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-9 d-flex align-items-end justify-content-end">
             <a class="btn btn-primary py-1 mb-3" href="/newUser">Add new user</a>
         </div>
     </div>

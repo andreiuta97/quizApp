@@ -60,6 +60,12 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'user',
                 Router::CONFIG_KEY_ACTION => 'getUsers',
             ],
+            'get_users_by_role' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/listUsers/(?<role>(admin|candidate))',
+                Router::CONFIG_KEY_CONTROLLER => 'user',
+                Router::CONFIG_KEY_ACTION => 'getUsers',
+            ],
             'get_questions' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/listQuestions',
