@@ -49,7 +49,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
 
 
         return $response;
@@ -71,7 +71,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
 
         return $response;
     }
@@ -82,7 +82,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes?page=1');
+        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
 
         return $response;
     }
@@ -97,7 +97,7 @@ class QuizTemplateController extends AbstractController
         $quizzes = $this->quizTemplateService->getQuizzes($paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-quizzes-listing.phtml',
-            ['quizzes' => $quizzes, 'count' => $count, 'paginator' => $paginator]);
+            ['quizzes' => $quizzes, 'paginator' => $paginator]);
     }
 
     public function addNewQuiz(Request $request, array $requestAttributes): Response
