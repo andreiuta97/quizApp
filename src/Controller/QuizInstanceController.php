@@ -78,7 +78,7 @@ class QuizInstanceController extends AbstractController
         $quizzes = $this->quizInstanceService->getQuizzes($paginator->getCurrentPage());
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml',
-            ['quizzes' => $quizzes, 'count' => $count, 'paginator' => $paginator]);
+            ['quizzes' => $quizzes, 'paginator' => $paginator]);
     }
 
     public function getQuizStarted(Request $request, array $requestAttributes): Response

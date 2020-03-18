@@ -49,7 +49,7 @@ require_once('partials/head.phtml');
 
     <!--Pagination block-->
     <nav aria-label="Page navigation example">
-        <?php if ($count > 5):
+        <?php if ($paginator->getTotalResults() > 5):
             $currentPage = $paginator->getCurrentPage();
             ?>
             <ul class="pagination justify-content-center">
