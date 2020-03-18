@@ -7,6 +7,7 @@ namespace QuizApp\Service;
 use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\User;
 use QuizApp\Repository\UserRepository;
+use ReallyOrm\Criteria\Criteria;
 
 class UserService
 {
@@ -34,9 +35,23 @@ class UserService
         $this->userRepo->insertOnDuplicateKeyUpdate($user);
     }
 
-    public function getUser(int $id)
+    public function getUser(int $id): User
     {
-        return $this->userRepo->find($id);
+        /**@var User $user * */
+        $user = $this->userRepo->find($id);
+
+        return $user;
+    }
+
+    public function getUsers(int $currentPage): array
+    {
+        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
+        return $this->userRepo->findBy($criteria);
+    }
+
+    public function getUserNumber(): int
+    {
+        return $this->userRepo->getNumberOfUsers();
     }
 
     public function update(int $id, array $info)
