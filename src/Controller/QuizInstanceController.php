@@ -12,6 +12,7 @@ use Framework\Http\Stream;
 use QuizApp\Entity\QuestionInstance;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
+use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
 use ReallyOrm\Criteria\Criteria;
@@ -69,13 +70,15 @@ class QuizInstanceController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $page=(int)$request->getParameter('page');
-        $pages=$this->quizTemplateRepository->getNumberOfQuizzes();
-        $criteria = new Criteria([], [], ($page - 1) * 5, 5);
-        $quizzes = $this->quizTemplateRepository->findBy($criteria);
+        $count=$this->quizInstanceService->getQuizzesNumber();
+        $paginator=new Paginator($count);
+        if (isset($requestAttributes['page'])) {
+            $paginator->setCurrentPage($requestAttributes['page']);
+        }
+        $quizzes=$this->quizInstanceService->getQuizzes($paginator->getCurrentPage());
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml',
-            ['quizzes' => $quizzes, 'page' => $page, 'pages' => $pages]);
+            ['quizzes' => $quizzes, 'count' => $count, 'paginator' => $paginator]);
     }
 
     public function getQuizStarted(Request $request, array $requestAttributes): Response
