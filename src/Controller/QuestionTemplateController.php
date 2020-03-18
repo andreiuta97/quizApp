@@ -10,9 +10,8 @@ use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\AnswerTemplate;
-use QuizApp\Entity\QuestionTemplate;
+use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionTemplateService;
-use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuestionTemplateController extends AbstractController
@@ -83,12 +82,15 @@ class QuestionTemplateController extends AbstractController
 
     public function getQuestions(Request $request, array $requestAttributes): Response
     {
-        $questionRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
-        // get filters and pagination from request
-        $criteria = new Criteria();
-        $questions = $questionRepo->findBy($criteria);
-        $questions = ['questions' => $questions];
-        return $this->renderer->renderView('admin-questions-listing.phtml', $questions);
+        $count = $this->questionTemplateService->getQuestionNumber();
+        $paginator = new Paginator($count);
+        if (isset($requestAttributes['page'])) {
+            $paginator->setCurrentPage($requestAttributes['page']);
+        }
+        $questions = $this->questionTemplateService->getQuestions($paginator->getCurrentPage());
+
+        return $this->renderer->renderView('admin-questions-listing.phtml',
+            ['questions' => $questions, 'paginator' => $paginator]);
     }
 
     public function addNewQuestion(Request $request, array $requestAttributes): Response

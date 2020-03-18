@@ -12,7 +12,16 @@ class QuestionTemplateRepository extends AbstractRepository
         return 'question_template';
     }
 
-    public function getQuestionsForQuiz(int $id)
+    public function getNumberOfQuestions(): int
+    {
+        $sql = 'SELECT count(*) as questionsNumber FROM question_template';
+        $dbStmt = $this->pdo->prepare($sql);
+        $dbStmt->execute();
+
+        return $dbStmt->fetch(\PDO::FETCH_COLUMN);
+    }
+
+    public function getQuestionsForQuiz(int $id): array
     {
         $sql = 'SELECT * FROM question_template WHERE id IN (SELECT question_template_id FROM quiz_question_template WHERE quiz_template_id = ?)';
 
@@ -31,7 +40,7 @@ class QuestionTemplateRepository extends AbstractRepository
         return $objects;
     }
 
-    public function getQuestionIdsForQuiz(int $id)
+    public function getQuestionIdsForQuiz(int $id): array
     {
         $sql = 'SELECT id FROM question_template WHERE id IN (SELECT question_template_id FROM quiz_question_template WHERE quiz_template_id = ?)';
 

@@ -44,9 +44,23 @@ class QuestionTemplateService
         $this->answerTemplateRepo->insertOnDuplicateKeyUpdate($answer);
     }
 
-    public function getQuestion(int $id)
+    public function getQuestion(int $id): QuestionTemplate
     {
-        return $this->questionTemplateRepo->find($id);
+        /**@var QuestionTemplate $question * */
+        $question = $this->questionTemplateRepo->find($id);
+
+        return $question;
+    }
+
+    public function getQuestions(int $currentPage): array
+    {
+        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
+        return $this->questionTemplateRepo->findBy($criteria);
+    }
+
+    public function getQuestionNumber(): int
+    {
+        return $this->questionTemplateRepo->getNumberOfQuestions();
     }
 
     public function update(int $id, array $info)
