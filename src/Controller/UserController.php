@@ -125,7 +125,7 @@ class UserController extends AbstractController
         $users = $this->userService->getUsers($paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-users-listing.phtml',
-            ['users' => $users, 'count' => $count, 'paginator' => $paginator]);
+            ['users' => $users, 'paginator' => $paginator]);
     }
 
     public function addNewUser(Request $request, array $requestAttributes): Response
