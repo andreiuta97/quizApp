@@ -26,8 +26,21 @@ require_once('partials/head.phtml');
 
         <!--Table actions block-->
         <div class="row">
-            <div class="col-12 d-flex align-items-end justify-content-end">
-                <a class="btn btn-primary py-1" href="/newQuestion">Add new question</a>
+            <div class="col-12 col-md-6">
+                <form action="/listQuestions" method="get">
+                    <label for="quizSearch">Quiz name search</label>
+                    <div class="input-group">
+                        <input name="text" type="text" id="quizSearch" class="form-control" placeholder="">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-end justify-content-end">
+                <a class="btn btn-primary py-1" href="/newQuestion">Add new quiz</a>
             </div>
         </div>
 

@@ -3,6 +3,7 @@
 
 namespace QuizApp\Repository;
 
+use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\AbstractRepository;
 
 class QuestionTemplateRepository extends AbstractRepository
@@ -12,13 +13,33 @@ class QuestionTemplateRepository extends AbstractRepository
         return 'question_template';
     }
 
-    public function getNumberOfQuestions(): int
+    public function getNumberOfQuestions(Criteria $criteria): int
     {
         $sql = 'SELECT count(*) as questionsNumber FROM question_template';
+        $sql .= $criteria->toQuerySearch();
         $dbStmt = $this->pdo->prepare($sql);
+        $criteria->bindValueToStatementSearch($dbStmt);
         $dbStmt->execute();
 
         return $dbStmt->fetch(\PDO::FETCH_COLUMN);
+    }
+
+    public function findBySearch(Criteria $criteria): array
+    {
+        $sql = 'SELECT * FROM question_template';
+        $sql .= $criteria->toQuerySearch();
+        $dbStmt = $this->pdo->prepare($sql);
+        $criteria->bindValueToStatementSearch($dbStmt);
+        $dbStmt->execute();
+        $array = $dbStmt->fetchAll();
+        $objects = [];
+        foreach ($array as $row) {
+            $object = $this->hydrator->hydrate($this->entityName, $row);
+            $this->hydrator->hydrateId($object, $row['id']);
+            $objects[] = $object;
+        }
+
+        return $objects;
     }
 
     public function getQuestionsForQuiz(int $id): array
