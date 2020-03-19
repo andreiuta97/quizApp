@@ -26,22 +26,22 @@ require_once('partials/header.phtml');
 
     <!--Table actions block-->
     <div class="row">
-        <div class="col-12 col-md-3">
-            <form action="" method="get">
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn btn-light dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        User role select
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="/listUsers">All</a>
-                        <a class="dropdown-item" href="/listUsers/admin">Admin</a>
-                        <a class="dropdown-item" href="/listUsers/candidate">Candidate</a>
-                    </div>
+        <div class="col-12 col-md-5">
+            <form action="/listUsers" method="get">
+                <div class="form-group mb-3">
+                    <label for="roleSearch">User role select</label>
+                    <select name="role" class="form-control" id="roleSearch">
+                        <option value="" selected disabled hidden>Choose role</option>
+                        <option value="admin" >Admin</option>
+                        <option value="candidate">Candidate</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3 d-flex align-items-end justify-content-end">
+                    <button class="btn btn-primary py-1 mb-3" type="submit" value="Submit">Filter</button>
                 </div>
             </form>
         </div>
-        <div class="col-12 col-md-9 d-flex align-items-end justify-content-end">
+        <div class="col-12 col-md-7 d-flex align-items-end justify-content-end">
             <a class="btn btn-primary py-1 mb-3" href="/newUser">Add new user</a>
         </div>
     </div>

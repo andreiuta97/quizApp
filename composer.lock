@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c05b410521f98328a8e2f6f4ee01f458",
+    "content-hash": "73beae7a871831568e77a85fd755abfa",
     "packages": [
         {
             "name": "andreeasabadis/code-highlight-lib",
@@ -1879,5 +1879,8 @@
     "platform": {
         "ext-pdo": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.2.5"
+    }
 }
