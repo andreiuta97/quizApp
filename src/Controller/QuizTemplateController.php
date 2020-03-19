@@ -89,12 +89,16 @@ class QuizTemplateController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $count = $this->quizTemplateService->getQuizzesNumber();
+        $filters = [];
+        if (isset($requestAttributes['name'])) {
+            $filters['name'] = $requestAttributes['name'];
+        }
+        $count = $this->quizTemplateService->getQuizzesNumber($filters);
         $paginator = new Paginator($count);
         if (isset($requestAttributes['page'])) {
             $paginator->setCurrentPage($requestAttributes['page']);
         }
-        $quizzes = $this->quizTemplateService->getQuizzes($paginator->getCurrentPage());
+        $quizzes = $this->quizTemplateService->getQuizzes($filters, $paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-quizzes-listing.phtml',
             ['quizzes' => $quizzes, 'paginator' => $paginator]);
