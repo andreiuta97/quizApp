@@ -89,10 +89,7 @@ class QuizTemplateController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $filters = [];
-        if (isset($requestAttributes['name'])) {
-            $filters['name'] = $requestAttributes['name'];
-        }
+        $filters = isset($requestAttributes['name']) ? ['name' => $requestAttributes['name']] : [];
         $count = $this->quizTemplateService->getQuizzesNumber($filters);
         $paginator = new Paginator($count);
         if (isset($requestAttributes['page'])) {

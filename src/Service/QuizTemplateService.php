@@ -55,7 +55,7 @@ class QuizTemplateService
     public function getQuizzesNumber(array $filters): int
     {
         $criteria = new Criteria($filters);
-        return $this->quizTemplateRepo->getNumberOfQuizzes($criteria);
+        return $this->quizTemplateRepo->getNumberOfObjects($criteria);
     }
 
     public function update(int $id, array $info)
