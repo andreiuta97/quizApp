@@ -15,7 +15,7 @@ class QuestionTemplateRepository extends AbstractRepository
 
     public function getNumberOfQuestions(Criteria $criteria): int
     {
-        $sql = 'SELECT count(*) as questionsNumber FROM question_template';
+        $sql = 'SELECT count(*) as questionsNumber FROM question_template ';
         $sql .= $criteria->toQuerySearch();
         $dbStmt = $this->pdo->prepare($sql);
         $criteria->bindValueToStatementSearch($dbStmt);
@@ -26,7 +26,7 @@ class QuestionTemplateRepository extends AbstractRepository
 
     public function findBySearch(Criteria $criteria): array
     {
-        $sql = 'SELECT * FROM question_template';
+        $sql = 'SELECT * FROM question_template ';
         $sql .= $criteria->toQuerySearch();
         $dbStmt = $this->pdo->prepare($sql);
         $criteria->bindValueToStatementSearch($dbStmt);
