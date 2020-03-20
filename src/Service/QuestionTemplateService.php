@@ -61,7 +61,7 @@ class QuestionTemplateService
     public function getQuestionNumber(array $filters): int
     {
         $criteria=new Criteria($filters);
-        return $this->questionTemplateRepo->getNumberOfQuestions($criteria);
+        return $this->questionTemplateRepo->getNumberOfObjects($criteria);
     }
 
     public function update(int $id, array $info)

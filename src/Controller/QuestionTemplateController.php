@@ -82,10 +82,7 @@ class QuestionTemplateController extends AbstractController
 
     public function getQuestions(Request $request, array $requestAttributes): Response
     {
-        $filters = [];
-        if (isset($requestAttributes['text'])) {
-            $filters['text'] = $requestAttributes['text'];
-        }
+        $filters = isset($requestAttributes['text']) ? ['text' => $requestAttributes['text']] : [];
         $count = $this->questionTemplateService->getQuestionNumber($filters);
         $paginator = new Paginator($count);
         if (isset($requestAttributes['page'])) {
