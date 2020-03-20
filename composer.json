@@ -21,10 +21,11 @@
         }
     ],
     "require": {
+        "php": "7.2.5",
+        "ext-pdo": "*",
         "andreeasabadis/mvc-framework-skeleton": "dev-master",
         "really-orm-skeleton": "dev-master",
         "andreeasabadis/code-highlight-lib": "dev-master",
-      "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {"QuizApp\\": "src/"}
