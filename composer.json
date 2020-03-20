@@ -25,7 +25,7 @@
         "ext-pdo": "*",
         "andreeasabadis/mvc-framework-skeleton": "dev-master",
         "really-orm-skeleton": "dev-master",
-        "andreeasabadis/code-highlight-lib": "dev-master",
+        "andreeasabadis/code-highlight-lib": "dev-master"
     },
     "autoload": {
         "psr-4": {"QuizApp\\": "src/"}
