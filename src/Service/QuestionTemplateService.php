@@ -52,13 +52,15 @@ class QuestionTemplateService
         return $question;
     }
 
-    public function getQuestions(array $filters,int $currentPage): array
+    public function getFilteredQuestionsForPage(array $filters,int $currentPage): array
     {
-        $criteria = new Criteria($filters, [], ($currentPage - 1) * 5, 5);
+        $paginator = new Paginator($this->getFilteredQuestionsNumber($filters));
+        $criteria = new Criteria($filters, [], ($currentPage - 1) * $paginator->getResultsPerPage(), $paginator->getResultsPerPage());
+
         return $this->questionTemplateRepo->findBySearch($criteria);
     }
 
-    public function getQuestionNumber(array $filters): int
+    public function getFilteredQuestionsNumber(array $filters): int
     {
         $criteria=new Criteria($filters);
         return $this->questionTemplateRepo->getNumberOfObjects($criteria);

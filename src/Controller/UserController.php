@@ -117,16 +117,13 @@ class UserController extends AbstractController
 
     public function getUsers(Request $request, array $requestAttributes): Response
     {
-        $filters = [];
-        if (isset($requestAttributes['role'])) {
-            $filters['role'] = $requestAttributes['role'];
-        }
-        $count = $this->userService->getUserNumber($filters);
+        $filters = isset($requestAttributes['role']) ? ['role' => $requestAttributes['role']] : [];
+        $count = $this->userService->getFilteredUsersNumber($filters);
         $paginator = new Paginator($count);
         if (isset($requestAttributes['page'])) {
             $paginator->setCurrentPage($requestAttributes['page']);
         }
-        $users = $this->userService->getUsers($filters, $paginator->getCurrentPage());
+        $users = $this->userService->getFilteredUsersForPage($filters, $paginator->getCurrentPage());
 
         return $this->renderer->renderView('admin-users-listing.phtml',
             ['users' => $users, 'paginator' => $paginator]);
