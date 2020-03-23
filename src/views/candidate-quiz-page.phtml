@@ -36,10 +36,13 @@ require_once('partials/head.phtml');
                 <textarea name="answer" class="form-control" id="questionResponse" placeholder="<?php echo $answer->getText()?>"></textarea>
             </div>
             <div class="text-center">
+                <?php if((int) $questionInstanceIndex !== 1): ?>
+                <button formmethod="get" formaction="/quiz/question/<?php echo $questionInstanceIndex-1?>" type="submit" class="btn btn-primary">Previous</button> /
+                <?php endif; ?>
                 <?php if(!$isLastQuestion):?>
                 <button formmethod="post" formaction="/user/answer/<?php echo $answer->getId()?>/<?php echo $questionInstanceIndex?>" type="submit" class="btn btn-primary">Next</button>
                 <?php else: ?>
-                <button formmethod="POST" formaction="/user/answer/<?php echo $answer->getId()?>" type="submit" class="btn btn-primary">Save</button>
+                <button formmethod="post" formaction="/user/answer/<?php echo $answer->getId()?>" type="submit" class="btn btn-primary">Save</button>
                 <?php endif; ?>
             </div>
         </form>
