@@ -8,6 +8,7 @@ use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\User;
 use QuizApp\Repository\UserRepository;
 use ReallyOrm\Criteria\Criteria;
+use ReallyOrm\SearchResult\SearchResult;
 
 class UserService
 {
@@ -43,15 +44,12 @@ class UserService
         return $user;
     }
 
-    public function getFilteredUsersForPage(array $filters, int $currentPage): array
+    public function getUsers(Criteria $criteria): SearchResult
     {
-        $paginator = new Paginator($this->getFilteredUsersNumber($filters));
-        $criteria = new Criteria($filters, [], ($currentPage - 1) * $paginator->getResultsPerPage(), $paginator->getResultsPerPage());
-
         return $this->userRepo->findBy($criteria);
     }
 
-    public function getFilteredUsersNumber(array $filters): int
+    public function getUsersNumber(array $filters): int
     {
         $criteria = new Criteria($filters);
 

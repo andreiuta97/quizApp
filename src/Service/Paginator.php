@@ -71,21 +71,52 @@ class Paginator
         return null;
     }
 
+    /**
+     * Returns the offset of the current page.
+     *
+     * @param int $currentPage
+     * @return float|int
+     */
+    public function getOffsetOfPage(int $currentPage)
+    {
+        return ($currentPage - 1) * $this->resultsPerPage;
+    }
+
+    /**
+     * Returns the current page.
+     *
+     * @return int
+     */
     public function getCurrentPage(): int
     {
         return $this->currentPage;
     }
 
+    /**
+     * Returns the total number of pages.
+     *
+     * @return int
+     */
     public function getTotalPages(): int
     {
         return $this->totalPages;
     }
 
+    /**
+     * Returns the total number of objects.
+     *
+     * @return int
+     */
     public function getTotalResults(): int
     {
         return $this->totalResults;
     }
 
+    /**
+     * Return the number of objects displayed on a page.
+     *
+     * @return int
+     */
     public function getResultsPerPage(): int
     {
         return $this->resultsPerPage;

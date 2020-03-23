@@ -11,10 +11,12 @@ use Framework\Http\Stream;
 use QuizApp\Service\AuthenticationService;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\UserService;
+use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class UserController extends AbstractController
 {
+    const RESULTS_PER_PAGE = 5;
     /**
      * @var RepositoryManagerInterface
      */
@@ -115,18 +117,24 @@ class UserController extends AbstractController
         return $response;
     }
 
-    public function getUsers(Request $request, array $requestAttributes): Response
+    private function getCriteriaFromRequest(array $requestAttributes): Criteria
     {
         $filters = isset($requestAttributes['role']) ? ['role' => $requestAttributes['role']] : [];
-        $count = $this->userService->getFilteredUsersNumber($filters);
-        $paginator = new Paginator($count);
-        if (isset($requestAttributes['page'])) {
-            $paginator->setCurrentPage($requestAttributes['page']);
-        }
-        $users = $this->userService->getFilteredUsersForPage($filters, $paginator->getCurrentPage());
+        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
+
+        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
+    }
+
+    public function getUsers(Request $request, array $requestAttributes): Response
+    {
+        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $userSearchResult = $this->userService->getUsers($criteria);
+        $paginator = new Paginator($userSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
 
         return $this->renderer->renderView('admin-users-listing.phtml',
-            ['users' => $users, 'paginator' => $paginator]);
+            ['users' => $userSearchResult->getItems(), 'paginator' => $paginator]);
     }
 
     public function addNewUser(Request $request, array $requestAttributes): Response

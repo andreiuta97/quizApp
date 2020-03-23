@@ -19,6 +19,8 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuizTemplateController extends AbstractController
 {
+    const RESULTS_PER_PAGE = 5;
+
     /**
      * @var RepositoryManagerInterface
      */
@@ -87,18 +89,24 @@ class QuizTemplateController extends AbstractController
         return $response;
     }
 
-    public function getQuizzes(Request $request, array $requestAttributes): Response
+    private function getCriteriaFromRequest(array $requestAttributes): Criteria
     {
         $filters = isset($requestAttributes['name']) ? ['name' => $requestAttributes['name']] : [];
-        $count = $this->quizTemplateService->getFilteredQuizzesNumber($filters);
-        $paginator = new Paginator($count);
-        if (isset($requestAttributes['page'])) {
-            $paginator->setCurrentPage($requestAttributes['page']);
-        }
-        $quizzes = $this->quizTemplateService->getFilteredQuizzesForPage($filters, $paginator->getCurrentPage());
+        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
+
+        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
+    }
+
+    public function getQuizzes(Request $request, array $requestAttributes): Response
+    {
+        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $quizzesSearchResult = $this->quizTemplateService->getQuizzes($criteria);
+        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
 
         return $this->renderer->renderView('admin-quizzes-listing.phtml',
-            ['quizzes' => $quizzes, 'paginator' => $paginator]);
+            ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);
     }
 
     public function addNewQuiz(Request $request, array $requestAttributes): Response
