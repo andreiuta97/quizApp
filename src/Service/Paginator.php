@@ -85,4 +85,9 @@ class Paginator
     {
         return $this->totalResults;
     }
+
+    public function getResultsPerPage(): int
+    {
+        return $this->resultsPerPage;
+    }
 }
