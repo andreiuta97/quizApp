@@ -83,6 +83,7 @@ class QuestionInstanceController extends AbstractController
                 'answer' => $answer,
                 'questionInstanceIndex' => $questionInstanceIndex,
                 'isLastQuestion' => $isLastQuestion,
-            ]);
+            ]
+        );
     }
 }

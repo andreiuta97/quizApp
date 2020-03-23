@@ -36,7 +36,7 @@ require_once('partials/head.phtml');
                 <textarea name="answer" class="form-control" id="questionResponse" placeholder="<?php echo $answer->getText()?>"></textarea>
             </div>
             <div class="text-center">
-                <?php if($questionInstanceIndex != 1): ?>
+                <?php if((int) $questionInstanceIndex !== 1): ?>
                 <button formmethod="get" formaction="/quiz/question/<?php echo $questionInstanceIndex-1?>" type="submit" class="btn btn-primary">Previous</button> /
                 <?php endif; ?>
                 <?php if(!$isLastQuestion):?>
