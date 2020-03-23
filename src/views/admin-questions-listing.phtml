@@ -20,14 +20,27 @@ require_once('partials/head.phtml');
 
     <div class="container">
         <!--Page title block-->
-        <div class="text-center">
+        <div class="text-center pb-3">
             <h1>Questions listing</h1>
         </div>
 
         <!--Table actions block-->
         <div class="row">
-            <div class="col-12 d-flex align-items-end justify-content-end">
-                <a class="btn btn-primary py-1" href="/newQuestion">Add new question</a>
+            <div class="col-12 col-md-6">
+                <form action="/listQuestions" method="get">
+                    <label for="quizSearch">Quiz name search</label>
+                    <div class="input-group">
+                        <input name="text" type="text" id="quizSearch" class="form-control" placeholder="">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-end justify-content-end">
+                <a class="btn btn-primary py-1" href="/newQuestion">Add new quiz</a>
             </div>
         </div>
 
@@ -63,7 +76,7 @@ require_once('partials/head.phtml');
 
         <!--Pagination block-->
         <nav aria-label="Page navigation example">
-            <?php if ($paginator->getTotalResults() > 5):
+            <?php if ($paginator->getTotalResults() > $paginator->getResultsPerPage()):
                 $currentPage = $paginator->getCurrentPage();
                 ?>
                 <ul class="pagination justify-content-center">
