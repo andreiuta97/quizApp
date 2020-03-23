@@ -43,15 +43,16 @@ class UserService
         return $user;
     }
 
-    public function getUsers(int $currentPage): array
+    public function getUsers(array $filters, int $currentPage): array
     {
-        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
+        $criteria = new Criteria($filters, [], ($currentPage - 1) * 5, 5);
         return $this->userRepo->findBy($criteria);
     }
 
-    public function getUserNumber(): int
+    public function getUserNumber(array $filters): int
     {
-        return $this->userRepo->getNumberOfUsers();
+        $criteria = new Criteria($filters);
+        return $this->userRepo->getNumberOfUsers($criteria);
     }
 
     public function update(int $id, array $info)
