@@ -77,6 +77,12 @@ class QuestionInstanceController extends AbstractController
         $totalQuestions = $this->quizInstanceService->getQuestionsNumber($quizInstanceId);
         $isLastQuestion = $totalQuestions == $questionInstanceIndex;
 
-        return $this->renderer->renderView('candidate-quiz-page.phtml', ['question' => $question[0], 'answer' => $answer, 'questionInstanceIndex' => $questionInstanceIndex, 'isLastQuestion' => $isLastQuestion]);
+        return $this->renderer->renderView('candidate-quiz-page.phtml',
+            [
+                'question' => $question[0],
+                'answer' => $answer,
+                'questionInstanceIndex' => $questionInstanceIndex,
+                'isLastQuestion' => $isLastQuestion,
+            ]);
     }
 }
