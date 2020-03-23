@@ -16,11 +16,11 @@ class QuizTemplateRepository extends AbstractRepository
         $dbStmt->execute();
 
         foreach ($questions as $questionId) {
-            $query = 'INSERT INTO quiz_question_template (quiz_template_id, question_template_id) VALUES (:quizId, :questionId)';
-            $sqlStm = $this->pdo->prepare($query);
-            $sqlStm->bindParam(':quizId', $id);
-            $sqlStm->bindParam('questionId', $questionId);
-            $sqlStm->execute();
+            $sql = 'INSERT INTO quiz_question_template (quiz_template_id, question_template_id) VALUES (:quizId, :questionId)';
+            $dbStmt = $this->pdo->prepare($sql);
+            $dbStmt->bindParam(':quizId', $id);
+            $dbStmt->bindParam('questionId', $questionId);
+            $dbStmt->execute();
         }
     }
 }
