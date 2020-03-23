@@ -72,17 +72,6 @@ class Paginator
     }
 
     /**
-     * Returns the offset of the current page.
-     *
-     * @param int $currentPage
-     * @return float|int
-     */
-    public function getOffsetOfPage(int $currentPage)
-    {
-        return ($currentPage - 1) * $this->resultsPerPage;
-    }
-
-    /**
      * Returns the current page.
      *
      * @return int
