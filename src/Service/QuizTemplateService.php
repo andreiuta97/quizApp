@@ -46,15 +46,19 @@ class QuizTemplateService
         return $quiz;
     }
 
-    public function getQuizzes(int $currentPage): array
+    public function getFilteredQuizzesForPage(array $filters, int $currentPage): array
     {
-        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
-        return $this->quizTemplateRepo->findBy($criteria);
+        $paginator = new Paginator($this->getFilteredQuizzesNumber($filters));
+        $criteria = new Criteria($filters, [], ($currentPage - 1) * $paginator->getResultsPerPage(), $paginator->getResultsPerPage());
+
+        return $this->quizTemplateRepo->findBySearch($criteria);
     }
 
-    public function getQuizzesNumber(): int
+    public function getFilteredQuizzesNumber(array $filters): int
     {
-        return $this->quizTemplateRepo->getNumberOfQuizzes();
+        $criteria = new Criteria($filters);
+
+        return $this->quizTemplateRepo->getNumberOfObjects($criteria);
     }
 
     public function update(int $id, array $info)
