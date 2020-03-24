@@ -12,10 +12,12 @@ use Framework\Http\Stream;
 use QuizApp\Entity\AnswerTemplate;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionTemplateService;
+use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuestionTemplateController extends AbstractController
 {
+    const RESULTS_PER_PAGE = 5;
     /**
      * @var RepositoryManagerInterface
      */
@@ -80,18 +82,24 @@ class QuestionTemplateController extends AbstractController
         return $response;
     }
 
-    public function getQuestions(Request $request, array $requestAttributes): Response
+    private function getCriteriaFromRequest(array $requestAttributes): Criteria
     {
         $filters = isset($requestAttributes['text']) ? ['text' => $requestAttributes['text']] : [];
-        $count = $this->questionTemplateService->getQuestionNumber($filters);
-        $paginator = new Paginator($count);
-        if (isset($requestAttributes['page'])) {
-            $paginator->setCurrentPage($requestAttributes['page']);
-        }
-        $questions = $this->questionTemplateService->getQuestions($filters, $paginator->getCurrentPage());
+        $currentPage = $requestAttributes['page'] ?? 1;
+        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
+
+        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
+    }
+
+    public function getQuestions(Request $request, array $requestAttributes): Response
+    {
+        $currentPage = $requestAttributes['page'] ?? 1;
+        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $questionSearchResult = $this->questionTemplateService->getQuestions($criteria);
+        $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
 
         return $this->renderer->renderView('admin-questions-listing.phtml',
-            ['questions' => $questions, 'paginator' => $paginator]);
+            ['questions' => $questionSearchResult->getItems(), 'paginator' => $paginator]);
     }
 
     public function addNewQuestion(Request $request, array $requestAttributes): Response

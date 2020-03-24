@@ -11,6 +11,7 @@ use QuizApp\Repository\QuizInstanceRepository;
 use QuizApp\Repository\UserRepository;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
+use ReallyOrm\SearchResult\SearchResult;
 
 class QuizInstanceService
 {
@@ -47,15 +48,9 @@ class QuizInstanceService
         return $quiz;
     }
 
-    public function getQuizzes(int $currentPage): array
+    public function getQuizzes(Criteria $criteria): SearchResult
     {
-        $criteria = new Criteria([], [], ($currentPage - 1) * 5, 5);
         return $this->repositoryManager->getRepository(QuizTemplate::class)->findBy($criteria);
-    }
-
-    public function getQuizzesNumber(): int
-    {
-        return $this->repositoryManager->getRepository(QuizTemplate::class)->getNumberOfQuizzes();
     }
 
     public function getQuestionsNumber(int $quizTemplateId): int

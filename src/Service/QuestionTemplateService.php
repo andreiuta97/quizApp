@@ -10,6 +10,7 @@ use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Repository\AnswerTemplateRepository;
 use QuizApp\Repository\QuestionTemplateRepository;
 use ReallyOrm\Criteria\Criteria;
+use ReallyOrm\SearchResult\SearchResult;
 
 class QuestionTemplateService
 {
@@ -52,16 +53,9 @@ class QuestionTemplateService
         return $question;
     }
 
-    public function getQuestions(array $filters,int $currentPage): array
+    public function getQuestions(Criteria $criteria): SearchResult
     {
-        $criteria = new Criteria($filters, [], ($currentPage - 1) * 5, 5);
         return $this->questionTemplateRepo->findBySearch($criteria);
-    }
-
-    public function getQuestionNumber(array $filters): int
-    {
-        $criteria=new Criteria($filters);
-        return $this->questionTemplateRepo->getNumberOfObjects($criteria);
     }
 
     public function update(int $id, array $info)

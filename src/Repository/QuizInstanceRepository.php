@@ -8,11 +8,6 @@ use ReallyOrm\Repository\AbstractRepository;
 
 class QuizInstanceRepository extends AbstractRepository
 {
-    public function getTableName(): string
-    {
-        return 'quiz_instance';
-    }
-
     public function getQuestionsNumber(int $quizTemplateId): int
     {
         $sql = 'SELECT COUNT(id) FROM question_instance WHERE quiz_instance_id = ?';

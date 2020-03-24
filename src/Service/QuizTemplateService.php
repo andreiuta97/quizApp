@@ -7,6 +7,7 @@ use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
 use ReallyOrm\Criteria\Criteria;
+use ReallyOrm\SearchResult\SearchResult;
 
 class QuizTemplateService
 {
@@ -46,19 +47,9 @@ class QuizTemplateService
         return $quiz;
     }
 
-    public function getFilteredQuizzesForPage(array $filters, int $currentPage): array
+    public function getQuizzes(Criteria $criteria): SearchResult
     {
-        $paginator = new Paginator($this->getFilteredQuizzesNumber($filters));
-        $criteria = new Criteria($filters, [], ($currentPage - 1) * $paginator->getResultsPerPage(), $paginator->getResultsPerPage());
-
         return $this->quizTemplateRepo->findBySearch($criteria);
-    }
-
-    public function getFilteredQuizzesNumber(array $filters): int
-    {
-        $criteria = new Criteria($filters);
-
-        return $this->quizTemplateRepo->getNumberOfObjects($criteria);
     }
 
     public function update(int $id, array $info)
