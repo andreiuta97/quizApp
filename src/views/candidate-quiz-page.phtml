@@ -42,7 +42,7 @@ require_once('partials/head.phtml');
                 <?php if(!$isLastQuestion):?>
                 <button formmethod="post" formaction="/user/answer/<?php echo $answer->getId()?>/<?php echo $questionInstanceIndex?>" type="submit" class="btn btn-primary">Next</button>
                 <?php else: ?>
-                <button formmethod="post" formaction="/user/answer/<?php echo $answer->getId()?>" type="submit" class="btn btn-primary">Save</button>
+                <button formmethod="post" formaction="/user/answer/<?php echo $answer->getId()?>" type="submit" class="btn btn-primary">Next</button>
                 <?php endif; ?>
             </div>
         </form>

@@ -181,17 +181,23 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'questionInstance',
                 Router::CONFIG_KEY_ACTION => 'getQuestionInstance',
             ],
-            'save_answer' => [
+            'next_answer' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/user/answer/(?<id>\d+)/(?<offset>\d+)',
                 Router::CONFIG_KEY_CONTROLLER => 'answerInstance',
                 Router::CONFIG_KEY_ACTION => 'saveAnswerInstance',
             ],
-            'save_quiz' => [
+            'save_answer' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
                 Router::CONFIG_KEY_PATH => '/user/answer/(?<id>\d+)',
                 Router::CONFIG_KEY_CONTROLLER => 'answerInstance',
                 Router::CONFIG_KEY_ACTION => 'submitQuiz',
+            ],
+            'get_overview_page' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/candidate/overview',
+                Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
+                Router::CONFIG_KEY_ACTION => 'showOverview',
             ],
             'get_success_page' => [
                 Router::CONFIG_KEY_METHOD => 'GET',

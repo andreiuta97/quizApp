@@ -229,6 +229,7 @@ $containerBuilder->register(QuizInstanceController::class, QuizInstanceControlle
     ->addArgument(new Reference(QuizTemplateRepository::class))
     ->addArgument(new Reference(QuizInstanceService::class))
     ->addArgument(new Reference(QuestionInstanceService::class))
+    ->addArgument(new Reference(SessionInterface::class))
     ->addTag('controller');
 
 $containerBuilder->register(ResultController::class, ResultController::class)

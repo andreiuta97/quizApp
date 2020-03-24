@@ -28,21 +28,4 @@ class QuizInstanceRepository extends AbstractRepository
         $dbStmt->execute();
         return $dbStmt->fetchAll();
     }
-
-    /**
-     * A correct answer is an answer that differs from its template.
-     *
-     * @return array
-     */
-    public function getCorrectAnswerIds(): array
-    {
-        $sql = "select answer_instance.id from answer_instance 
-                    join question_instance on question_instance.id = answer_instance.question_instance_id 
-                    join answer_template on answer_template.question_template_id = question_instance.question_template_id 
-                    where answer_instance.text != answer_template.text";
-
-        $dbStmt = $this->pdo->prepare($sql);
-        $dbStmt->execute();
-        return $dbStmt->fetchAll(\PDO::FETCH_COLUMN);
-    }
 }

@@ -8,20 +8,20 @@ use ReallyOrm\Repository\AbstractRepository;
 
 class QuestionInstanceRepository extends AbstractRepository
 {
-    public function getTableName(): string
+    public function getQuestions(int $id): array
     {
-        return 'question_instance';
-    }
-
-    public function getQuestions(int $id)
-    {
-        $sql='SELECT * FROM question_instance WHERE quiz_instance_id = ?';
-        $dbStmt=$this->pdo->prepare($sql);
+        $sql = 'SELECT * FROM ' . $this->getTableName() . ' WHERE quiz_instance_id = ?';
+        $dbStmt = $this->pdo->prepare($sql);
         $dbStmt->bindValue(1, $id);
-        $row = $dbStmt->fetch();
-        $entity = $this->hydrator->hydrate($this->entityName, $row);
-        $this->hydrator->hydrateId($entity, $row['id']);
+        $dbStmt->execute();
+        $array = $dbStmt->fetchAll();
+        $objects = [];
+        foreach ($array as $row) {
+            $object = $this->hydrator->hydrate($this->entityName, $row);
+            $this->hydrator->hydrateId($object, $row['id']);
+            $objects[] = $object;
+        }
 
-        return $entity;
+        return $objects;
     }
 }

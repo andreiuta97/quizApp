@@ -1,0 +1,55 @@
+<?php
+require_once('partials/head.phtml');
+?>
+
+<title>Candidate - Overview</title>
+</head>
+
+<body>
+<?php
+require_once('partials/header.phtml');
+?>
+
+<!--Breadcrumbs-->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 py-0 mb-3">
+        <li class="breadcrumb-item" ><a href="/candidate/homepage">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Results</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <!--Page title block-->
+    <div class="text-center pb-3">
+        <h1><?php echo $quizInstance->getName() ?></h1>
+    </div>
+
+    <!--Quiz block-->
+    <?php $questionNumber = 0 ?>
+    <?php foreach ($questionsAnswers['questions'] as $question):?>
+    <div class="card border-secondary mb-3">
+        <div class="card-header">
+            <p class="mb-1">Question: </p>
+            <span><?php echo $question->getText() ?></span>
+        </div>
+        <?php foreach ($questionsAnswers['answers'] as $answer):?>
+            <?php if($question->getId() === $answer->getQuestionInstanceId()): ?>
+                <div class="card-body">
+                    <p class="mb-1">Answer: </p>
+                    <span><?php echo $answer->getText() ?></span>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+    <?php $questionNumber++ ?>
+    <?php endforeach; ?>
+
+    <!--Results form-->
+    <form action="/candidate/success" method="get">
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
