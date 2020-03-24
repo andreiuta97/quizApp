@@ -85,7 +85,7 @@ class QuestionTemplateController extends AbstractController
     private function getCriteriaFromRequest(array $requestAttributes): Criteria
     {
         $filters = isset($requestAttributes['text']) ? ['text' => $requestAttributes['text']] : [];
-        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $currentPage = $requestAttributes['page'] ?? 1;
         $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
 
         return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
@@ -93,7 +93,7 @@ class QuestionTemplateController extends AbstractController
 
     public function getQuestions(Request $request, array $requestAttributes): Response
     {
-        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $questionSearchResult = $this->questionTemplateService->getQuestions($criteria);
         $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);

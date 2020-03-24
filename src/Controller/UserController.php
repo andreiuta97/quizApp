@@ -120,7 +120,7 @@ class UserController extends AbstractController
     private function getCriteriaFromRequest(array $requestAttributes): Criteria
     {
         $filters = isset($requestAttributes['role']) ? ['role' => $requestAttributes['role']] : [];
-        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $currentPage = $requestAttributes['page'] ?? 1;
         $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
 
         return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
@@ -128,7 +128,7 @@ class UserController extends AbstractController
 
     public function getUsers(Request $request, array $requestAttributes): Response
     {
-        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $userSearchResult = $this->userService->getUsers($criteria);
         $paginator = new Paginator($userSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);

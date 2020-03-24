@@ -92,7 +92,7 @@ class QuizTemplateController extends AbstractController
     private function getCriteriaFromRequest(array $requestAttributes): Criteria
     {
         $filters = isset($requestAttributes['name']) ? ['name' => $requestAttributes['name']] : [];
-        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $currentPage = $requestAttributes['page'] ?? 1;
         $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
 
         return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
@@ -100,7 +100,7 @@ class QuizTemplateController extends AbstractController
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
-        $currentPage = isset($requestAttributes['page']) ? $requestAttributes['page'] : 1;
+        $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $quizzesSearchResult = $this->quizTemplateService->getQuizzes($criteria);
         $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
