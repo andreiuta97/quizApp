@@ -42,7 +42,7 @@ class AuthenticationController extends AbstractController
         $password = $request->getParameter('password');
         $role = $this->authenticationService->login($email, $password);
         $userRepo = $this->repositoryManager->getRepository(User::class);
-        $user = $userRepo->findOneBy(['email' => $email, 'password' => $password]);
+        $user = $userRepo->findOneBy(['email' => $email, 'password' => md5($password)]);
 
         if ($role === 'Admin') {
             $body = Stream::createFromString('');
@@ -55,7 +55,7 @@ class AuthenticationController extends AbstractController
             $body = Stream::createFromString('');
             $response = new Response($body, '1.1', 301, '');
             /** @var Response $redirect */
-            $redirect = $response->withHeader('Location', 'http://local.quiz.com/candidate/homepage?page=1');
+            $redirect = $response->withHeader('Location', 'http://local.quiz.com/candidate/homepage');
             return $redirect;
         }
     }

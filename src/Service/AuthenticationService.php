@@ -25,7 +25,7 @@ class AuthenticationService
 
     public function login(string $email, string $password)
     {
-        $user = $this->userRepo->findOneBy(['email' => $email, 'password' => $password]);
+        $user = $this->userRepo->findOneBy(['email' => $email, 'password' => md5($password)]);
         if (!$user) {
             // TODO throw exception
             return '';
@@ -44,15 +44,12 @@ class AuthenticationService
         if (!isset($_SESSION['id'])) {
             return null;
         }
-
         $id = $this->session->get('id');
-        return $this->userRepo->find($id);
-    }
+        /** @var User $user */
+        $user=$this->userRepo->find($id);
 
-//    public function getName()
-//    {
-//        return $this->session->get('name');
-//    }
+        return $user;
+    }
 
     public function logout()
     {

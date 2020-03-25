@@ -93,7 +93,7 @@ class User extends AbstractEntity
      */
     public function setPassword(string $password)
     {
-        $this->password = $password;
+        $this->password = md5($password);
     }
 
     /**
