@@ -41,10 +41,10 @@ class AuthenticationService
 
     public function getLoggedUser(): ?User
     {
-        if (!isset($_SESSION['id'])) {
+        $id = $this->session->get('id');
+        if (!isset($id)) {
             return null;
         }
-        $id = $this->session->get('id');
         /** @var User $user */
         $user=$this->userRepo->find($id);
 
