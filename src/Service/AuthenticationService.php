@@ -10,8 +10,19 @@ use QuizApp\Repository\UserRepository;
 
 class AuthenticationService
 {
+    /**
+     * @var UserRepository
+     */
     private $userRepo;
+
+    /**
+     * @var SessionInterface
+     */
     private $session;
+
+    /**
+     * @var HashingService
+     */
     private $hashingService;
 
     public function __construct
