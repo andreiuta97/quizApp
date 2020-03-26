@@ -60,8 +60,6 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$algorithm = PASSWORD_BCRYPT;
-
 
 $containerBuilder->setParameter('routerConfig', $config['router']);
 $containerBuilder->setParameter('rendererConfig', $config['renderer']['base_view_path']);
@@ -70,7 +68,7 @@ $containerBuilder->setParameter('dsn', "mysql:host={$configDB['host']};dbname={$
 $containerBuilder->setParameter('username', $configDB['user']);
 $containerBuilder->setParameter('password', $configDB['pass']);
 $containerBuilder->setParameter('options', $options);
-$containerBuilder->setParameter('hashingAlgorithm', $algorithm);
+$containerBuilder->setParameter('hashingAlgorithm', PASSWORD_BCRYPT);
 
 
 // Configure Router
