@@ -8,11 +8,11 @@ use ReallyOrm\Repository\AbstractRepository;
 
 class QuestionInstanceRepository extends AbstractRepository
 {
-    public function getQuestions(int $id): array
+    public function getQuestions(int $quizId): array
     {
         $sql = 'SELECT * FROM ' . $this->getTableName() . ' WHERE quiz_instance_id = ?';
         $dbStmt = $this->pdo->prepare($sql);
-        $dbStmt->bindValue(1, $id);
+        $dbStmt->bindValue(1, $quizId);
         $dbStmt->execute();
         $array = $dbStmt->fetchAll();
         $objects = [];

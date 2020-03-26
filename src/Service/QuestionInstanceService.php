@@ -73,20 +73,12 @@ class QuestionInstanceService
         }
     }
 
-    public function getQuestionInstance(int $id): QuestionInstance
-    {
-        /** @var QuestionInstance $question */
-        $question = $this->questionInstanceRepo->find($id);
-
-        return $question;
-    }
-
     public function getAllQuestionsForQuizInstance(int $quizInstanceId): array
     {
-        $questions=$this->questionInstanceRepo->getQuestions($quizInstanceId);
-        $answers=[];
-        foreach ($questions as $question){
-            $answers[]=$this->answerInstanceRepo->getAnswers($question->getId());
+        $questions = $this->questionInstanceRepo->getQuestions($quizInstanceId);
+        $answers = [];
+        foreach ($questions as $question) {
+            $answers[$question->getId()] = $this->answerInstanceRepo->getAnswer($question->getId());
         }
 
         return ['questions' => $questions, 'answers' => $answers];

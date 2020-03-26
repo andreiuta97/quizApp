@@ -71,15 +71,15 @@ class QuestionInstanceController extends AbstractController
         $quizInstanceId = $this->session->get('quizInstanceId');
         $questionInstanceIndex = $requestAttributes['id'];
         $criteria = new Criteria(['quiz_instance_id' => $quizInstanceId], [], $questionInstanceIndex - 1, 1);
-        $questionSearchResult = $this->questionInstanceRepository->findBy($criteria)->getItems();
-        $answer = $this->answerInstanceRepository->getAnswers($questionSearchResult[0]->getId());
+        $firstQuestion = $this->questionInstanceRepository->findBy($criteria)->getFirstItem();
+        $answer = $this->answerInstanceRepository->getAnswer($firstQuestion->getId());
 
         $totalQuestions = $this->quizInstanceService->getQuestionsNumber($quizInstanceId);
         $isLastQuestion = $totalQuestions == $questionInstanceIndex;
 
         return $this->renderer->renderView('candidate-quiz-page.phtml',
             [
-                'question' => $questionSearchResult[0],
+                'question' => $firstQuestion,
                 'answer' => $answer,
                 'questionInstanceIndex' => $questionInstanceIndex,
                 'isLastQuestion' => $isLastQuestion,
