@@ -11,23 +11,30 @@ use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\User;
 use QuizApp\Service\AuthenticationService;
+use QuizApp\Service\HashingService;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class AuthenticationController extends AbstractController
 {
     private $repositoryManager;
     private $authenticationService;
+    /**
+     * @var HashingService
+     */
+    private $hashingService;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        HashingService $hashingService
     )
     {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->authenticationService = $authenticationService;
+        $this->hashingService = $hashingService;
     }
 
     public function getLogin(Request $request, array $requestAttributes): Response
@@ -42,7 +49,10 @@ class AuthenticationController extends AbstractController
         $password = $request->getParameter('password');
         $role = $this->authenticationService->login($email, $password);
         $userRepo = $this->repositoryManager->getRepository(User::class);
-        $user = $userRepo->findOneBy(['email' => $email, 'password' => md5($password)]);
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if (!$this->hashingService->verify($password, $user->getPassword())) {
+            return null;
+        }
 
         if ($role === 'Admin') {
             $body = Stream::createFromString('');

@@ -12,21 +12,28 @@ class AuthenticationService
 {
     private $userRepo;
     private $session;
+    private $hashingService;
 
     public function __construct
     (
         UserRepository $userRepo,
-        SessionInterface $session
+        SessionInterface $session,
+        HashingService $hashingService
     )
     {
         $this->userRepo = $userRepo;
         $this->session = $session;
+        $this->hashingService = $hashingService;
     }
 
     public function login(string $email, string $password)
     {
-        $user = $this->userRepo->findOneBy(['email' => $email, 'password' => md5($password)]);
+        $user = $this->userRepo->findOneBy(['email' => $email]);
         if (!$user) {
+            // TODO throw exception
+            return '';
+        }
+        if(!$this->hashingService->verify($password, $user->getPassword())){
             // TODO throw exception
             return '';
         }
@@ -46,7 +53,7 @@ class AuthenticationService
             return null;
         }
         /** @var User $user */
-        $user=$this->userRepo->find($id);
+        $user = $this->userRepo->find($id);
 
         return $user;
     }

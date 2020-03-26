@@ -14,15 +14,21 @@ class UserService
 {
     private $userRepo;
     private $session;
+    /**
+     * @var HashingService
+     */
+    private $hashingService;
 
     public function __construct
     (
         UserRepository $userRepo,
-        SessionInterface $session
+        SessionInterface $session,
+        HashingService $hashingService
     )
     {
         $this->userRepo = $userRepo;
         $this->session = $session;
+        $this->hashingService = $hashingService;
     }
 
     public function add(array $info)
@@ -30,7 +36,7 @@ class UserService
         $user = new User();
         $user->setName($info['name']);
         $user->setEmail($info['email']);
-        $user->setPassword($info['password']);
+        $user->setPassword($this->hashingService->hash($info['password']));
         $user->setRole($info['role']);
 
         $this->userRepo->insertOnDuplicateKeyUpdate($user);
@@ -61,7 +67,7 @@ class UserService
         $user = $this->getUser($id);
         $user->setName($info['name']);
         $user->setEmail($info['email']);
-        $user->setPassword($info['password']);
+        $user->setPassword($this->hashingService->hash($info['password']));
         $user->setRole($info['role']);
 
         $this->userRepo->insertOnDuplicateKeyUpdate($user);
