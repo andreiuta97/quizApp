@@ -20,7 +20,6 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class QuizTemplateController extends AbstractController
 {
     const RESULTS_PER_PAGE = 5;
-
     /**
      * @var RepositoryManagerInterface
      */

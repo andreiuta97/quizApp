@@ -10,23 +10,41 @@ use QuizApp\Repository\UserRepository;
 
 class AuthenticationService
 {
+    /**
+     * @var UserRepository
+     */
     private $userRepo;
+
+    /**
+     * @var SessionInterface
+     */
     private $session;
+
+    /**
+     * @var HashingService
+     */
+    private $hashingService;
 
     public function __construct
     (
         UserRepository $userRepo,
-        SessionInterface $session
+        SessionInterface $session,
+        HashingService $hashingService
     )
     {
         $this->userRepo = $userRepo;
         $this->session = $session;
+        $this->hashingService = $hashingService;
     }
 
     public function login(string $email, string $password)
     {
-        $user = $this->userRepo->findOneBy(['email' => $email, 'password' => $password]);
+        $user = $this->userRepo->findOneBy(['email' => $email]);
         if (!$user) {
+            // TODO throw exception
+            return '';
+        }
+        if(!$this->hashingService->verify($password, $user->getPassword())){
             // TODO throw exception
             return '';
         }
@@ -41,18 +59,15 @@ class AuthenticationService
 
     public function getLoggedUser(): ?User
     {
-        if (!isset($_SESSION['id'])) {
+        $id = $this->session->get('id');
+        if (!isset($id)) {
             return null;
         }
+        /** @var User $user */
+        $user = $this->userRepo->find($id);
 
-        $id = $this->session->get('id');
-        return $this->userRepo->find($id);
+        return $user;
     }
-
-//    public function getName()
-//    {
-//        return $this->session->get('name');
-//    }
 
     public function logout()
     {
