@@ -131,5 +131,4 @@ class QuizTemplateController extends AbstractController
 
         return $this->renderer->renderView('admin-quiz-edit.phtml', ['quiz' => $quiz, 'questions' => $questions, 'quizQuestions' => $quizQuestions]);
     }
-
 }
