@@ -5,6 +5,7 @@ namespace QuizApp\Service;
 
 
 use Framework\Contracts\SessionInterface;
+use Framework\Http\Request;
 use QuizApp\Entity\AnswerInstance;
 use QuizApp\Entity\AnswerTemplate;
 use QuizApp\Entity\QuestionInstance;
@@ -53,8 +54,6 @@ class QuestionInstanceService
     {
         $answerTemplateRepo = $this->repositoryManager->getRepository(AnswerTemplate::class);
         $questionTemplateRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
-
-        //$quizTemplateRepo = $this->repositoryManager->getRepository(QuizTemplate::class);
         $quizTemplateId = $quizTemplate->getId();
         $questionTemplates = $questionTemplateRepo->getQuestionsForQuiz($quizTemplateId);
 
@@ -74,8 +73,15 @@ class QuestionInstanceService
         }
     }
 
-    public function getQuestionInstance(int $id)
+    public function getAllQuestionsForQuizInstance(int $quizInstanceId): array
     {
-        return $this->questionInstanceRepo->find($id);
+        $questions = $this->questionInstanceRepo->getQuestions($quizInstanceId);
+        $answers = [];
+        foreach ($questions as $question) {
+            $answers[$question->getId()] = $this->answerInstanceRepo->getAnswer($question->getId());
+        }
+
+        return ['questions' => $questions, 'answers' => $answers];
     }
+
 }

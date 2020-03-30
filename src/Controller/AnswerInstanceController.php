@@ -53,7 +53,7 @@ class AnswerInstanceController extends AbstractController
 
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/candidate/success');
+        $response = $response->withHeader('Location', '/candidate/overview');
 
         return $response;
     }

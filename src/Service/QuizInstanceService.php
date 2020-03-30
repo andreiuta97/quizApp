@@ -8,7 +8,6 @@ use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\QuizInstance;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizInstanceRepository;
-use QuizApp\Repository\UserRepository;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 use ReallyOrm\SearchResult\SearchResult;
@@ -44,6 +43,14 @@ class QuizInstanceService
         $quiz->setQuizTemplateId($quizTemplateId);
         $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quiz);
         $this->session->set('quizInstanceId', $quiz->getId());
+
+        return $quiz;
+    }
+
+    public function findQuiz(int $id): QuizInstance
+    {
+        /** @var QuizInstance $quiz */
+        $quiz = $this->quizInstanceRepo->find($id);
 
         return $quiz;
     }

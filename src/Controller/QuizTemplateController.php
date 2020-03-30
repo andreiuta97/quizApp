@@ -20,7 +20,6 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class QuizTemplateController extends AbstractController
 {
     const RESULTS_PER_PAGE = 5;
-
     /**
      * @var RepositoryManagerInterface
      */
@@ -132,5 +131,4 @@ class QuizTemplateController extends AbstractController
 
         return $this->renderer->renderView('admin-quiz-edit.phtml', ['quiz' => $quiz, 'questions' => $questions, 'quizQuestions' => $quizQuestions]);
     }
-
 }

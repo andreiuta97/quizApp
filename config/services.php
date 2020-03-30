@@ -35,6 +35,7 @@ use QuizApp\Repository\UserRepository;
 use QuizApp\Service\AnswerInstanceService;
 use QuizApp\Service\AnswerTemplateService;
 use QuizApp\Service\AuthenticationService;
+use QuizApp\Service\HashingService;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizInstanceService;
@@ -54,9 +55,9 @@ $config = require $baseDir . '/config/config.php';
 $configDB = require $baseDir . '/config/db_config.php';
 
 $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
 
@@ -67,6 +68,7 @@ $containerBuilder->setParameter('dsn', "mysql:host={$configDB['host']};dbname={$
 $containerBuilder->setParameter('username', $configDB['user']);
 $containerBuilder->setParameter('password', $configDB['pass']);
 $containerBuilder->setParameter('options', $options);
+$containerBuilder->setParameter('hashingAlgorithm', PASSWORD_BCRYPT);
 
 
 // Configure Router
@@ -93,6 +95,10 @@ $containerBuilder->register(PDO::class, PDO::class)
 
 // Configure Session
 $containerBuilder->register(SessionInterface::class, Session::class);
+
+// Configure Hashing
+$containerBuilder->register(HashingService::class, HashingService::class)
+    ->addArgument('%hashingAlgorithm%');
 
 // Configure Repository
 $containerBuilder->register(UserRepository::class, UserRepository::class)
@@ -140,11 +146,14 @@ $containerBuilder->register(QuizInstanceRepository::class, QuizInstanceRepositor
 // Configure Services
 $containerBuilder->register(UserService::class, UserService::class)
     ->addArgument(new Reference(UserRepository::class))
-    ->addArgument(new Reference(SessionInterface::class));
+    ->addArgument(new Reference(SessionInterface::class))
+    ->addArgument(new Reference(HashingService::class));
+
 
 $containerBuilder->register(AuthenticationService::class, AuthenticationService::class)
     ->addArgument(new Reference(UserRepository::class))
-    ->addArgument(new Reference(SessionInterface::class));
+    ->addArgument(new Reference(SessionInterface::class))
+    ->addArgument(new Reference(HashingService::class));
 
 $containerBuilder->register(AnswerTemplateService::class, AnswerTemplateService::class)
     ->addArgument(new Reference(AnswerTemplateRepository::class))
@@ -187,6 +196,7 @@ $containerBuilder->register(AuthenticationController::class, AuthenticationContr
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(AuthenticationService::class))
+    ->addArgument(new Reference(HashingService::class))
     ->addTag('controller');
 
 $containerBuilder->register(QuestionTemplateController::class, QuestionTemplateController::class)
@@ -229,6 +239,7 @@ $containerBuilder->register(QuizInstanceController::class, QuizInstanceControlle
     ->addArgument(new Reference(QuizTemplateRepository::class))
     ->addArgument(new Reference(QuizInstanceService::class))
     ->addArgument(new Reference(QuestionInstanceService::class))
+    ->addArgument(new Reference(SessionInterface::class))
     ->addTag('controller');
 
 $containerBuilder->register(ResultController::class, ResultController::class)
