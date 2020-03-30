@@ -48,14 +48,14 @@ class AuthenticationController extends AbstractController
             $body = Stream::createFromString('');
             $response = new Response($body, '1.1', 301, '');
             /** @var Response $redirect */
-            $redirect = $response->withHeader('Location', 'http://local.quiz.com/admin/dashboard');
+            $redirect = $response->withHeader('Location', '/admin/dashboard');
             return $redirect;
         }
         if ($role === 'Candidate') {
             $body = Stream::createFromString('');
             $response = new Response($body, '1.1', 301, '');
             /** @var Response $redirect */
-            $redirect = $response->withHeader('Location', 'http://local.quiz.com/candidate/homepage?page=1');
+            $redirect = $response->withHeader('Location', '/candidate/homepage?page=1');
             return $redirect;
         }
     }

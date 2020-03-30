@@ -39,7 +39,7 @@ class AnswerInstanceController extends AbstractController
 
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/quiz/question/'.((int)$offset+1));
+        $response = $response->withHeader('Location', '/quiz/question/'.((int)$offset+1));
 
         return $response;
     }
@@ -53,7 +53,7 @@ class AnswerInstanceController extends AbstractController
 
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/candidate/success');
+        $response = $response->withHeader('Location', '/candidate/success');
 
         return $response;
     }

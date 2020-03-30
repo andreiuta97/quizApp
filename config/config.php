@@ -10,7 +10,7 @@ return [
     'host' => 'local.quiz.com',
     'schema' => 'http',
     'renderer' => [
-        Renderer::CONFIG_KEY_BASE_VIEW_PATH => '/var/www/quizApp/src/views/'
+        Renderer::CONFIG_KEY_BASE_VIEW_PATH => '../src/views/'
     ],
     'dispatcher' => [
         Dispatcher::CONFIG_CONTROLLER_NAMESPACE => 'QuizApp\Controller',

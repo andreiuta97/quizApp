@@ -51,7 +51,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+        $response = $response->withHeader('Location', '/listQuizzes');
 
 
         return $response;
@@ -73,7 +73,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+        $response = $response->withHeader('Location', '/listQuizzes');
 
         return $response;
     }
@@ -84,7 +84,7 @@ class QuizTemplateController extends AbstractController
         $this->quizTemplateService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuizzes');
+        $response = $response->withHeader('Location', '/listQuizzes');
 
         return $response;
     }

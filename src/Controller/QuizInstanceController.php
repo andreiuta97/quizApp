@@ -64,7 +64,7 @@ class QuizInstanceController extends AbstractController
 
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/quiz/question/1');
+        $response = $response->withHeader('Location', '/quiz/question/1');
 
 
         return $response;

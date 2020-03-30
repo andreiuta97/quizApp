@@ -101,7 +101,7 @@ class UserController extends AbstractController
         $this->userService->update($id, $info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
+        $response = $response->withHeader('Location', '/listUsers');
 
         return $response;
     }
@@ -112,7 +112,7 @@ class UserController extends AbstractController
         $this->userService->delete($id);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listUsers');
+        $response = $response->withHeader('Location', '/listUsers');
 
         return $response;
     }
