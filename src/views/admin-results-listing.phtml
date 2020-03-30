@@ -34,7 +34,7 @@ require_once('partials/head.phtml');
                     <th scope="col">Quiz</th>
                     <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
                     <th scope="col">Score</th>
-
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,6 +44,9 @@ require_once('partials/head.phtml');
                     <td><?php echo $result['name'] ?> </td>
                     <td><?php echo $result['quiz_template_id'] ?></td>
                     <td>We don't believe that numbers represent the value of people.</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary py-1" href="/result/<?php echo $result['user_id']; ?>/<?php echo  $result['quiz_instance_id']; ?>">View</a>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
                 </tbody>

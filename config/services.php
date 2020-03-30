@@ -245,6 +245,8 @@ $containerBuilder->register(QuizInstanceController::class, QuizInstanceControlle
 $containerBuilder->register(ResultController::class, ResultController::class)
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(QuizInstanceService::class))
+    ->addArgument(new Reference(QuestionInstanceService::class))
+    ->addArgument(new Reference(SessionInterface::class))
     ->addTag('controller');
 
 // Configure Dispatcher
