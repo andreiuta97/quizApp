@@ -65,8 +65,8 @@ class QuizInstanceService
         return $this->quizInstanceRepo->getQuestionsNumber($quizTemplateId);
     }
 
-    public function getResultsData(): array
+    public function getResultsData(Criteria $criteria): SearchResult
     {
-        return $this->quizInstanceRepo->getResultsData();
+        return $this->quizInstanceRepo->getResultsData($criteria);
     }
 }

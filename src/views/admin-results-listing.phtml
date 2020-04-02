@@ -50,5 +50,31 @@ require_once('partials/head.phtml');
             </table>
         </div>
     </div>
+
+    <!--Pagination block-->
+    <nav aria-label="Page navigation example">
+        <?php if ($paginator->getTotalResults() > $paginator->getResultsPerPage()):
+            $currentPage = $paginator->getCurrentPage();
+            ?>
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php if ($currentPage === 1) echo 'disabled'; ?>">
+                    <a class="page-link"
+                       href="?page=<?php echo $currentPage-1; ?>">Previous</a>
+                </li>
+                <?php for ($pageNumber = 1; $pageNumber <= $paginator->getTotalPages(); $pageNumber++): ?>
+                    <li class="page-item <?php if ($currentPage === $pageNumber) echo 'active'; ?>">
+                        <a class="page-link" href="?page=<?php echo $pageNumber; ?>">
+                            <?php echo $pageNumber; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+                <li class="page-item <?php if ($currentPage === $paginator->getTotalPages()) echo 'disabled'; ?>">
+                    <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        <?php endif; ?>
+    </nav>
 </body>
 </html>
