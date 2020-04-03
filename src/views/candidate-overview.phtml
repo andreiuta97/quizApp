@@ -25,7 +25,6 @@ require_once('partials/header.phtml');
     </div>
 
     <!--Quiz block-->
-    <?php $questionNumber = 0 ?>
     <?php foreach ($questionsAnswers['questions'] as $question):?>
     <div class="card border-secondary mb-3">
         <div class="card-header">
@@ -37,7 +36,6 @@ require_once('partials/header.phtml');
             <span><?php echo $questionsAnswers['answers'][$question->getId()]->getText() ?></span>
         </div>
     </div>
-    <?php $questionNumber++ ?>
     <?php endforeach; ?>
 
     <!--Results form-->

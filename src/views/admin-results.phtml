@@ -13,8 +13,8 @@ require_once('partials/head.phtml');
     <!--Breadcrumbs-->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb px-3 py-0 mb-3">
-            <li class="breadcrumb-item" ><a href="/admin/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item" ><a href="/listResults">Results</a></li>
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/listResults">Results</a></li>
             <li class="breadcrumb-item active" aria-current="page">Result Details</li>
         </ol>
     </nav>
@@ -26,7 +26,6 @@ require_once('partials/head.phtml');
         </div>
 
         <!--Quiz block-->
-        <?php $questionNumber = 0 ?>
         <?php foreach ($questionsAnswers['questions'] as $question):?>
             <div class="card border-secondary mb-3">
                 <div class="card-header">
@@ -38,7 +37,6 @@ require_once('partials/head.phtml');
                     <span><?php echo $questionsAnswers['answers'][$question->getId()]->getText() ?></span>
                 </div>
             </div>
-            <?php $questionNumber++ ?>
         <?php endforeach; ?>
 
         <!--Results form-->
