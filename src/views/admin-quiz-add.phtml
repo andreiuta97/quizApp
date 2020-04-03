@@ -38,7 +38,7 @@ require_once('partials/header.phtml');
             <label for="quizQuestions">Questions</label>
             <select name="questions[]" class="form-control" id="quizQuestions" multiple>
                 <?php /** @var $questions \QuizApp\Entity\QuestionTemplate[] */?>
-                <?php foreach ($questions as $question) :?>
+                <?php foreach ($questions->getItems() as $question) :?>
                 <option value="<?php echo $question->getId()?>"><?php echo $question->getText()?></option>
                 <?php endforeach;?>
             </select>
