@@ -11,6 +11,7 @@ use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\QuestionTemplate;
 use QuizApp\Entity\QuizTemplate;
+use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionTemplateService;
 use QuizApp\Service\QuizTemplateService;
@@ -19,6 +20,7 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuizTemplateController extends AbstractController
 {
+    use CriteriaTrait;
     const RESULTS_PER_PAGE = 5;
     /**
      * @var RepositoryManagerInterface
@@ -88,21 +90,21 @@ class QuizTemplateController extends AbstractController
         return $response;
     }
 
-    private function getCriteriaFromRequest(array $requestAttributes): Criteria
-    {
-        $filters = isset($requestAttributes['name']) ? ['name' => $requestAttributes['name']] : [];
-        $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
-
-        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
-    }
+//    private function getCriteriaFromRequest(array $requestAttributes): Criteria
+//    {
+//        $filters = isset($requestAttributes['name']) ? ['name' => $requestAttributes['name']] : [];
+//        $currentPage = $requestAttributes['page'] ?? 1;
+//        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
+//
+//        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
+//    }
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $quizzesSearchResult = $this->quizTemplateService->getQuizzes($criteria);
-        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
+        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::$resultsPerPage);
 
         return $this->renderer->renderView('admin-quizzes-listing.phtml',
             ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);
