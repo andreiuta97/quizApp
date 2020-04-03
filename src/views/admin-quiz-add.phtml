@@ -1,4 +1,8 @@
 <?php
+
+use QuizApp\Entity\QuestionTemplate;
+use ReallyOrm\SearchResult\SearchResult;
+
 require_once('partials/head.phtml');
 ?>
 
@@ -37,9 +41,10 @@ require_once('partials/header.phtml');
         <div class="form-group">
             <label for="quizQuestions">Questions</label>
             <select name="questions[]" class="form-control" id="quizQuestions" multiple>
-                <?php /** @var $questions \QuizApp\Entity\QuestionTemplate[] */?>
+                <?php /** @var $questions SearchResult */?>
                 <?php foreach ($questions->getItems() as $question) :?>
-                <option value="<?php echo $question->getId()?>"><?php echo $question->getText()?></option>
+                    <?php /** @var $question QuestionTemplate */ ?>
+                    <option value="<?php echo $question->getId()?>"><?php echo $question->getText()?></option>
                 <?php endforeach;?>
             </select>
         </div>
