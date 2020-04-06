@@ -9,11 +9,6 @@ use ReallyOrm\Criteria\Criteria;
 trait CriteriaTrait
 {
     /**
-     * @var int
-     */
-    static $results_per_page = 5;
-
-    /**
      * Constructs the array of filters necessary to create a new Criteria instance
      *
      * @param array $requestAttributes
@@ -39,14 +34,15 @@ trait CriteriaTrait
      * Function called in controllers to retrieve the list of entities.
      *
      * @param array $requestAttributes
+     * @param int $resultsPerPage
      * @return Criteria
      */
-    public function getCriteriaFromRequest(array $requestAttributes): Criteria
+    public function getCriteriaFromRequest(array $requestAttributes, int $resultsPerPage): Criteria
     {
         $filters = $this->getFiltersForCriteria($requestAttributes);
         $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::$results_per_page;
+        $from = ($currentPage - 1) * $resultsPerPage;
 
-        return new Criteria($filters, [], $from, self::$results_per_page);
+        return new Criteria($filters, [], $from, $resultsPerPage);
     }
 }

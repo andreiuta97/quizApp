@@ -50,7 +50,7 @@ class ResultController extends AbstractController
     public function getResults(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $data = $this->quizInstanceService->getResultsData($criteria);
         $paginator = new Paginator($data->getCount(), $currentPage, $this->resultsPerPage);
 

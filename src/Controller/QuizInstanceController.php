@@ -86,7 +86,7 @@ class QuizInstanceController extends AbstractController
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $quizzesSearchResult = $this->quizInstanceService->getQuizzes($criteria);
         $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 

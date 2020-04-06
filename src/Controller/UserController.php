@@ -126,7 +126,7 @@ class UserController extends AbstractController
     public function getUsers(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $userSearchResult = $this->userService->getUsers($criteria);
         $paginator = new Paginator($userSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 

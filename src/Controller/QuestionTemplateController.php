@@ -91,7 +91,7 @@ class QuestionTemplateController extends AbstractController
     public function getQuestions(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $questionSearchResult = $this->questionTemplateService->getQuestions($criteria);
         $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
