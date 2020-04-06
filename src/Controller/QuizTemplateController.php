@@ -21,15 +21,20 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class QuizTemplateController extends AbstractController
 {
     use CriteriaTrait;
-    const RESULTS_PER_PAGE = 5;
+
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+
     /**
      * @var QuizTemplateService
      */
     private $quizTemplateService;
+
+    /**
+     * @var QuestionTemplateService
+     */
     private $questionTemplateService;
 
     public function __construct
@@ -89,15 +94,6 @@ class QuizTemplateController extends AbstractController
 
         return $response;
     }
-
-//    private function getCriteriaFromRequest(array $requestAttributes): Criteria
-//    {
-//        $filters = isset($requestAttributes['name']) ? ['name' => $requestAttributes['name']] : [];
-//        $currentPage = $requestAttributes['page'] ?? 1;
-//        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
-//
-//        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
-//    }
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {

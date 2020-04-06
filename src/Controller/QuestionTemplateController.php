@@ -10,6 +10,7 @@ use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Entity\AnswerTemplate;
+use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionTemplateService;
 use ReallyOrm\Criteria\Criteria;
@@ -17,7 +18,7 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuestionTemplateController extends AbstractController
 {
-    const RESULTS_PER_PAGE = 5;
+    use CriteriaTrait;
     /**
      * @var RepositoryManagerInterface
      */
@@ -82,21 +83,12 @@ class QuestionTemplateController extends AbstractController
         return $response;
     }
 
-    private function getCriteriaFromRequest(array $requestAttributes): Criteria
-    {
-        $filters = isset($requestAttributes['text']) ? ['text' => $requestAttributes['text']] : [];
-        $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
-
-        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
-    }
-
     public function getQuestions(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $questionSearchResult = $this->questionTemplateService->getQuestions($criteria);
-        $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
+        $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, self::$resultsPerPage);
 
         return $this->renderer->renderView('admin-questions-listing.phtml',
             ['questions' => $questionSearchResult->getItems(), 'paginator' => $paginator]);
