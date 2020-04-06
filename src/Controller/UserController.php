@@ -9,6 +9,7 @@ use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
 use QuizApp\Service\AuthenticationService;
+use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\UserService;
 use ReallyOrm\Criteria\Criteria;
@@ -16,7 +17,7 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class UserController extends AbstractController
 {
-    const RESULTS_PER_PAGE = 5;
+    use CriteriaTrait;
     /**
      * @var RepositoryManagerInterface
      */
@@ -29,19 +30,24 @@ class UserController extends AbstractController
      * @var AuthenticationService
      */
     private $authenticationService;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
         UserService $userService,
-        AuthenticationService $authenticationService
-    )
-    {
+        AuthenticationService $authenticationService,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->userService = $userService;
         $this->authenticationService = $authenticationService;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     public function adminDashboard()
@@ -117,21 +123,12 @@ class UserController extends AbstractController
         return $response;
     }
 
-    private function getCriteriaFromRequest(array $requestAttributes): Criteria
-    {
-        $filters = isset($requestAttributes['role']) ? ['role' => $requestAttributes['role']] : [];
-        $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
-
-        return new Criteria($filters, [], $from, self::RESULTS_PER_PAGE);
-    }
-
     public function getUsers(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $userSearchResult = $this->userService->getUsers($criteria);
-        $paginator = new Paginator($userSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
+        $paginator = new Paginator($userSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-users-listing.phtml',
             ['users' => $userSearchResult->getItems(), 'paginator' => $paginator]);

@@ -13,6 +13,7 @@ use Framework\Session\Session;
 use QuizApp\Entity\QuestionInstance;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\QuizTemplateRepository;
+use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
@@ -21,7 +22,7 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuizInstanceController extends AbstractController
 {
-    const RESULTS_PER_PAGE = 5;
+    use CriteriaTrait;
 
     /**
      * @var RepositoryManagerInterface
@@ -43,6 +44,10 @@ class QuizInstanceController extends AbstractController
      * @var Session
      */
     private $session;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     public function __construct
     (
@@ -51,15 +56,16 @@ class QuizInstanceController extends AbstractController
         QuizTemplateRepository $quizTemplateRepository,
         QuizInstanceService $quizInstanceService,
         QuestionInstanceService $questionInstanceService,
-        Session $session
-    )
-    {
+        Session $session,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizInstanceService = $quizInstanceService;
         $this->questionInstanceService = $questionInstanceService;
         $this->quizTemplateRepository = $quizTemplateRepository;
         $this->session = $session;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     public function startQuiz(Request $request, array $requestAttributes): Response
@@ -77,20 +83,12 @@ class QuizInstanceController extends AbstractController
         return $response;
     }
 
-    private function getCriteriaFromRequest(array $requestAttributes): Criteria
-    {
-        $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
-
-        return new Criteria([], [], $from, self::RESULTS_PER_PAGE);
-    }
-
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $quizzesSearchResult = $this->quizInstanceService->getQuizzes($criteria);
-        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::RESULTS_PER_PAGE);
+        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml',
             ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);
