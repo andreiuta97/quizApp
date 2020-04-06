@@ -44,6 +44,10 @@ class QuizInstanceController extends AbstractController
      * @var Session
      */
     private $session;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     public function __construct
     (
@@ -52,15 +56,16 @@ class QuizInstanceController extends AbstractController
         QuizTemplateRepository $quizTemplateRepository,
         QuizInstanceService $quizInstanceService,
         QuestionInstanceService $questionInstanceService,
-        Session $session
-    )
-    {
+        Session $session,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizInstanceService = $quizInstanceService;
         $this->questionInstanceService = $questionInstanceService;
         $this->quizTemplateRepository = $quizTemplateRepository;
         $this->session = $session;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     public function startQuiz(Request $request, array $requestAttributes): Response
@@ -83,7 +88,7 @@ class QuizInstanceController extends AbstractController
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $quizzesSearchResult = $this->quizInstanceService->getQuizzes($criteria);
-        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::$resultsPerPage);
+        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml',
             ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);

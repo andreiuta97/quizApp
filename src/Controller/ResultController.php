@@ -20,16 +20,26 @@ class ResultController extends AbstractController
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     /**
      * ResultController constructor.
      * @param RendererInterface $renderer
      * @param QuizInstanceService $quizInstanceService
+     * @param int $resultsPerPage
      */
-    public function __construct(RendererInterface $renderer, QuizInstanceService $quizInstanceService)
-    {
-        $this->quizInstanceService = $quizInstanceService;
+    public function __construct
+    (
+        RendererInterface $renderer,
+        QuizInstanceService $quizInstanceService,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
+        $this->quizInstanceService = $quizInstanceService;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     /**
@@ -42,7 +52,7 @@ class ResultController extends AbstractController
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $data = $this->quizInstanceService->getResultsData($criteria);
-        $paginator = new Paginator($data->getCount(), $currentPage, self::$resultsPerPage);
+        $paginator = new Paginator($data->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
             ['data' => $data->getItems(), 'paginator' => $paginator]);

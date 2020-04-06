@@ -11,7 +11,7 @@ trait CriteriaTrait
     /**
      * @var int
      */
-    static $resultsPerPage = 5;
+    static $results_per_page = 5;
 
     /**
      * Constructs the array of filters necessary to create a new Criteria instance
@@ -45,8 +45,8 @@ trait CriteriaTrait
     {
         $filters = $this->getFiltersForCriteria($requestAttributes);
         $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::$resultsPerPage;
+        $from = ($currentPage - 1) * self::$results_per_page;
 
-        return new Criteria($filters, [], $from, self::$resultsPerPage);
+        return new Criteria($filters, [], $from, self::$results_per_page);
     }
 }

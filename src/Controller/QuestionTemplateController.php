@@ -27,17 +27,22 @@ class QuestionTemplateController extends AbstractController
      * @var QuestionTemplateService
      */
     private $questionTemplateService;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
-        QuestionTemplateService $questionTemplateService
-    )
-    {
+        QuestionTemplateService $questionTemplateService,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->questionTemplateService = $questionTemplateService;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     public function addQuestion(Request $request, array $requestAttributes): Response
@@ -88,7 +93,7 @@ class QuestionTemplateController extends AbstractController
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $questionSearchResult = $this->questionTemplateService->getQuestions($criteria);
-        $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, self::$resultsPerPage);
+        $paginator = new Paginator($questionSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-questions-listing.phtml',
             ['questions' => $questionSearchResult->getItems(), 'paginator' => $paginator]);

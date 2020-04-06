@@ -30,19 +30,24 @@ class UserController extends AbstractController
      * @var AuthenticationService
      */
     private $authenticationService;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
         UserService $userService,
-        AuthenticationService $authenticationService
-    )
-    {
+        AuthenticationService $authenticationService,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->userService = $userService;
         $this->authenticationService = $authenticationService;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     public function adminDashboard()
@@ -123,7 +128,7 @@ class UserController extends AbstractController
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $userSearchResult = $this->userService->getUsers($criteria);
-        $paginator = new Paginator($userSearchResult->getCount(), $currentPage, self::$resultsPerPage);
+        $paginator = new Paginator($userSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-users-listing.phtml',
             ['users' => $userSearchResult->getItems(), 'paginator' => $paginator]);

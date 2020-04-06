@@ -36,19 +36,24 @@ class QuizTemplateController extends AbstractController
      * @var QuestionTemplateService
      */
     private $questionTemplateService;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     public function __construct
     (
         RendererInterface $renderer,
         RepositoryManagerInterface $repositoryManager,
         QuizTemplateService $quizTemplateService,
-        QuestionTemplateService $questionTemplateService
-    )
-    {
+        QuestionTemplateService $questionTemplateService,
+        int $resultsPerPage
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizTemplateService = $quizTemplateService;
         $this->questionTemplateService = $questionTemplateService;
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     public function addQuiz(Request $request, array $requestAttributes): Response
@@ -100,7 +105,7 @@ class QuizTemplateController extends AbstractController
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
         $quizzesSearchResult = $this->quizTemplateService->getQuizzes($criteria);
-        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, self::$resultsPerPage);
+        $paginator = new Paginator($quizzesSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-quizzes-listing.phtml',
             ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);
