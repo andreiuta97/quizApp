@@ -1,7 +1,7 @@
 <?php
 
 
-namespace QuizApp\Service;
+namespace QuizApp\ViewModel;
 
 
 use QuizApp\Entity\AnswerInstance;

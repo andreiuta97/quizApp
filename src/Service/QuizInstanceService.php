@@ -9,6 +9,7 @@ use QuizApp\Entity\QuizInstance;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Entity\User;
 use QuizApp\Repository\QuizInstanceRepository;
+use QuizApp\ViewModel\UserQuizResult;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 use ReallyOrm\SearchResult\SearchResult;
@@ -105,7 +106,7 @@ class QuizInstanceService
             /** @var $user User */
             $user = $this->repositoryManager->getRepository(User::class)->find($quizInstance->getUserId());
 
-            $result = new Result();
+            $result = new UserQuizResult();
             $result->setQuizInstance($quizInstance);
             $result->setUser($user);
             $results[] = $result;

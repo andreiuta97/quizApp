@@ -1,6 +1,6 @@
 <?php
 
-use QuizApp\Service\Result;
+use QuizApp\Service\UserQuizResult;
 
 require_once('partials/head.phtml');
 ?>
@@ -43,7 +43,7 @@ require_once('partials/head.phtml');
                 <tbody>
                 <?php foreach ($results as $result): ?>
                 <tr>
-                    <?php /** @var $result Result */ ?>
+                    <?php /** @var $result UserQuizResult */ ?>
                     <th scope="row"><?php echo  $result->getQuizInstance()->getId(); ?></th>
                     <td><?php echo $result->getUser()->getName() ?> </td>
                     <td><?php echo $result->getQuizInstance()->getQuizTemplateId() ?></td>

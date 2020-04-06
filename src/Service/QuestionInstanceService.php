@@ -14,6 +14,7 @@ use QuizApp\Entity\QuizInstance;
 use QuizApp\Entity\QuizTemplate;
 use QuizApp\Repository\AnswerInstanceRepository;
 use QuizApp\Repository\QuestionInstanceRepository;
+use QuizApp\ViewModel\AnsweredQuestion;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 

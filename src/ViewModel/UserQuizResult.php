@@ -1,13 +1,13 @@
 <?php
 
 
-namespace QuizApp\Service;
+namespace QuizApp\ViewModel;
 
 
 use QuizApp\Entity\QuizInstance;
 use QuizApp\Entity\User;
 
-class Result
+class UserQuizResult
 {
 
     /**
