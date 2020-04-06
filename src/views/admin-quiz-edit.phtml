@@ -1,4 +1,8 @@
 <?php
+
+use QuizApp\Entity\QuestionTemplate;
+use ReallyOrm\SearchResult\SearchResult;
+
 require_once('partials/head.phtml');
 ?>
 
@@ -13,7 +17,8 @@ require_once('partials/head.phtml');
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb px-3 py-0 mb-3">
             <li class="breadcrumb-item" ><a href="/admin/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Quiz details</li>
+            <li class="breadcrumb-item" ><a href="/listQuizzes">Quizzes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Quiz</li>
         </ol>
     </nav>
 
@@ -36,8 +41,9 @@ require_once('partials/head.phtml');
             <div class="form-group">
                 <label for="quizQuestions">Questions</label>
                 <select name="questions[]" class="form-control" id="quizQuestions" multiple>
-                    <?php /** @var $questions \QuizApp\Entity\QuestionTemplate[] */?>
-                    <?php foreach ($questions as $question) :?>
+                    <?php /** @var $questions SearchResult */?>
+                    <?php foreach ($questions->getItems() as $question) :?>
+                        <?php /** @var $question QuestionTemplate */ ?>
                         <?php $id = $question->getId(); ?>
                         <option value="<?php echo $id ?>"
                             <?php /** @var $quizQuestions [] */?>

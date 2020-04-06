@@ -45,7 +45,7 @@ class QuestionTemplateController extends AbstractController
         $this->questionTemplateService->add($info);
         $body = Stream::createFromString('');
         $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', 'http://local.quiz.com/listQuestions');
+        $response = $response->withHeader('Location', '/listQuestions');
 
         return $response;
     }

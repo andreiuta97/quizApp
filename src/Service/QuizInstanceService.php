@@ -92,10 +92,11 @@ class QuizInstanceService
     /**
      * Gets all the necessary data to be displayed on the Results page.
      *
-     * @return array
+     * @param Criteria $criteria
+     * @return SearchResult
      */
-    public function getResultsData(): array
+    public function getResultsData(Criteria $criteria): SearchResult
     {
-        return $this->quizInstanceRepo->getResultsData();
+        return $this->quizInstanceRepo->getResultsData($criteria);
     }
 }
