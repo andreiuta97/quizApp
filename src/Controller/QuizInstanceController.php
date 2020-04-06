@@ -21,24 +21,30 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuizInstanceController extends AbstractController
 {
+    private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
+
     const RESULTS_PER_PAGE = 5;
 
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+
     /**
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+
     /**
      * @var QuestionInstanceService
      */
     private $questionInstanceService;
+
     /**
      * @var QuizTemplateRepository
      */
     private $quizTemplateRepository;
+
     /**
      * @var Session
      */
@@ -52,8 +58,7 @@ class QuizInstanceController extends AbstractController
         QuizInstanceService $quizInstanceService,
         QuestionInstanceService $questionInstanceService,
         Session $session
-    )
-    {
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizInstanceService = $quizInstanceService;
@@ -62,6 +67,13 @@ class QuizInstanceController extends AbstractController
         $this->session = $session;
     }
 
+    /**
+     * Gets first question instance of the selected quiz instance.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function startQuiz(Request $request, array $requestAttributes): Response
     {
         /** @var QuizTemplate $quizTemplate */
@@ -85,6 +97,13 @@ class QuizInstanceController extends AbstractController
         return new Criteria([], [], $from, self::RESULTS_PER_PAGE);
     }
 
+    /**
+     * Gets all quiz templates available to be displayed on the candidate Homepage.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function getQuizzes(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
@@ -96,26 +115,35 @@ class QuizInstanceController extends AbstractController
             ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);
     }
 
-    public function getQuizStarted(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('candidate-quiz-page.phtml', $requestAttributes);
-    }
-
+    /**
+     * Gets the overview page of a particular quiz instance.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function showOverview(Request $request, array $requestAttributes): Response
     {
-        $quizInstanceId = $this->session->get('quizInstanceId');
+        $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
         $quizInstance = $this->quizInstanceService->findQuiz($quizInstanceId);
-        $questionsAnswers = $this->questionInstanceService->getAllQuestionsForQuizInstance($quizInstanceId);
+        $answeredQuestions = $this->questionInstanceService->getAnsweredQuestions($quizInstanceId);
 
         return $this->renderer->renderView
         ('candidate-overview.phtml',
             [
                 'quizInstance' => $quizInstance,
-                'questionsAnswers' => $questionsAnswers,
+                'answeredQuestions' => $answeredQuestions,
             ]
         );
     }
 
+    /**
+     * Gets the 'Congrats' page after completing and saving a quiz.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function showSuccess(Request $request, array $requestAttributes): Response
     {
         return $this->renderer->renderView('quiz-success-page.phtml', $requestAttributes);

@@ -19,18 +19,23 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuestionInstanceService
 {
+    private const QUESTION_TEMPLATE_ID = 'question_template_id';
+
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+
     /**
      * @var QuestionInstanceRepository
      */
     private $questionInstanceRepo;
+
     /**
      * @var AnswerInstanceRepository
      */
     private $answerInstanceRepo;
+
     /**
      * @var SessionInterface
      */
@@ -50,6 +55,12 @@ class QuestionInstanceService
         $this->session = $session;
     }
 
+    /**
+     * Creates all question instances for a quiz instance using the question templates.
+     *
+     * @param QuizTemplate $quizTemplate
+     * @param QuizInstance $quizInstance
+     */
     public function createQuestionInstances(QuizTemplate $quizTemplate, QuizInstance $quizInstance)
     {
         $answerTemplateRepo = $this->repositoryManager->getRepository(AnswerTemplate::class);
@@ -57,6 +68,7 @@ class QuestionInstanceService
         $quizTemplateId = $quizTemplate->getId();
         $questionTemplates = $questionTemplateRepo->getQuestionsForQuiz($quizTemplateId);
 
+        /** @var $questionTemplate QuestionTemplate */
         foreach ($questionTemplates as $questionTemplate) {
             $question = new QuestionInstance();
             $question->setText($questionTemplate->getText());
@@ -65,7 +77,7 @@ class QuestionInstanceService
             $question->setQuizInstanceId($quizInstance->getId());
             $this->questionInstanceRepo->insertOnDuplicateKeyUpdate($question);
 
-            $answerTemplate = $answerTemplateRepo->findOneBy(['question_template_id' => $questionTemplate->getId()]);
+            $answerTemplate = $answerTemplateRepo->findOneBy([self::QUESTION_TEMPLATE_ID => $questionTemplate->getId()]);
             $answer = new AnswerInstance();
             $answer->setText($answerTemplate->getText());
             $answer->setQuestionInstanceId($question->getId());
@@ -73,15 +85,36 @@ class QuestionInstanceService
         }
     }
 
-    public function getAllQuestionsForQuizInstance(int $quizInstanceId): array
+    /**
+     * Retrieves all questions and their answers for a particular quiz instance.
+     *
+     * @param int $quizInstanceId
+     * @return array
+     */
+    public function getAnsweredQuestions(int $quizInstanceId): array
     {
         $questions = $this->questionInstanceRepo->getQuestions($quizInstanceId);
-        $answers = [];
+        $answeredQuestions = [];
         foreach ($questions as $question) {
-            $answers[$question->getId()] = $this->answerInstanceRepo->getAnswer($question->getId());
+            $answer = $this->answerInstanceRepo->getAnswer($question->getId());
+
+            $answeredQuestion = new AnsweredQuestion();
+            $answeredQuestion->setQuestion($question);
+            $answeredQuestion->setAnswer($answer);
+            $answeredQuestions[] = $answeredQuestion;
         }
 
-        return ['questions' => $questions, 'answers' => $answers];
+        return $answeredQuestions;
     }
 
+    /**
+     * Counts the number of questions from a particular quiz instance.
+     *
+     * @param int $quizInstanceId
+     * @return int
+     */
+    public function getQuestionsNumber(int $quizInstanceId): int
+    {
+        return $this->questionInstanceRepo->getQuestionsNumber($quizInstanceId);
+    }
 }

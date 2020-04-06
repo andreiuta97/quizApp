@@ -1,4 +1,7 @@
 <?php
+
+use QuizApp\Service\AnsweredQuestion;
+
 require_once('partials/head.phtml');
 ?>
 
@@ -26,15 +29,16 @@ require_once('partials/head.phtml');
         </div>
 
         <!--Quiz block-->
-        <?php foreach ($questionsAnswers['questions'] as $question):?>
+        <?php foreach ($answeredQuestions as $answeredQuestion):?>
             <div class="card border-secondary mb-3">
                 <div class="card-header">
                     <p class="mb-1">Question: </p>
-                    <span><?php echo $question->getText() ?></span>
+                    <?php /** @var $answeredQuestion AnsweredQuestion */ ?>
+                    <span><?php echo $answeredQuestion->getQuestion()->getText() ?></span>
                 </div>
                 <div class="card-body">
                     <p class="mb-1">Answer: </p>
-                    <span><?php echo $questionsAnswers['answers'][$question->getId()]->getText() ?></span>
+                    <span><?php echo $answeredQuestion->getAnswer()->getText() ?></span>
                 </div>
             </div>
         <?php endforeach; ?>

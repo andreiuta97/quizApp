@@ -14,6 +14,8 @@ use QuizApp\Service\QuizInstanceService;
 
 class ResultController extends AbstractController
 {
+    private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
+
     /**
      * @var QuizInstanceService
      */
@@ -42,6 +44,13 @@ class ResultController extends AbstractController
         $this->session = $session;
     }
 
+    /**
+     * Gets all results to be displayed on Results page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function getResults(Request $request, array $requestAttributes): Response
     {
         $data = $this->quizInstanceService->getResultsData();
@@ -49,18 +58,25 @@ class ResultController extends AbstractController
         return $this->renderer->renderView('admin-results-listing.phtml', ['data' => $data]);
     }
 
+    /**
+     * Gets a specific quiz instance results and its questions and answers.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function getResult(Request $request, array $requestAttributes): Response
     {
-        $quizInstanceId = $requestAttributes['quiz_instance_id'];
+        $quizInstanceId = $requestAttributes[self::QUIZ_INSTANCE_ID];
         $quizInstance = $this->quizInstanceService->findQuiz($quizInstanceId);
-        $questionsAnswers = $this->questionInstanceService->getAllQuestionsForQuizInstance($quizInstanceId);
+        $answeredQuestions = $this->questionInstanceService->getAnsweredQuestions($quizInstanceId);
 
         return $this->renderer->renderView
         (
             'admin-results.phtml',
             [
                 'quizInstance' => $quizInstance,
-                'questionsAnswers' => $questionsAnswers,
+                'answeredQuestions' => $answeredQuestions,
             ]
         );
     }

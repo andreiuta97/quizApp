@@ -21,26 +21,33 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class QuestionInstanceController extends AbstractController
 {
+    private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
+
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+
     /**
      * @var QuestionInstanceService
      */
     private $questionInstanceService;
+
     /**
      * @var SessionInterface
      */
     protected $session;
+
     /**
      * @var QuestionInstanceRepository
      */
     private $questionInstanceRepository;
+
     /**
      * @var AnswerInstanceRepository
      */
     private $answerInstanceRepository;
+
     /**
      * @var QuizInstanceService
      */
@@ -55,8 +62,7 @@ class QuestionInstanceController extends AbstractController
         AnswerInstanceRepository $answerInstanceRepository,
         SessionInterface $session,
         QuizInstanceService $quizInstanceService
-    )
-    {
+    ) {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->questionInstanceService = $questionInstanceService;
@@ -66,15 +72,20 @@ class QuestionInstanceController extends AbstractController
         $this->quizInstanceService = $quizInstanceService;
     }
 
+    /**
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function getQuestionInstance(Request $request, array $requestAttributes)
     {
-        $quizInstanceId = $this->session->get('quizInstanceId');
+        $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
         $questionInstanceIndex = $requestAttributes['id'];
-        $criteria = new Criteria(['quiz_instance_id' => $quizInstanceId], [], $questionInstanceIndex - 1, 1);
+        $criteria = new Criteria([self::QUIZ_INSTANCE_ID => $quizInstanceId], [], $questionInstanceIndex - 1, 1);
         $firstQuestion = $this->questionInstanceRepository->findBy($criteria)->getFirstItem();
         $answer = $this->answerInstanceRepository->getAnswer($firstQuestion->getId());
 
-        $totalQuestions = $this->quizInstanceService->getQuestionsNumber($quizInstanceId);
+        $totalQuestions = $this->questionInstanceService->getQuestionsNumber($quizInstanceId);
         $isLastQuestion = $totalQuestions == $questionInstanceIndex;
 
         return $this->renderer->renderView('candidate-quiz-page.phtml',
