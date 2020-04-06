@@ -71,11 +71,11 @@ class ResultController extends AbstractController
     {
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes);
-        $data = $this->quizInstanceService->getResultsData($criteria);
-        $paginator = new Paginator($data->getCount(), $currentPage, self::RESULTS_PER_PAGE);
+        $results = $this->quizInstanceService->getResultsData($criteria);
+        $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, self::RESULTS_PER_PAGE);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
-            ['data' => $data->getItems(), 'paginator' => $paginator]);
+            ['results' => $results, 'paginator' => $paginator]);
     }
 
     /**

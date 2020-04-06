@@ -7,6 +7,7 @@ namespace QuizApp\Service;
 use Framework\Contracts\SessionInterface;
 use QuizApp\Entity\QuizInstance;
 use QuizApp\Entity\QuizTemplate;
+use QuizApp\Entity\User;
 use QuizApp\Repository\QuizInstanceRepository;
 use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
@@ -93,10 +94,36 @@ class QuizInstanceService
      * Gets all the necessary data to be displayed on the Results page.
      *
      * @param Criteria $criteria
-     * @return SearchResult
+     * @return array
      */
-    public function getResultsData(Criteria $criteria): SearchResult
+    public function getResultsData(Criteria $criteria): array
     {
-        return $this->quizInstanceRepo->getResultsData($criteria);
+        $quizInstances = $this->quizInstanceRepo->findBy($criteria);
+        $results = [];
+        /** @var $quizInstance QuizInstance */
+        foreach ($quizInstances->getItems() as $quizInstance) {
+            /** @var $user User */
+            $user = $this->repositoryManager->getRepository(User::class)->find($quizInstance->getUserId());
+
+            $result = new Result();
+            $result->setQuizInstance($quizInstance);
+            $result->setUser($user);
+            $results[] = $result;
+        }
+
+        return $results;
+    }
+
+    /**
+     * Gets the total number of quiz instances.
+     *
+     * @param Criteria $criteria
+     * @return int
+     */
+    public function getResultsNumber(Criteria $criteria): int
+    {
+        $quizInstances = $this->quizInstanceRepo->findBy($criteria);
+
+        return $quizInstances->getCount();
     }
 }

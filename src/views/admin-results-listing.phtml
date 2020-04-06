@@ -1,4 +1,7 @@
 <?php
+
+use QuizApp\Service\Result;
+
 require_once('partials/head.phtml');
 ?>
     <title>Admin - Results listing</title>
@@ -38,14 +41,15 @@ require_once('partials/head.phtml');
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($data as $key => $result): ?>
+                <?php foreach ($results as $result): ?>
                 <tr>
-                    <th scope="row"><?php echo  $result['quiz_instance_id']; ?></th>
-                    <td><?php echo $result['name'] ?> </td>
-                    <td><?php echo $result['quiz_template_id'] ?></td>
+                    <?php /** @var $result Result */ ?>
+                    <th scope="row"><?php echo  $result->getQuizInstance()->getId(); ?></th>
+                    <td><?php echo $result->getUser()->getName() ?> </td>
+                    <td><?php echo $result->getQuizInstance()->getQuizTemplateId() ?></td>
                     <td>We don't believe that numbers represent the value of people.</td>
                     <td class="text-center">
-                        <a class="btn btn-primary py-1" href="/result/<?php echo $result['user_id']; ?>/<?php echo  $result['quiz_instance_id']; ?>">View</a>
+                        <a class="btn btn-primary py-1" href="/result/<?php echo $result->getUser()->getId(); ?>/<?php echo  $result->getQuizInstance()->getId(); ?>">View</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
