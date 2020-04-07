@@ -23,23 +23,29 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class QuizInstanceController extends AbstractController
 {
     use CriteriaTrait;
+  
+    private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
 
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+
     /**
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+
     /**
      * @var QuestionInstanceService
      */
     private $questionInstanceService;
+
     /**
      * @var QuizTemplateRepository
      */
     private $quizTemplateRepository;
+
     /**
      * @var Session
      */
@@ -68,6 +74,13 @@ class QuizInstanceController extends AbstractController
         $this->resultsPerPage = $resultsPerPage;
     }
 
+    /**
+     * Creates a quiz instance and redirects to the first question of the quiz.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function startQuiz(Request $request, array $requestAttributes): Response
     {
         /** @var QuizTemplate $quizTemplate */
@@ -94,26 +107,35 @@ class QuizInstanceController extends AbstractController
             ['quizzes' => $quizzesSearchResult->getItems(), 'paginator' => $paginator]);
     }
 
-    public function getQuizStarted(Request $request, array $requestAttributes): Response
-    {
-        return $this->renderer->renderView('candidate-quiz-page.phtml', $requestAttributes);
-    }
-
+    /**
+     * Displays the overview page of a particular quiz instance.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function showOverview(Request $request, array $requestAttributes): Response
     {
-        $quizInstanceId = $this->session->get('quizInstanceId');
+        $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
         $quizInstance = $this->quizInstanceService->findQuiz($quizInstanceId);
-        $questionsAnswers = $this->questionInstanceService->getAllQuestionsForQuizInstance($quizInstanceId);
+        $answeredQuestions = $this->questionInstanceService->getAnsweredQuestions($quizInstanceId);
 
         return $this->renderer->renderView
         ('candidate-overview.phtml',
             [
                 'quizInstance' => $quizInstance,
-                'questionsAnswers' => $questionsAnswers,
+                'answeredQuestions' => $answeredQuestions,
             ]
         );
     }
 
+    /**
+     * Displays the 'Congrats' page after completing and saving a quiz.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function showSuccess(Request $request, array $requestAttributes): Response
     {
         return $this->renderer->renderView('quiz-success-page.phtml', $requestAttributes);

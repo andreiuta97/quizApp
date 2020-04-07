@@ -1,4 +1,7 @@
 <?php
+
+use QuizApp\Service\AnsweredQuestion;
+
 require_once('partials/head.phtml');
 ?>
 
@@ -13,62 +16,32 @@ require_once('partials/head.phtml');
     <!--Breadcrumbs-->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb px-3 py-0 mb-3">
-            <li class="breadcrumb-item" ><a href="/admin/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Results</li>
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/listResults">Results</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Result Details</li>
         </ol>
     </nav>
 
     <div class="container">
         <!--Page title block-->
-        <div class="text-center">
-            <h1>Quiz ...</h1>
-        </div>
-
-        <!--User details block-->
-        <div class="user-block mb-3">
-            <span>User: </span>
-            <span class="h5">User name</span>
+        <div class="text-center pb-3">
+            <h1><?php echo $quizInstance->getName() ?></h1>
         </div>
 
         <!--Quiz block-->
-        <div class="card border-secondary mb-3">
-            <div class="card-header">
-                <p class="mb-1">Question: </p>
-                <span>
-                    Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.
-                </span>
+        <?php foreach ($answeredQuestions as $answeredQuestion):?>
+            <div class="card border-secondary mb-3">
+                <div class="card-header">
+                    <p class="mb-1">Question: </p>
+                    <?php /** @var $answeredQuestion AnsweredQuestion */ ?>
+                    <span><?php echo $answeredQuestion->getQuestion()->getText() ?></span>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1">Answer: </p>
+                    <span><?php echo $answeredQuestion->getAnswer()->getText() ?></span>
+                </div>
             </div>
-            <div class="card-body">
-                <p class="mb-1">Answer: </p>
-                <span>Some quick example text to build on the card title and make up the bulk of the card's content.</span>
-            </div>
-        </div>
-
-        <div class="card border-secondary mb-3">
-            <div class="card-header">
-                <p class="mb-1">Question: </p>
-                <span>
-                    Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.
-                </span>
-            </div>
-            <div class="card-body">
-                <p class="mb-1">Answer: </p>
-                <span>Some quick example text to build on the card title and make up the bulk of the card's content.</span>
-            </div>
-        </div>
-
-        <div class="card border-secondary mb-3">
-            <div class="card-header">
-                <p class="mb-1">Question: </p>
-                <span>
-                    Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content.
-                </span>
-            </div>
-            <div class="card-body">
-                <p class="mb-1">Answer: </p>
-                <span>Some quick example text to build on the card title and make up the bulk of the card's content.</span>
-            </div>
-        </div>
+        <?php endforeach; ?>
 
         <!--Results form-->
         <form>

@@ -205,6 +205,12 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
                 Router::CONFIG_KEY_ACTION => 'showSuccess',
             ],
+            'view_result' => [
+                Router::CONFIG_KEY_METHOD => 'GET',
+                Router::CONFIG_KEY_PATH => '/result/(?<id>\d+)/(?<quiz_instance_id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'result',
+                Router::CONFIG_KEY_ACTION => 'getResult',
+            ],
         ]
     ],
 ];
