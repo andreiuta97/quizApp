@@ -56,7 +56,7 @@ class QuizInstanceService
         $quizTemplate = $quizTemplateRepo->find($quizTemplateId);
         $quiz = new QuizInstance();
         $quiz->setName($quizTemplate->getName());
-        $quiz->setType($quizTemplate->getType());
+        $quiz->setDescription($quizTemplate->getDescription());
         $quiz->setScore(0);
         $quiz->setUserId($userId);
         $quiz->setQuizTemplateId($quizTemplateId);
@@ -126,5 +126,20 @@ class QuizInstanceService
         $quizInstances = $this->quizInstanceRepo->findBy($criteria);
 
         return $quizInstances->getCount();
+    }
+
+    /**
+     * Saves given score to the database.
+     *
+     * @param int $quizInstanceId
+     * @param int $score
+     */
+    public function saveScore(int $quizInstanceId, int $score)
+    {
+        /** @var $quizInstance QuizInstance */
+        $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);
+        $quizInstance->setScore($score);
+
+        $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quizInstance);
     }
 }

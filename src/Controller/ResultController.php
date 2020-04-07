@@ -9,6 +9,7 @@ use Framework\Contracts\SessionInterface;
 use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
+use Framework\Http\Stream;
 use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
@@ -17,7 +18,7 @@ use QuizApp\Service\QuizInstanceService;
 class ResultController extends AbstractController
 {
     use CriteriaTrait;
-  
+
     private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
 
     /**
@@ -43,6 +44,8 @@ class ResultController extends AbstractController
      * ResultController constructor.
      * @param RendererInterface $renderer
      * @param QuizInstanceService $quizInstanceService
+     * @param QuestionInstanceService $questionInstanceService
+     * @param SessionInterface $session
      * @param int $resultsPerPage
      */
     public function __construct
@@ -52,7 +55,8 @@ class ResultController extends AbstractController
         QuestionInstanceService $questionInstanceService,
         SessionInterface $session,
         int $resultsPerPage
-    ) {
+    )
+    {
         parent::__construct($renderer);
         $this->quizInstanceService = $quizInstanceService;
         $this->questionInstanceService = $questionInstanceService;
@@ -77,7 +81,7 @@ class ResultController extends AbstractController
     }
 
     /**
-     * Gets a specific quiz instance results and its questions and answers.
+     * Gets a specific quiz instance result and its questions and answers.
      *
      * @param Request $request
      * @param array $requestAttributes
@@ -97,5 +101,24 @@ class ResultController extends AbstractController
                 'answeredQuestions' => $answeredQuestions,
             ]
         );
+    }
+
+    /**
+     * Scores a specific quiz instance result.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
+    public function scoreResult(Request $request, array $requestAttributes): Response
+    {
+        $quizInstanceId = $requestAttributes[self::QUIZ_INSTANCE_ID];
+        $score = $request->getParameter('score');
+        $this->quizInstanceService->saveScore($quizInstanceId, $score);
+        $body = Stream::createFromString('');
+        $response = new Response($body, '1.1', 301, '');
+        $response = $response->withHeader('Location', '/listResults');
+
+        return $response;
     }
 }
