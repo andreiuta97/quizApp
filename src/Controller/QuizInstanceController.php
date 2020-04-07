@@ -68,7 +68,7 @@ class QuizInstanceController extends AbstractController
     }
 
     /**
-     * Gets first question instance of the selected quiz instance.
+     * Creates a quiz instance and redirects to the first question of the quiz.
      *
      * @param Request $request
      * @param array $requestAttributes
@@ -98,7 +98,7 @@ class QuizInstanceController extends AbstractController
     }
 
     /**
-     * Gets all quiz templates available to be displayed on the candidate Homepage.
+     * Displays all quiz templates available to be displayed on the candidate Homepage.
      *
      * @param Request $request
      * @param array $requestAttributes
@@ -116,7 +116,7 @@ class QuizInstanceController extends AbstractController
     }
 
     /**
-     * Gets the overview page of a particular quiz instance.
+     * Displays the overview page of a particular quiz instance.
      *
      * @param Request $request
      * @param array $requestAttributes
@@ -138,7 +138,7 @@ class QuizInstanceController extends AbstractController
     }
 
     /**
-     * Gets the 'Congrats' page after completing and saving a quiz.
+     * Displays the 'Congrats' page after completing and saving a quiz.
      *
      * @param Request $request
      * @param array $requestAttributes
