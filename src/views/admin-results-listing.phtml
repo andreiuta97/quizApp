@@ -1,6 +1,6 @@
 <?php
 
-use QuizApp\Service\UserQuizResult;
+use QuizApp\ViewModel\UserQuizResult;
 
 require_once('partials/head.phtml');
 ?>
@@ -26,15 +26,32 @@ require_once('partials/head.phtml');
             <h1>Results listing</h1>
         </div>
 
+        <!--Table actions block-->
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <form action="/listResults" method="get">
+                    <label for="resultSearch">User Name Search</label>
+                    <div class="input-group">
+                        <input name="name" type="text" id="resultSearch" class="form-control" placeholder="Type User Name">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!--Quiz listing table-->
         <div class="table-responsive my-4">
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
-                    <th scope="col">ID</th>
-                    <th scope="col">User</th>
-                    <th scope="col">Quiz</th>
+                    <th scope="col">Quiz ID</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Quiz Name</th>
                     <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
                     <th scope="col">Score</th>
                     <th scope="col">Actions</th>
@@ -46,7 +63,7 @@ require_once('partials/head.phtml');
                     <?php /** @var $result UserQuizResult */ ?>
                     <th scope="row"><?php echo  $result->getQuizInstance()->getId(); ?></th>
                     <td><?php echo $result->getUser()->getName() ?> </td>
-                    <td><?php echo $result->getQuizInstance()->getQuizTemplateId() ?></td>
+                    <td><?php echo $result->getQuizInstance()->getName() ?></td>
                     <td>We don't believe that numbers represent the value of people.</td>
                     <td class="text-center">
                         <a class="btn btn-primary py-1" href="/result/<?php echo $result->getUser()->getId(); ?>/<?php echo  $result->getQuizInstance()->getId(); ?>">View</a>

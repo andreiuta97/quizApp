@@ -99,7 +99,7 @@ class QuizInstanceService
      */
     public function getResultsData(Criteria $criteria): array
     {
-        $quizInstances = $this->quizInstanceRepo->findBy($criteria);
+        $quizInstances = $this->quizInstanceRepo->findBySearch($criteria);
         $results = [];
         /** @var $quizInstance QuizInstance */
         foreach ($quizInstances->getItems() as $quizInstance) {
