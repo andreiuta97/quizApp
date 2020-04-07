@@ -5,16 +5,20 @@ namespace QuizApp\Controller;
 
 
 use Framework\Contracts\RendererInterface;
+use Framework\Contracts\SessionInterface;
 use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
+use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
 
 class ResultController extends AbstractController
 {
     use CriteriaTrait;
+  
+    private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
 
     /**
      * @var QuizInstanceService
@@ -26,6 +30,16 @@ class ResultController extends AbstractController
     private $resultsPerPage;
 
     /**
+     * @var SessionInterface
+     */
+    private $session;
+
+    /**
+     * @var QuestionInstanceService
+     */
+    private $questionInstanceService;
+
+    /**
      * ResultController constructor.
      * @param RendererInterface $renderer
      * @param QuizInstanceService $quizInstanceService
@@ -35,10 +49,14 @@ class ResultController extends AbstractController
     (
         RendererInterface $renderer,
         QuizInstanceService $quizInstanceService,
+        QuestionInstanceService $questionInstanceService,
+        SessionInterface $session,
         int $resultsPerPage
     ) {
         parent::__construct($renderer);
         $this->quizInstanceService = $quizInstanceService;
+        $this->questionInstanceService = $questionInstanceService;
+        $this->session = $session;
         $this->resultsPerPage = $resultsPerPage;
     }
 
@@ -51,10 +69,33 @@ class ResultController extends AbstractController
     {
         $currentPage = $requestAttributes['page'] ?? 1;
         $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
-        $data = $this->quizInstanceService->getResultsData($criteria);
-        $paginator = new Paginator($data->getCount(), $currentPage, $this->resultsPerPage);
+        $results = $this->quizInstanceService->getResultsData($criteria);
+        $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
-            ['data' => $data->getItems(), 'paginator' => $paginator]);
+            ['results' => $results, 'paginator' => $paginator]);
+    }
+
+    /**
+     * Gets a specific quiz instance results and its questions and answers.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
+    public function getResult(Request $request, array $requestAttributes): Response
+    {
+        $quizInstanceId = $requestAttributes[self::QUIZ_INSTANCE_ID];
+        $quizInstance = $this->quizInstanceService->findQuiz($quizInstanceId);
+        $answeredQuestions = $this->questionInstanceService->getAnsweredQuestions($quizInstanceId);
+
+        return $this->renderer->renderView
+        (
+            'admin-results.phtml',
+            [
+                'quizInstance' => $quizInstance,
+                'answeredQuestions' => $answeredQuestions,
+            ]
+        );
     }
 }
