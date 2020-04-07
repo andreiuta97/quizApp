@@ -37,7 +37,7 @@ class QuizInstanceService
         $quizTemplate = $quizTemplateRepo->find($quizTemplateId);
         $quiz = new QuizInstance();
         $quiz->setName($quizTemplate->getName());
-        $quiz->setType($quizTemplate->getType());
+        $quiz->setDescription($quizTemplate->getDescription());
         $quiz->setScore(0);
         $quiz->setUserId($userId);
         $quiz->setQuizTemplateId($quizTemplateId);

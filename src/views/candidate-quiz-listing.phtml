@@ -27,7 +27,7 @@ require_once('partials/head.phtml');
             <thead>
             <tr>
                 <th scope="col">Quiz name</th>
-                <th scope="col">Quiz type</th>
+                <th scope="col">Quiz description</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
@@ -37,7 +37,7 @@ require_once('partials/head.phtml');
             <tr>
                 <?php /** @var $quiz \QuizApp\Entity\QuizTemplate */?>
                 <th scope="row"><?php echo $quiz->getName()?></th>
-                <td><?php echo $quiz->getType()?></td>
+                <td><?php echo $quiz->getDescription()?></td>
                 <td class="text-center">
                     <a class="btn btn-primary py-1" href="/start/quiz/<?php echo $quiz->getId()?>">Start quiz</a>
                 </td>

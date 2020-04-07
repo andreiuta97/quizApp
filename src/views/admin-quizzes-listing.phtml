@@ -53,7 +53,7 @@ require_once('partials/head.phtml');
                     <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
                     <th scope="col">ID</th>
                     <th scope="col">Quiz</th>
-                    <th scope="col">Type</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -64,7 +64,7 @@ require_once('partials/head.phtml');
                     <?php /** @var $quiz \QuizApp\Entity\QuizTemplate */?>
                     <th scope="row"><?php echo $quiz->getId()?></th>
                     <td><?php echo $quiz->getName()?></td>
-                    <td><?php echo $quiz->getType()?></td>
+                    <td><?php echo $quiz->getDescription()?></td>
                     <td class="text-center">
                         <a class="btn btn-primary py-1" href="/editQuiz/<?php echo $quiz->getId()?>">Edit</a>
                         <a class="btn btn-danger py-1" href="/deleteQuiz/<?php echo $quiz->getId()?>">Delete</a>
