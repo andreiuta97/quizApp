@@ -57,7 +57,7 @@ class QuizInstanceService
 
     public function getQuizzes(Criteria $criteria): SearchResult
     {
-        return $this->repositoryManager->getRepository(QuizTemplate::class)->findBy($criteria);
+        return $this->repositoryManager->getRepository(QuizTemplate::class)->findBySearch($criteria);
     }
 
     public function getQuestionsNumber(int $quizTemplateId): int
