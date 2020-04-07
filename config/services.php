@@ -69,6 +69,7 @@ $containerBuilder->setParameter('username', $configDB['user']);
 $containerBuilder->setParameter('password', $configDB['pass']);
 $containerBuilder->setParameter('options', $options);
 $containerBuilder->setParameter('hashingAlgorithm', PASSWORD_BCRYPT);
+$containerBuilder->setParameter('resultsPerPage', 5);
 
 
 // Configure Router
@@ -190,6 +191,7 @@ $containerBuilder->register(UserController::class, UserController::class)
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(UserService::class))
     ->addArgument(new Reference(AuthenticationService::class))
+    ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
 $containerBuilder->register(AuthenticationController::class, AuthenticationController::class)
@@ -203,6 +205,7 @@ $containerBuilder->register(QuestionTemplateController::class, QuestionTemplateC
     ->addArgument(new Reference(RendererInterface::class))
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(QuestionTemplateService::class))
+    ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
 $containerBuilder->register(AnswerTemplateController::class, AnswerTemplateController::class)
@@ -216,6 +219,7 @@ $containerBuilder->register(QuizTemplateController::class, QuizTemplateControlle
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(QuizTemplateService::class))
     ->addArgument(new Reference(QuestionTemplateService::class))
+    ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
 $containerBuilder->register(QuestionInstanceController::class, QuestionInstanceController::class)
@@ -240,6 +244,7 @@ $containerBuilder->register(QuizInstanceController::class, QuizInstanceControlle
     ->addArgument(new Reference(QuizInstanceService::class))
     ->addArgument(new Reference(QuestionInstanceService::class))
     ->addArgument(new Reference(SessionInterface::class))
+    ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
 $containerBuilder->register(ResultController::class, ResultController::class)
@@ -247,6 +252,7 @@ $containerBuilder->register(ResultController::class, ResultController::class)
     ->addArgument(new Reference(QuizInstanceService::class))
     ->addArgument(new Reference(QuestionInstanceService::class))
     ->addArgument(new Reference(SessionInterface::class))
+    ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
 // Configure Dispatcher

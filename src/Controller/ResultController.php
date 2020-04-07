@@ -9,21 +9,25 @@ use Framework\Contracts\SessionInterface;
 use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
+use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
-use ReallyOrm\Criteria\Criteria;
 
 class ResultController extends AbstractController
 {
+    use CriteriaTrait;
+  
     private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
-
-    const RESULTS_PER_PAGE = 5;
 
     /**
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+    /**
+     * @var int
+     */
+    private $resultsPerPage;
 
     /**
      * @var SessionInterface
@@ -35,31 +39,25 @@ class ResultController extends AbstractController
      */
     private $questionInstanceService;
 
+    /**
+     * ResultController constructor.
+     * @param RendererInterface $renderer
+     * @param QuizInstanceService $quizInstanceService
+     * @param int $resultsPerPage
+     */
     public function __construct
     (
         RendererInterface $renderer,
         QuizInstanceService $quizInstanceService,
         QuestionInstanceService $questionInstanceService,
-        SessionInterface $session
+        SessionInterface $session,
+        int $resultsPerPage
     ) {
         parent::__construct($renderer);
         $this->quizInstanceService = $quizInstanceService;
         $this->questionInstanceService = $questionInstanceService;
         $this->session = $session;
-    }
-
-    /**
-     * Creates a new Criteria entity necessary for displaying the results.
-     *
-     * @param array $requestAttributes
-     * @return Criteria
-     */
-    private function getCriteriaFromRequest(array $requestAttributes): Criteria
-    {
-        $currentPage = $requestAttributes['page'] ?? 1;
-        $from = ($currentPage - 1) * self::RESULTS_PER_PAGE;
-
-        return new Criteria([], [], $from, self::RESULTS_PER_PAGE);
+        $this->resultsPerPage = $resultsPerPage;
     }
 
     /**
@@ -70,9 +68,9 @@ class ResultController extends AbstractController
     public function getResults(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes);
+        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
         $results = $this->quizInstanceService->getResultsData($criteria);
-        $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, self::RESULTS_PER_PAGE);
+        $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
             ['results' => $results, 'paginator' => $paginator]);
