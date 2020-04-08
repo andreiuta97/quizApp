@@ -12,7 +12,6 @@ use QuizApp\Service\AuthenticationService;
 use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\UserService;
-use ReallyOrm\Criteria\Criteria;
 use ReallyOrm\Repository\RepositoryManagerInterface;
 
 class UserController extends AbstractController
@@ -84,20 +83,8 @@ class UserController extends AbstractController
     {
         $info = $request->getParameters();
         $this->userService->add($info);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listUsers');
 
-        return $response;
-    }
-
-    public function getUser(Request $request, array $requestAttributes): Response
-    {
-        $id = $requestAttributes['id'];
-        $this->userService->getUser($id);
-        $body = Stream::createFromString('');
-
-        return new Response($body, '1.1', 200, '');
+        return $this->createRedirectResponse('/listUsers');
     }
 
     public function updateUser(Request $request, array $requestAttributes): Response
@@ -105,22 +92,16 @@ class UserController extends AbstractController
         $id = $requestAttributes['id'];
         $info = $request->getParameters();
         $this->userService->update($id, $info);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listUsers');
 
-        return $response;
+        return $this->createRedirectResponse('/listUsers');
     }
 
     public function deleteUser(Request $request, array $requestAttributes): Response
     {
         $id = $requestAttributes['id'];
         $this->userService->delete($id);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listUsers');
 
-        return $response;
+        return $this->createRedirectResponse('/listUsers');
     }
 
     public function getUsers(Request $request, array $requestAttributes): Response

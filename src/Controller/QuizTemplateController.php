@@ -60,21 +60,8 @@ class QuizTemplateController extends AbstractController
     {
         $info = $request->getParameters();
         $this->quizTemplateService->add($info);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listQuizzes');
 
-
-        return $response;
-    }
-
-    public function getQuiz(Request $request, array $requestAttributes): Response
-    {
-        $id = $requestAttributes['id'];
-        $this->quizTemplateService->getQuiz($id);
-        $body = Stream::createFromString('');
-
-        return new Response($body, '1.1', 200, '');
+        return $this->createRedirectResponse('/listQuizzes');
     }
 
     public function updateQuiz(Request $request, array $requestAttributes): Response
@@ -82,22 +69,16 @@ class QuizTemplateController extends AbstractController
         $id = $requestAttributes['id'];
         $info = $request->getParameters();
         $this->quizTemplateService->update($id, $info);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listQuizzes');
 
-        return $response;
+        return $this->createRedirectResponse('/listQuizzes');
     }
 
     public function deleteQuiz(Request $request, array $requestAttributes): Response
     {
         $id = $requestAttributes['id'];
         $this->quizTemplateService->delete($id);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listQuizzes');
 
-        return $response;
+        return $this->createRedirectResponse('/listQuizzes');
     }
 
     public function getQuizzes(Request $request, array $requestAttributes): Response

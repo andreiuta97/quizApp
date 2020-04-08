@@ -88,12 +88,7 @@ class QuizInstanceController extends AbstractController
         $quizInstance = $this->quizInstanceService->createQuizInstance($quizTemplate->getId());
         $this->questionInstanceService->createQuestionInstances($quizTemplate, $quizInstance);
 
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/quiz/question/1');
-
-
-        return $response;
+        return $this->createRedirectResponse('/quiz/question/1');
     }
 
     public function getQuizzes(Request $request, array $requestAttributes): Response
