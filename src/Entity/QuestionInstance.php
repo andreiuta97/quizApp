@@ -77,7 +77,7 @@ class QuestionInstance extends AbstractEntity
     /**
      * @param string $text
      */
-    public function setText(string $text)
+    public function setText(string $text): void
     {
         $this->text = $text;
     }
@@ -85,7 +85,7 @@ class QuestionInstance extends AbstractEntity
     /**
      * @param string $type
      */
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
