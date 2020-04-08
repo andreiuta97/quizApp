@@ -52,7 +52,7 @@ require_once('partials/head.phtml');
                 <tr>
                     <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
                     <th scope="col">ID</th>
-                    <th scope="col">Quiz</th>
+                    <th scope="col" class="sorting-header asc dsc"><a href="?orderBy=name&order=<?php echo $order === 'ASC' ? 'DESC' : 'ASC'; ?>">Name</a></th>
                     <th scope="col">Description</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -83,17 +83,17 @@ require_once('partials/head.phtml');
                 <ul class="pagination justify-content-center">
                     <li class="page-item <?php if ($currentPage === 1) echo 'disabled'; ?>">
                         <a class="page-link"
-                           href="?page=<?php echo $currentPage-1; ?>">Previous</a>
+                           href="?page=<?php echo $currentPage-1; ?>&orderBy=name&order=<?php echo $order; ?>">Previous</a>
                     </li>
                     <?php for ($pageNumber = 1; $pageNumber <= $paginator->getTotalPages(); $pageNumber++): ?>
                         <li class="page-item <?php if ($currentPage === $pageNumber) echo 'active'; ?>">
-                            <a class="page-link" href="?page=<?php echo $pageNumber; ?>">
+                            <a class="page-link" href="?page=<?php echo $pageNumber; ?>&orderBy=name&order=<?php echo $order; ?>">
                                 <?php echo $pageNumber; ?>
                             </a>
                         </li>
                     <?php endfor; ?>
                     <li class="page-item <?php if ($currentPage === $paginator->getTotalPages()) echo 'disabled'; ?>">
-                        <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>">
+                        <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>&orderBy=name&order=<?php echo $order; ?>">
                             Next
                         </a>
                     </li>
