@@ -19,10 +19,10 @@ class QuizInstance extends AbstractEntity
      */
     private $name;
     /**
-     * @ORM type
+     * @ORM description
      * @var string
      */
-    private $type;
+    private $description;
     /**
      * @ORM score
      * @var int
@@ -58,9 +58,9 @@ class QuizInstance extends AbstractEntity
     /**
      * @return string
      */
-    public function getType(): string
+    public function getDescription(): string
     {
-        return $this->type;
+        return $this->description;
     }
 
     /**
@@ -90,33 +90,39 @@ class QuizInstance extends AbstractEntity
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @param string $type
+     * @param string $description
      */
-    public function setType(string $type)
+    public function setDescription(string $description): void
     {
-        $this->type = $type;
+        $this->description = $description;
     }
 
     /**
      * @param int $score
      */
-    public function setScore(int $score)
+    public function setScore(int $score): void
     {
         $this->score = $score;
     }
 
-    public function setUserId(int $userId)
+    /**
+     * @param int $userId
+     */
+    public function setUserId(int $userId): void
     {
         $this->userId = $userId;
     }
 
-    public function setQuizTemplateId(int $quizTemplateId)
+    /**
+     * @param int $quizTemplateId
+     */
+    public function setQuizTemplateId(int $quizTemplateId): void
     {
         $this->quizTemplateId = $quizTemplateId;
     }

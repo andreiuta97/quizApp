@@ -19,10 +19,10 @@ class QuizTemplate extends AbstractEntity
      */
     private $name;
     /**
-     * @ORM type
+     * @ORM description
      * @var string
      */
-    private $type;
+    private $description;
     /**
      * @ORM created_by
      * @var int
@@ -48,9 +48,9 @@ class QuizTemplate extends AbstractEntity
     /**
      * @return string
      */
-    public function getType(): string
+    public function getDescription(): string
     {
-        return $this->type;
+        return $this->description;
     }
 
     /**
@@ -64,23 +64,23 @@ class QuizTemplate extends AbstractEntity
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @param string $type
+     * @param string $description
      */
-    public function setType(string $type)
+    public function setDescription(string $description): void
     {
-        $this->type = $type;
+        $this->description = $description;
     }
 
     /**
      * @param int $createdBy
      */
-    public function setCreatedBy($createdBy)
+    public function setCreatedBy($createdBy): void
     {
         $this->createdBy = $createdBy;
     }

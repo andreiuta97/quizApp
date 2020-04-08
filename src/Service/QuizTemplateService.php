@@ -30,7 +30,7 @@ class QuizTemplateService
 
         $quiz = new QuizTemplate();
         $quiz->setName($info['name']);
-        $quiz->setType($info['type']);
+        $quiz->setDescription($info['description']);
         $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
@@ -58,7 +58,7 @@ class QuizTemplateService
 
         $quiz = $this->getQuiz($id);
         $quiz->setName($info['name']);
-        $quiz->setType($info['type']);
+        $quiz->setDescription($info['description']);
         $quiz->setCreatedBy($createdBy);
 
         $this->quizTemplateRepo->insertOnDuplicateKeyUpdate($quiz);
