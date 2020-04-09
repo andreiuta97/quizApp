@@ -90,7 +90,7 @@ class QuizInstance extends AbstractEntity
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -98,7 +98,7 @@ class QuizInstance extends AbstractEntity
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -106,17 +106,23 @@ class QuizInstance extends AbstractEntity
     /**
      * @param int $score
      */
-    public function setScore(int $score)
+    public function setScore(int $score): void
     {
         $this->score = $score;
     }
 
-    public function setUserId(int $userId)
+    /**
+     * @param int $userId
+     */
+    public function setUserId(int $userId): void
     {
         $this->userId = $userId;
     }
 
-    public function setQuizTemplateId(int $quizTemplateId)
+    /**
+     * @param int $quizTemplateId
+     */
+    public function setQuizTemplateId(int $quizTemplateId): void
     {
         $this->quizTemplateId = $quizTemplateId;
     }

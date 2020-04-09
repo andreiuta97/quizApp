@@ -88,7 +88,7 @@ class QuizInstanceService
      */
     public function getQuizzes(Criteria $criteria): SearchResult
     {
-        return $this->repositoryManager->getRepository(QuizTemplate::class)->findBy($criteria);
+        return $this->repositoryManager->getRepository(QuizTemplate::class)->findBySearch($criteria);
     }
 
     /**
@@ -99,7 +99,7 @@ class QuizInstanceService
      */
     public function getResultsData(Criteria $criteria): array
     {
-        $quizInstances = $this->quizInstanceRepo->findBy($criteria);
+        $quizInstances = $this->quizInstanceRepo->findBySearch($criteria);
         $results = [];
         /** @var $quizInstance QuizInstance */
         foreach ($quizInstances->getItems() as $quizInstance) {
