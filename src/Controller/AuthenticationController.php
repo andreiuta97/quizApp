@@ -55,18 +55,10 @@ class AuthenticationController extends AbstractController
         }
 
         if ($role === 'Admin') {
-            $body = Stream::createFromString('');
-            $response = new Response($body, '1.1', 301, '');
-            /** @var Response $redirect */
-            $redirect = $response->withHeader('Location', '/admin/dashboard');
-            return $redirect;
+            return $this->createRedirectResponse('/admin/dashboard');
         }
         if ($role === 'Candidate') {
-            $body = Stream::createFromString('');
-            $response = new Response($body, '1.1', 301, '');
-            /** @var Response $redirect */
-            $redirect = $response->withHeader('Location', '/candidate/homepage');
-            return $redirect;
+            return $this->createRedirectResponse('/candidate/homepage');
         }
     }
 
