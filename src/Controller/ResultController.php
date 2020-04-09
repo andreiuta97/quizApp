@@ -17,13 +17,14 @@ use QuizApp\Service\QuizInstanceService;
 class ResultController extends AbstractController
 {
     use CriteriaTrait;
-  
+
     private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
 
     /**
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+
     /**
      * @var int
      */
@@ -43,6 +44,8 @@ class ResultController extends AbstractController
      * ResultController constructor.
      * @param RendererInterface $renderer
      * @param QuizInstanceService $quizInstanceService
+     * @param QuestionInstanceService $questionInstanceService
+     * @param SessionInterface $session
      * @param int $resultsPerPage
      */
     public function __construct
@@ -52,7 +55,8 @@ class ResultController extends AbstractController
         QuestionInstanceService $questionInstanceService,
         SessionInterface $session,
         int $resultsPerPage
-    ) {
+    )
+    {
         parent::__construct($renderer);
         $this->quizInstanceService = $quizInstanceService;
         $this->questionInstanceService = $questionInstanceService;
@@ -61,6 +65,8 @@ class ResultController extends AbstractController
     }
 
     /**
+     * Displays all results from database in a paginated, filtered and sorted manner.
+     *
      * @param Request $request
      * @param array $requestAttributes
      * @return Response
@@ -73,7 +79,7 @@ class ResultController extends AbstractController
         $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
-            ['results' => $results, 'paginator' => $paginator]);
+            ['results' => $results, 'paginator' => $paginator, 'order' => $requestAttributes['order']]);
     }
 
     /**
