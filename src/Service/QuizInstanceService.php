@@ -127,4 +127,19 @@ class QuizInstanceService
 
         return $quizInstances->getCount();
     }
+
+    /**
+     * Saves given score to the database.
+     *
+     * @param int $quizInstanceId
+     * @param int $score
+     */
+    public function saveScore(int $quizInstanceId, int $score)
+    {
+        /** @var $quizInstance QuizInstance */
+        $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);
+        $quizInstance->setScore($score);
+
+        $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quizInstance);
+    }
 }

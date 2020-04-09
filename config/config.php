@@ -211,6 +211,12 @@ return [
                 Router::CONFIG_KEY_CONTROLLER => 'result',
                 Router::CONFIG_KEY_ACTION => 'getResult',
             ],
+            'score_result' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/result/(?<id>\d+)/(?<quiz_instance_id>\d+)',
+                Router::CONFIG_KEY_CONTROLLER => 'result',
+                Router::CONFIG_KEY_ACTION => 'scoreResult',
+            ],
         ]
     ],
 ];
