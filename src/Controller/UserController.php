@@ -100,7 +100,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * Adds a user to database and redirects to "Users Listing" page.
+     * Adds an user to database and redirects to "Users Listing" page.
      *
      * @param Request $request
      * @param array $requestAttributes
