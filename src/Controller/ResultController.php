@@ -10,6 +10,7 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
+use HighlightLib\CodeHighlight;
 use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/andreiuta97/codeHighlightLib.git",
-                "reference": "5173a302b9651bb6bdf733cc793d96c93e78c727"
+                "reference": "bae7f5580b15646e262153c0a7055318d7d0c102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andreiuta97/codeHighlightLib/zipball/5173a302b9651bb6bdf733cc793d96c93e78c727",
-                "reference": "5173a302b9651bb6bdf733cc793d96c93e78c727",
+                "url": "https://api.github.com/repos/andreiuta97/codeHighlightLib/zipball/bae7f5580b15646e262153c0a7055318d7d0c102",
+                "reference": "bae7f5580b15646e262153c0a7055318d7d0c102",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
             "support": {
                 "source": "https://github.com/andreiuta97/codeHighlightLib/tree/master"
             },
-            "time": "2020-03-05T07:46:04+00:00"
+            "time": "2020-04-10T11:04:03+00:00"
         },
         {
             "name": "andreeasabadis/mvc-framework-skeleton",
@@ -939,12 +939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/andreiuta97/reallyOrm.git",
-                "reference": "3ed69c90b629fcc57cd58b5407ee97a5a959655d"
+                "reference": "086687e184e55cda7603867b463e9a65e728017b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andreiuta97/reallyOrm/zipball/3ed69c90b629fcc57cd58b5407ee97a5a959655d",
-                "reference": "3ed69c90b629fcc57cd58b5407ee97a5a959655d",
+                "url": "https://api.github.com/repos/andreiuta97/reallyOrm/zipball/086687e184e55cda7603867b463e9a65e728017b",
+                "reference": "086687e184e55cda7603867b463e9a65e728017b",
                 "shasum": ""
             },
             "require": {
@@ -971,7 +971,7 @@
                 "source": "https://github.com/andreiuta97/reallyOrm/tree/master",
                 "issues": "https://github.com/andreiuta97/reallyOrm/issues"
             },
-            "time": "2020-03-26T08:06:37+00:00"
+            "time": "2020-04-08T16:47:22+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
