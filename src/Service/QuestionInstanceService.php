@@ -71,7 +71,7 @@ class QuestionInstanceService
      * @param QuizTemplate $quizTemplate
      * @param QuizInstance $quizInstance
      */
-    public function createQuestionInstances(QuizTemplate $quizTemplate, QuizInstance $quizInstance)
+    public function createQuestionInstances(QuizTemplate $quizTemplate, QuizInstance $quizInstance): void
     {
         $answerTemplateRepo = $this->repositoryManager->getRepository(AnswerTemplate::class);
         $questionTemplateRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
@@ -101,7 +101,7 @@ class QuestionInstanceService
      * @param QuestionInstance $question
      * @param AnswerInstance $answer
      */
-    private function getHighlightCodeAnswer(QuestionInstance $question, AnswerInstance $answer)
+    private function highlightCodeAnswer(QuestionInstance $question, AnswerInstance $answer): void
     {
         if ($question->getType() === 'Code') {
             $highlight = $this->codeHighlight->highlight($answer->getText());
@@ -121,7 +121,7 @@ class QuestionInstanceService
         $answeredQuestions = [];
         foreach ($questions as $question) {
             $answer = $this->answerInstanceRepo->getAnswer($question->getId());
-            $this->getHighlightCodeAnswer($question, $answer);
+            $this->highlightCodeAnswer($question, $answer);
 
             $answeredQuestion = new AnsweredQuestion();
             $answeredQuestion->setQuestion($question);
