@@ -6,6 +6,8 @@ namespace QuizApp\Service;
 
 use Framework\Contracts\SessionInterface;
 use Framework\Http\Request;
+use HighlightLib\CodeHighlight;
+use PHPUnit\Framework\StaticAnalysis\HappyPath\AssertNotInstanceOf\A;
 use QuizApp\Entity\AnswerInstance;
 use QuizApp\Entity\AnswerTemplate;
 use QuizApp\Entity\QuestionInstance;
@@ -42,18 +44,25 @@ class QuestionInstanceService
      */
     private $session;
 
+    /**
+     * @var CodeHighlight
+     */
+    private $codeHighlight;
+
     public function __construct
     (
         RepositoryManagerInterface $repositoryManager,
         QuestionInstanceRepository $questionInstanceRepo,
         AnswerInstanceRepository $answerInstanceRepo,
-        SessionInterface $session
+        SessionInterface $session,
+        CodeHighlight $codeHighlight
     )
     {
         $this->repositoryManager = $repositoryManager;
         $this->questionInstanceRepo = $questionInstanceRepo;
         $this->answerInstanceRepo = $answerInstanceRepo;
         $this->session = $session;
+        $this->codeHighlight = $codeHighlight;
     }
 
     /**
@@ -62,7 +71,7 @@ class QuestionInstanceService
      * @param QuizTemplate $quizTemplate
      * @param QuizInstance $quizInstance
      */
-    public function createQuestionInstances(QuizTemplate $quizTemplate, QuizInstance $quizInstance)
+    public function createQuestionInstances(QuizTemplate $quizTemplate, QuizInstance $quizInstance): void
     {
         $answerTemplateRepo = $this->repositoryManager->getRepository(AnswerTemplate::class);
         $questionTemplateRepo = $this->repositoryManager->getRepository(QuestionTemplate::class);
@@ -87,6 +96,20 @@ class QuestionInstanceService
     }
 
     /**
+     * Highlights the answers of the code type questions.
+     *
+     * @param QuestionInstance $question
+     * @param AnswerInstance $answer
+     */
+    private function highlightCodeAnswer(QuestionInstance $question, AnswerInstance $answer): void
+    {
+        if ($question->getType() === 'Code') {
+            $highlight = $this->codeHighlight->highlight($answer->getText());
+            $answer->setText($highlight);
+        }
+    }
+
+    /**
      * Retrieves all questions and their answers for a particular quiz instance.
      *
      * @param int $quizInstanceId
@@ -98,6 +121,7 @@ class QuestionInstanceService
         $answeredQuestions = [];
         foreach ($questions as $question) {
             $answer = $this->answerInstanceRepo->getAnswer($question->getId());
+            $this->highlightCodeAnswer($question, $answer);
 
             $answeredQuestion = new AnsweredQuestion();
             $answeredQuestion->setQuestion($question);
