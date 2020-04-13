@@ -23,7 +23,7 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class QuizInstanceController extends AbstractController
 {
     use CriteriaTrait;
-  
+
     private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
 
     /**
@@ -64,7 +64,8 @@ class QuizInstanceController extends AbstractController
         QuestionInstanceService $questionInstanceService,
         Session $session,
         int $resultsPerPage
-    ) {
+    )
+    {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizInstanceService = $quizInstanceService;
@@ -114,12 +115,15 @@ class QuizInstanceController extends AbstractController
         $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
         $quizInstance = $this->quizInstanceService->findQuiz($quizInstanceId);
         $answeredQuestions = $this->questionInstanceService->getAnsweredQuestions($quizInstanceId);
+        $isLastQuestion = count($answeredQuestions);
+
 
         return $this->renderer->renderView
         ('candidate-overview.phtml',
             [
                 'quizInstance' => $quizInstance,
                 'answeredQuestions' => $answeredQuestions,
+                'isLastQuestion' => $isLastQuestion
             ]
         );
     }

@@ -1,6 +1,6 @@
 <?php
 
-use QuizApp\Service\AnsweredQuestion;
+use QuizApp\ViewModel\AnsweredQuestion;
 
 require_once('partials/head.phtml');
 ?>
@@ -43,9 +43,10 @@ require_once('partials/header.phtml');
     <?php endforeach; ?>
 
     <!--Results form-->
-    <form action="/candidate/success" method="get">
+    <form action="" method="get">
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button formmethod="get" formaction="/quiz/question/<?php echo $isLastQuestion?>" type="submit" class="btn btn-primary">Back</button> /
+            <button formmethod="get" formaction="/candidate/success" type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
 </div>
