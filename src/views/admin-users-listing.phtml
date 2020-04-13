@@ -70,7 +70,7 @@ require_once('partials/header.phtml');
                     <td><?php echo $user->getRole() ?></td>
                     <td class="text-center">
                         <a class="btn btn-primary py-1" href="/editUser/<?php echo $user->getId() ?>">Edit</a>
-                        <a class="btn btn-danger py-1" href="/deleteUser/<?php echo $user->getId() ?>">Delete</a>
+                        <a class="btn btn-danger py-1" <?php if($user->getId()===$sessionUserId) {?> hidden <?php } ?> href="/deleteUser/<?php echo $user->getId() ?>">Delete</a>
                     </td>
                 </tr>
             <?php endforeach ?>

@@ -191,6 +191,7 @@ $containerBuilder->register(UserController::class, UserController::class)
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(UserService::class))
     ->addArgument(new Reference(AuthenticationService::class))
+    ->addArgument(new Reference(SessionInterface::class))
     ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
