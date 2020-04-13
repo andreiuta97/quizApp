@@ -7,7 +7,6 @@ use Framework\Contracts\RendererInterface;
 use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
-use Framework\Http\Stream;
 use QuizApp\Service\AuthenticationService;
 use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
@@ -17,18 +16,22 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class UserController extends AbstractController
 {
     use CriteriaTrait;
+
     /**
      * @var RepositoryManagerInterface
      */
     private $repositoryManager;
+
     /**
      * @var UserService
      */
     private $userService;
+
     /**
      * @var AuthenticationService
      */
     private $authenticationService;
+
     /**
      * @var int
      */
@@ -41,7 +44,8 @@ class UserController extends AbstractController
         UserService $userService,
         AuthenticationService $authenticationService,
         int $resultsPerPage
-    ) {
+    )
+    {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->userService = $userService;
@@ -49,36 +53,59 @@ class UserController extends AbstractController
         $this->resultsPerPage = $resultsPerPage;
     }
 
-    public function adminDashboard()
+    /**
+     * Displays the admin dashboard page.
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function showAdminDashboard(): Response
     {
         $user = $this->authenticationService->getLoggedUser();
 
         if ($user === null) {
+            //TODO
             throw new \Exception("Not logged");
         }
 
         if ($user->getRole() !== 'Admin') {
+            //TODO
             throw new \Exception("Not admin");
         }
 
         return $this->renderer->renderView('admin-dashboard.phtml', ['user' => $user]);
     }
 
-    public function candidateHomepage()
+    /**
+     * Displays the candidate homepage.
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function showCandidateHomepage(): Response
     {
         $user = $this->authenticationService->getLoggedUser();
 
         if ($user === null) {
+            //TODO
             throw new \Exception("Not logged");
         }
 
         if ($user->getRole() !== 'Candidate') {
+            //TODO
             throw new \Exception("Not candidate");
         }
 
         return $this->renderer->renderView('candidate-quiz-listing.phtml', ['user' => $user]);
     }
 
+    /**
+     * Adds a user to database and redirects to "Users Listing" page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function addUser(Request $request, array $requestAttributes): Response
     {
         $info = $request->getParameters();
@@ -87,6 +114,13 @@ class UserController extends AbstractController
         return $this->createRedirectResponse('/listUsers');
     }
 
+    /**
+     * Updates the selected user from the database and redirects to "Users Listing" page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function updateUser(Request $request, array $requestAttributes): Response
     {
         $id = $requestAttributes['id'];
@@ -96,6 +130,13 @@ class UserController extends AbstractController
         return $this->createRedirectResponse('/listUsers');
     }
 
+    /**
+     * Deletes the selected user from the database and redirects to "Users Listing" page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function deleteUser(Request $request, array $requestAttributes): Response
     {
         $id = $requestAttributes['id'];
@@ -104,6 +145,13 @@ class UserController extends AbstractController
         return $this->createRedirectResponse('/listUsers');
     }
 
+    /**
+     * Displays all users from database in a paginated, filtered and sorted manner.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function getUsers(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
@@ -112,14 +160,28 @@ class UserController extends AbstractController
         $paginator = new Paginator($userSearchResult->getCount(), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-users-listing.phtml',
-            ['users' => $userSearchResult->getItems(), 'paginator' => $paginator]);
+            ['users' => $userSearchResult->getItems(), 'paginator' => $paginator, 'order' => $requestAttributes['order']]);
     }
 
+    /**
+     * Displays the "Add User" page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function addNewUser(Request $request, array $requestAttributes): Response
     {
         return $this->renderer->renderView('admin-user-add.phtml', $requestAttributes);
     }
 
+    /**
+     * Displays the "Edit User" page containing the form pre-filled with the selected user's information.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
     public function editUser(Request $request, array $requestAttributes): Response
     {
         $id = $requestAttributes['id'];

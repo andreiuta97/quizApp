@@ -21,12 +21,23 @@ trait CriteriaTrait
             $filters = [];
         }
         foreach ($requestAttributes as $key => $value) {
-            if ($key !== 'page') {
+            if ($key !== 'page' && $key !== 'order' && $key !== 'orderBy') {
                 $filters = isset($requestAttributes[$key]) ? [$key => $requestAttributes[$key]] : [];
             }
         }
 
         return $filters;
+    }
+
+    /**
+     * Constructs the array of sorts necessary to create a new Criteria instance
+     *
+     * @param array $requestAttributes
+     * @return array
+     */
+    private function getSortsForCriteria(array $requestAttributes): array
+    {
+        return isset($requestAttributes['orderBy']) ? [$requestAttributes['orderBy'] => $requestAttributes['order']] : [];
     }
 
     /**
@@ -40,9 +51,10 @@ trait CriteriaTrait
     public function getCriteriaFromRequest(array $requestAttributes, int $resultsPerPage): Criteria
     {
         $filters = $this->getFiltersForCriteria($requestAttributes);
+        $sorts = $this->getSortsForCriteria($requestAttributes);
         $currentPage = $requestAttributes['page'] ?? 1;
         $from = ($currentPage - 1) * $resultsPerPage;
 
-        return new Criteria($filters, [], $from, $resultsPerPage);
+        return new Criteria($filters, $sorts, $from, $resultsPerPage);
     }
 }
