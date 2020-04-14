@@ -26,6 +26,7 @@ class ResultController extends AbstractController
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+
     /**
      * @var int
      */
@@ -66,6 +67,8 @@ class ResultController extends AbstractController
     }
 
     /**
+     * Displays all results from database in a paginated, filtered and sorted manner.
+     *
      * @param Request $request
      * @param array $requestAttributes
      * @return Response
@@ -78,7 +81,7 @@ class ResultController extends AbstractController
         $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
-            ['results' => $results, 'paginator' => $paginator]);
+            ['results' => $results, 'paginator' => $paginator, 'order' => $requestAttributes['order']]);
     }
 
     /**
