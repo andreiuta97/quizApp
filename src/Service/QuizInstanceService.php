@@ -135,7 +135,7 @@ class QuizInstanceService
      * @param int $quizInstanceId
      * @param bool $isComplete
      */
-    public function markQuizComplete(int $quizInstanceId, bool $isComplete): void
+    public function markQuiz(int $quizInstanceId, bool $isComplete): void
     {
         /** @var $quizInstance QuizInstance */
         $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);

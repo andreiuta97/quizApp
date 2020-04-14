@@ -135,7 +135,7 @@ class QuizInstanceController extends AbstractController
     public function markQuizComplete(Request $request, array $requestAttributes): Response
     {
         $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
-        $this->quizInstanceService->markQuizComplete($quizInstanceId, true);
+        $this->quizInstanceService->markQuiz($quizInstanceId, true);
 
         return $this->createRedirectResponse('/candidate/success');
     }
