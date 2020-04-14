@@ -125,8 +125,15 @@ class UserController extends AbstractController
         $paginator = new Paginator($userSearchResult->getCount(), $currentPage, $this->resultsPerPage);
         $sessionUserId = $this->session->get('id');
 
-        return $this->renderer->renderView('admin-users-listing.phtml',
-            ['users' => $userSearchResult->getItems(), 'paginator' => $paginator, 'sessionUserId' => $sessionUserId]);
+        return $this->renderer->renderView
+        (
+            'admin-users-listing.phtml',
+            [
+                'users' => $userSearchResult->getItems(),
+                'paginator' => $paginator,
+                'sessionUserId' => $sessionUserId
+            ]
+        );
     }
 
     public function addNewUser(Request $request, array $requestAttributes): Response
