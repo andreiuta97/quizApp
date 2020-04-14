@@ -15,6 +15,7 @@ use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
+use ReallyOrm\Criteria\Criteria;
 
 class ResultController extends AbstractController
 {
@@ -65,6 +66,24 @@ class ResultController extends AbstractController
         $this->resultsPerPage = $resultsPerPage;
     }
 
+    private function criteriaForResults(array $requestAttributes):Criteria
+    {
+        if (empty($requestAttributes)) {
+            $filters = [];
+        }
+        foreach ($requestAttributes as $key => $value) {
+            if ($key !== 'page' && $key !== 'order' && $key !== 'orderBy') {
+                $filters = isset($requestAttributes[$key]) ? [$key => $requestAttributes[$key]] : [];
+            }
+        }
+        $filters = ['is_completed' => true];
+        $sorts = isset($requestAttributes['orderBy']) ? [$requestAttributes['orderBy'] => $requestAttributes['order']] : [];
+        $currentPage = $requestAttributes['page'] ?? 1;
+        $from = ($currentPage - 1) * $this->resultsPerPage;
+
+        return new Criteria($filters, $sorts, $from, $this->resultsPerPage);
+    }
+
     /**
      * @param Request $request
      * @param array $requestAttributes
@@ -73,7 +92,7 @@ class ResultController extends AbstractController
     public function getResults(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
+        $criteria = $this->criteriaForResults($requestAttributes);
         $results = $this->quizInstanceService->getResultsData($criteria);
         $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
