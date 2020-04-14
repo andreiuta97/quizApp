@@ -36,12 +36,7 @@ class AnswerInstanceController extends AbstractController
         $answerText = $request->getParameter('answer');
         $this->answerInstanceService->save($answerId, $answerText);
 
-
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/quiz/question/'.((int)$offset+1));
-
-        return $response;
+        return $this->createRedirectResponse('/quiz/question/'.((int)$offset+1));
     }
 
     public function submitQuiz(Request $request, array $requestAttributes)
@@ -50,11 +45,6 @@ class AnswerInstanceController extends AbstractController
         $answerText = $request->getParameter('answer');
         $this->answerInstanceService->save($answerId, $answerText);
 
-
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/candidate/overview');
-
-        return $response;
+        return $this->createRedirectResponse('/candidate/overview');
     }
 }

@@ -37,13 +37,7 @@ trait CriteriaTrait
      */
     private function getSortsForCriteria(array $requestAttributes): array
     {
-        $sorts = [];
-        if (empty($requestAttributes)) {
-            $sorts = [];
-        }
-        $sorts = isset($requestAttributes['orderBy']) ? [$requestAttributes['orderBy'] => $requestAttributes['order']] : [];
-
-        return $sorts;
+        return isset($requestAttributes['orderBy']) ? [$requestAttributes['orderBy'] => $requestAttributes['order']] : [];
     }
 
     /**

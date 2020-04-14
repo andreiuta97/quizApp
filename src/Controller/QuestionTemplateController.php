@@ -66,15 +66,6 @@ class QuestionTemplateController extends AbstractController
         return $response;
     }
 
-    public function getQuestion(Request $request, array $requestAttributes): Response
-    {
-        $id = $requestAttributes['id'];
-        $this->questionTemplateService->getQuestion($id);
-        $body = Stream::createFromString('');
-
-        return new Response($body, '1.1', 200, '');
-    }
-
     /**
      * Updates the selected question from the database and redirects to "Questions Listing" page.
      *

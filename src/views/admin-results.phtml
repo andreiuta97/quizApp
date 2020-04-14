@@ -1,9 +1,12 @@
 <?php
 
-use QuizApp\Service\AnsweredQuestion;
+use QuizApp\Entity\QuizInstance;
+use QuizApp\ViewModel\AnsweredQuestion;
 
 require_once('partials/head.phtml');
 ?>
+<!--Code Highlight Library css-->
+<link rel="stylesheet" href="/assets/css/colors-css.css">
 
     <title>Admin - Results</title>
 </head>
@@ -25,6 +28,7 @@ require_once('partials/head.phtml');
     <div class="container">
         <!--Page title block-->
         <div class="text-center pb-3">
+            <?php /** @var $quizInstance QuizInstance */ ?>
             <h1><?php echo $quizInstance->getName() ?></h1>
         </div>
 
@@ -44,10 +48,10 @@ require_once('partials/head.phtml');
         <?php endforeach; ?>
 
         <!--Results form-->
-        <form>
+        <form action="" method="post">
             <div class="form-group">
                 <label for="quizScore">Score</label>
-                <input type="number" class="form-control" id="quizScore" placeholder="Quiz score">
+                <input name="score" type="number" class="form-control" id="quizScore" placeholder="Quiz score">
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Save</button>

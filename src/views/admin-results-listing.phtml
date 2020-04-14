@@ -64,7 +64,7 @@ require_once('partials/head.phtml');
                     <th scope="row"><?php echo  $result->getQuizInstance()->getId(); ?></th>
                     <td><?php echo $result->getUser()->getName() ?> </td>
                     <td><?php echo $result->getQuizInstance()->getName() ?></td>
-                    <td>We don't believe that numbers represent the value of people.</td>
+                    <td><?php echo $result->getQuizInstance()->getScore() ?></td>
                     <td class="text-center">
                         <a class="btn btn-primary py-1" href="/result/<?php echo $result->getUser()->getId(); ?>/<?php echo  $result->getQuizInstance()->getId(); ?>">View</a>
                     </td>

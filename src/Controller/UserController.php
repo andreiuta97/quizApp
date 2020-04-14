@@ -59,7 +59,7 @@ class UserController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function adminDashboard(): Response
+    public function showAdminDashboard(): Response
     {
         $user = $this->authenticationService->getLoggedUser();
 
@@ -82,7 +82,7 @@ class UserController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function candidateHomepage(): Response
+    public function showCandidateHomepage(): Response
     {
         $user = $this->authenticationService->getLoggedUser();
 
