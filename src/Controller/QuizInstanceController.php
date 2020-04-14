@@ -23,7 +23,7 @@ use ReallyOrm\Repository\RepositoryManagerInterface;
 class QuizInstanceController extends AbstractController
 {
     use CriteriaTrait;
-  
+
     private const QUIZ_INSTANCE_ID = 'quiz_instance_id';
 
     /**
@@ -64,7 +64,8 @@ class QuizInstanceController extends AbstractController
         QuestionInstanceService $questionInstanceService,
         Session $session,
         int $resultsPerPage
-    ) {
+    )
+    {
         parent::__construct($renderer);
         $this->repositoryManager = $repositoryManager;
         $this->quizInstanceService = $quizInstanceService;
@@ -125,7 +126,22 @@ class QuizInstanceController extends AbstractController
     }
 
     /**
-     * Displays the 'Congrats' page after completing and saving a quiz.
+     * Marks a quiz as complete and redirects to 'Congrats' page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
+    public function markQuizComplete(Request $request, array $requestAttributes): Response
+    {
+        $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
+        $this->quizInstanceService->markQuizComplete($quizInstanceId, true);
+
+        return $this->createRedirectResponse('/candidate/success');
+    }
+
+    /**
+     * Displays the 'Congrats' page.
      *
      * @param Request $request
      * @param array $requestAttributes
