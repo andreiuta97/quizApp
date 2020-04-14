@@ -62,9 +62,10 @@ require_once('partials/header.phtml');
     </div>
 
     <!--Results form-->
-    <form action="/candidate/success" method="get">
+    <form action="" method="get">
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button formmethod="get" formaction="/quiz/question/<?php echo $lastQuestionIndex?>" type="submit" class="btn btn-primary">Back</button> /
+            <button formmethod="get" formaction="/candidate/success" type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
 </div>
