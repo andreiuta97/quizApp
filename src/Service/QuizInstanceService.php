@@ -141,7 +141,7 @@ class QuizInstanceService
         $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);
         $quizInstance->setIsCompleted($isComplete);
 
-        $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quizInstance);
+        $quizInstance->save();
     }
 
     /**
@@ -150,12 +150,12 @@ class QuizInstanceService
      * @param int $quizInstanceId
      * @param int $score
      */
-    public function saveScore(int $quizInstanceId, int $score):void
+    public function saveScore(int $quizInstanceId, int $score): void
     {
         /** @var $quizInstance QuizInstance */
         $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);
         $quizInstance->setScore($score);
 
-        $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quizInstance);
+        $quizInstance->save();
     }
 }

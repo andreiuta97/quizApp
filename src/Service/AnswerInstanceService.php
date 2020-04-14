@@ -27,6 +27,6 @@ class AnswerInstanceService
         $answer = $this->answerInstanceRepo->find($id);
         $answer->setText($text);
 
-        $this->answerInstanceRepo->insertOnDuplicateKeyUpdate($answer);
+        $answer->save();
     }
 }
