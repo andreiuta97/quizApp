@@ -21,7 +21,7 @@ trait CriteriaTrait
             $filters = [];
         }
         foreach ($requestAttributes as $key => $value) {
-            if ($key !== 'page' && $key !== 'order' && $key !== 'orderBy') {
+            if (!in_array($key, ['page', 'order', 'orderBy'], true)) {
                 $filters = isset($requestAttributes[$key]) ? [$key => $requestAttributes[$key]] : [];
             }
         }

@@ -66,13 +66,13 @@ class ResultController extends AbstractController
         $this->resultsPerPage = $resultsPerPage;
     }
 
-    private function criteriaForResults(array $requestAttributes):Criteria
+    private function createCriteriaForResults(array $requestAttributes): Criteria
     {
         if (empty($requestAttributes)) {
             $filters = [];
         }
         foreach ($requestAttributes as $key => $value) {
-            if ($key !== 'page' && $key !== 'order' && $key !== 'orderBy') {
+            if (!in_array($key, ['page', 'order', 'orderBy'], true)) {
                 $filters = isset($requestAttributes[$key]) ? [$key => $requestAttributes[$key]] : [];
             }
         }
@@ -92,7 +92,7 @@ class ResultController extends AbstractController
     public function getResults(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->criteriaForResults($requestAttributes);
+        $criteria = $this->createCriteriaForResults($requestAttributes);
         $results = $this->quizInstanceService->getResultsData($criteria);
         $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
