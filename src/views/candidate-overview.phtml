@@ -1,6 +1,6 @@
 <?php
 
-use QuizApp\Service\AnsweredQuestion;
+use QuizApp\ViewModel\AnsweredQuestion;
 
 require_once('partials/head.phtml');
 ?>
@@ -45,7 +45,7 @@ require_once('partials/header.phtml');
     <?php endforeach; ?>
 
     <!--Results form-->
-    <form action="/candidate/success" method="get">
+    <form action="" method="post">
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>

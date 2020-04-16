@@ -85,13 +85,13 @@ class QuestionInstanceService
             $question->setType($questionTemplate->getType());
             $question->setQuestionTemplateId($questionTemplate->getId());
             $question->setQuizInstanceId($quizInstance->getId());
-            $this->questionInstanceRepo->insertOnDuplicateKeyUpdate($question);
+            $question->save();
 
             $answerTemplate = $answerTemplateRepo->findOneBy([self::QUESTION_TEMPLATE_ID => $questionTemplate->getId()]);
             $answer = new AnswerInstance();
             $answer->setText($answerTemplate->getText());
             $answer->setQuestionInstanceId($question->getId());
-            $this->answerInstanceRepo->insertOnDuplicateKeyUpdate($answer);
+            $answer->save();
         }
     }
 

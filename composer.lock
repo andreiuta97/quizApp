@@ -939,12 +939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/andreiuta97/reallyOrm.git",
-                "reference": "086687e184e55cda7603867b463e9a65e728017b"
+                "reference": "b762d119252ce0545337916714f8d7a240e0a73e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andreiuta97/reallyOrm/zipball/086687e184e55cda7603867b463e9a65e728017b",
-                "reference": "086687e184e55cda7603867b463e9a65e728017b",
+                "url": "https://api.github.com/repos/andreiuta97/reallyOrm/zipball/b762d119252ce0545337916714f8d7a240e0a73e",
+                "reference": "b762d119252ce0545337916714f8d7a240e0a73e",
                 "shasum": ""
             },
             "require": {
@@ -971,7 +971,7 @@
                 "source": "https://github.com/andreiuta97/reallyOrm/tree/master",
                 "issues": "https://github.com/andreiuta97/reallyOrm/issues"
             },
-            "time": "2020-04-08T16:47:22+00:00"
+            "time": "2020-04-14T09:25:24+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
