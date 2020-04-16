@@ -115,12 +115,15 @@ class QuizInstanceController extends AbstractController
         $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
         $quizInstance = $this->quizInstanceService->findQuiz($quizInstanceId);
         $answeredQuestions = $this->questionInstanceService->getAnsweredQuestions($quizInstanceId);
+        $lastQuestionIndex = count($answeredQuestions);
+
 
         return $this->renderer->renderView
         ('candidate-overview.phtml',
             [
                 'quizInstance' => $quizInstance,
                 'answeredQuestions' => $answeredQuestions,
+                'lastQuestionIndex' => $lastQuestionIndex
             ]
         );
     }
