@@ -60,6 +60,7 @@ class QuizInstanceService
         $quiz->setScore(0);
         $quiz->setUserId($userId);
         $quiz->setQuizTemplateId($quizTemplateId);
+        $quiz->setIsCompleted(false);
         $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quiz);
         $this->session->set('quiz_instance_id', $quiz->getId());
 
@@ -129,17 +130,32 @@ class QuizInstanceService
     }
 
     /**
+     * Marks the completion of a quiz in the database.
+     *
+     * @param int $quizInstanceId
+     * @param bool $isComplete
+     */
+    public function markQuiz(int $quizInstanceId, bool $isComplete): void
+    {
+        /** @var $quizInstance QuizInstance */
+        $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);
+        $quizInstance->setIsCompleted($isComplete);
+
+        $quizInstance->save();
+    }
+
+    /**
      * Saves given score to the database.
      *
      * @param int $quizInstanceId
      * @param int $score
      */
-    public function saveScore(int $quizInstanceId, int $score)
+    public function saveScore(int $quizInstanceId, int $score): void
     {
         /** @var $quizInstance QuizInstance */
         $quizInstance = $this->quizInstanceRepo->find($quizInstanceId);
         $quizInstance->setScore($score);
 
-        $this->quizInstanceRepo->insertOnDuplicateKeyUpdate($quizInstance);
+        $quizInstance->save();
     }
 }

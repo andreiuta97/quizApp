@@ -129,7 +129,22 @@ class QuizInstanceController extends AbstractController
     }
 
     /**
-     * Displays the 'Congrats' page after completing and saving a quiz.
+     * Marks a quiz as complete and redirects to 'Congrats' page.
+     *
+     * @param Request $request
+     * @param array $requestAttributes
+     * @return Response
+     */
+    public function markQuizComplete(Request $request, array $requestAttributes): Response
+    {
+        $quizInstanceId = $this->session->get(self::QUIZ_INSTANCE_ID);
+        $this->quizInstanceService->markQuiz($quizInstanceId, true);
+
+        return $this->createRedirectResponse('/candidate/success');
+    }
+
+    /**
+     * Displays the 'Congrats' page.
      *
      * @param Request $request
      * @param array $requestAttributes

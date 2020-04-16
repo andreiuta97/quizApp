@@ -53,7 +53,7 @@ require_once('partials/header.phtml');
             <tr>
                 <!--Sorting arrow are displayed using the 'asc','dsc' classes-->
                 <th scope="col">ID</th>
-                <th scope="col" class="sorting-header asc dsc">Name</th>
+                <th scope="col" class="sorting-header asc dsc"><a href="?orderBy=name&order=<?php echo $order === 'ASC' ? 'DESC' : 'ASC'; ?>">Name</a></th>
                 <th scope="col">Mail</th>
                 <th scope="col">Role</th>
                 <th scope="col">Actions</th>
@@ -70,7 +70,7 @@ require_once('partials/header.phtml');
                     <td><?php echo $user->getRole() ?></td>
                     <td class="text-center">
                         <a class="btn btn-primary py-1" href="/editUser/<?php echo $user->getId() ?>">Edit</a>
-                        <a class="btn btn-danger py-1" href="/deleteUser/<?php echo $user->getId() ?>">Delete</a>
+                        <a class="btn btn-danger py-1" <?php echo ($user->getId() === $sessionUserId) ? 'hidden' : ''; ?> href="/deleteUser/<?php echo $user->getId() ?>">Delete</a>
                     </td>
                 </tr>
             <?php endforeach ?>
@@ -86,17 +86,17 @@ require_once('partials/header.phtml');
             <ul class="pagination justify-content-center">
                 <li class="page-item <?php if ($currentPage === 1) echo 'disabled'; ?>">
                     <a class="page-link"
-                       href="?page=<?php echo $currentPage-1; ?>">Previous</a>
+                       href="?page=<?php echo $currentPage-1; ?>&orderBy=name&order=<?php echo $order; ?>">Previous</a>
                 </li>
                 <?php for ($pageNumber = 1; $pageNumber <= $paginator->getTotalPages(); $pageNumber++): ?>
                     <li class="page-item <?php if ($currentPage === $pageNumber) echo 'active'; ?>">
-                        <a class="page-link" href="?page=<?php echo $pageNumber; ?>">
+                        <a class="page-link" href="?page=<?php echo $pageNumber; ?>&orderBy=name&order=<?php echo $order; ?>">
                             <?php echo $pageNumber; ?>
                         </a>
                     </li>
                 <?php endfor; ?>
                 <li class="page-item <?php if ($currentPage === $paginator->getTotalPages()) echo 'disabled'; ?>">
-                    <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>">
+                    <a class="page-link" href="?page=<?php echo $paginator->getNextPage(); ?>&orderBy=name&order=<?php echo $order; ?>">
                         Next
                     </a>
                 </li>

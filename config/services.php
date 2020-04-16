@@ -5,6 +5,14 @@ use Framework\Contracts\RendererInterface;
 use Framework\Contracts\RouterInterface;
 use Framework\Contracts\SessionInterface;
 use Framework\Session\Session;
+use HighlightLib\Assembler\Assembler;
+use HighlightLib\Classifier\Classifier;
+use HighlightLib\CodeHighlight;
+use HighlightLib\Contracts\AssemblerInterface;
+use HighlightLib\Contracts\ClassifierInterface;
+use HighlightLib\Contracts\TokenInterface;
+use HighlightLib\Contracts\TokenizerInterface;
+use HighlightLib\Tokenizer\WhiteSpaceTokenizer;
 use QuizApp\Controller\AnswerInstanceController;
 use QuizApp\Controller\AnswerTemplateController;
 use QuizApp\Controller\AuthenticationController;
@@ -47,12 +55,14 @@ use ReallyOrm\Test\Hydrator\Hydrator;
 use ReallyOrm\Test\Repository\RepositoryManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use TheSeer\Tokenizer\Tokenizer;
 
 $containerBuilder = new ContainerBuilder();
 
 $baseDir = dirname(__DIR__);
 $config = require $baseDir . '/config/config.php';
 $configDB = require $baseDir . '/config/db_config.php';
+$configCH = require $baseDir . '/config/ch_config.php';
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -70,7 +80,18 @@ $containerBuilder->setParameter('password', $configDB['pass']);
 $containerBuilder->setParameter('options', $options);
 $containerBuilder->setParameter('hashingAlgorithm', PASSWORD_BCRYPT);
 $containerBuilder->setParameter('resultsPerPage', 5);
+$containerBuilder->setParameter('codeHighlight', $configCH);
 
+// Configure Code Highlighter
+$containerBuilder->register(TokenizerInterface::class, WhiteSpaceTokenizer::class);
+$containerBuilder->register(ClassifierInterface::class, Classifier::class)
+    ->addArgument('%codeHighlight%');
+$containerBuilder->register(AssemblerInterface::class, Assembler::class);
+
+$containerBuilder->register(CodeHighlight::class, CodeHighlight::class)
+    ->addArgument(new Reference(TokenizerInterface::class))
+    ->addArgument(new Reference(ClassifierInterface::class))
+    ->addArgument(new Reference(AssemblerInterface::class));
 
 // Configure Router
 $containerBuilder->register(RouterInterface::class, Router::class)
@@ -177,7 +198,8 @@ $containerBuilder->register(QuestionInstanceService::class, QuestionInstanceServ
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(QuestionInstanceRepository::class))
     ->addArgument(new Reference(AnswerInstanceRepository::class))
-    ->addArgument(new Reference(SessionInterface::class));
+    ->addArgument(new Reference(SessionInterface::class))
+    ->addArgument(new Reference(CodeHighlight::class));
 
 $containerBuilder->register(QuizInstanceService::class, QuizInstanceService::class)
     ->addArgument(new Reference(RepositoryManagerInterface::class))
@@ -191,6 +213,7 @@ $containerBuilder->register(UserController::class, UserController::class)
     ->addArgument(new Reference(RepositoryManagerInterface::class))
     ->addArgument(new Reference(UserService::class))
     ->addArgument(new Reference(AuthenticationService::class))
+    ->addArgument(new Reference(SessionInterface::class))
     ->addArgument('%resultsPerPage%')
     ->addTag('controller');
 
