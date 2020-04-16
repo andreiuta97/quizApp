@@ -59,11 +59,8 @@ class QuestionTemplateController extends AbstractController
     {
         $info = $request->getParameters();
         $this->questionTemplateService->add($info);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listQuestions');
 
-        return $response;
+        return $this->createRedirectResponse('/listQuestions');
     }
 
     /**
@@ -78,11 +75,8 @@ class QuestionTemplateController extends AbstractController
         $id = $requestAttributes['id'];
         $info = $request->getParameters();
         $this->questionTemplateService->update($id, $info);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listQuestions');
 
-        return $response;
+        return $this->createRedirectResponse('/listQuestions');
     }
 
     /**
@@ -96,11 +90,8 @@ class QuestionTemplateController extends AbstractController
     {
         $id = $requestAttributes['id'];
         $this->questionTemplateService->delete($id);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listQuestions');
 
-        return $response;
+        return $this->createRedirectResponse('/listQuestions');
     }
 
     /**

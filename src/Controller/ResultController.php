@@ -138,10 +138,7 @@ class ResultController extends AbstractController
         $quizInstanceId = $requestAttributes[self::QUIZ_INSTANCE_ID];
         $score = $request->getParameter('score');
         $this->quizInstanceService->saveScore($quizInstanceId, $score);
-        $body = Stream::createFromString('');
-        $response = new Response($body, '1.1', 301, '');
-        $response = $response->withHeader('Location', '/listResults');
 
-        return $response;
+        return $this->createRedirectResponse('/listResults');
     }
 }
