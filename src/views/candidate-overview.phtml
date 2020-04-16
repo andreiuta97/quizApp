@@ -1,9 +1,11 @@
 <?php
 
-use QuizApp\Service\AnsweredQuestion;
+use QuizApp\ViewModel\AnsweredQuestion;
 
 require_once('partials/head.phtml');
 ?>
+<!--Code Highlight Library css-->
+<link rel="stylesheet" href="/assets/css/colors-css.css">
 
 <title>Candidate - Overview</title>
 </head>
@@ -43,7 +45,7 @@ require_once('partials/header.phtml');
     <?php endforeach; ?>
 
     <!--Results form-->
-    <form action="/candidate/success" method="get">
+    <form action="" method="post">
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>

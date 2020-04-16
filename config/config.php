@@ -34,13 +34,13 @@ return [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/admin/dashboard',
                 Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'adminDashboard',
+                Router::CONFIG_KEY_ACTION => 'showAdminDashboard',
             ],
             'candidate_homepage' => [
                 Router::CONFIG_KEY_METHOD => 'GET',
                 Router::CONFIG_KEY_PATH => '/candidate',
                 Router::CONFIG_KEY_CONTROLLER => 'user',
-                Router::CONFIG_KEY_ACTION => 'candidateHomepage',
+                Router::CONFIG_KEY_ACTION => 'showCandidateHomepage',
             ],
             'logout_page' => [
                 Router::CONFIG_KEY_METHOD => 'POST',
@@ -198,6 +198,12 @@ return [
                 Router::CONFIG_KEY_PATH => '/candidate/overview',
                 Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
                 Router::CONFIG_KEY_ACTION => 'showOverview',
+            ],
+            'complete_quiz' => [
+                Router::CONFIG_KEY_METHOD => 'POST',
+                Router::CONFIG_KEY_PATH => '/candidate/overview',
+                Router::CONFIG_KEY_CONTROLLER => 'quizInstance',
+                Router::CONFIG_KEY_ACTION => 'markQuizComplete',
             ],
             'get_success_page' => [
                 Router::CONFIG_KEY_METHOD => 'GET',

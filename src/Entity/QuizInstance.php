@@ -40,6 +40,12 @@ class QuizInstance extends AbstractEntity
     private $quizTemplateId;
 
     /**
+     * @ORM is_completed
+     * @var bool
+     */
+    private $isCompleted;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -88,6 +94,14 @@ class QuizInstance extends AbstractEntity
     }
 
     /**
+     * @return bool
+     */
+    public function isCompleted(): bool
+    {
+        return $this->isCompleted;
+    }
+
+    /**
      * @param string $name
      */
     public function setName(string $name): void
@@ -125,5 +139,13 @@ class QuizInstance extends AbstractEntity
     public function setQuizTemplateId(int $quizTemplateId): void
     {
         $this->quizTemplateId = $quizTemplateId;
+    }
+
+    /**
+     * @param bool $isCompleted
+     */
+    public function setIsCompleted(bool $isCompleted): void
+    {
+        $this->isCompleted = $isCompleted;
     }
 }

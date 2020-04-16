@@ -10,10 +10,12 @@ use Framework\Controller\AbstractController;
 use Framework\Http\Request;
 use Framework\Http\Response;
 use Framework\Http\Stream;
+use HighlightLib\CodeHighlight;
 use QuizApp\Service\CriteriaTrait;
 use QuizApp\Service\Paginator;
 use QuizApp\Service\QuestionInstanceService;
 use QuizApp\Service\QuizInstanceService;
+use ReallyOrm\Criteria\Criteria;
 
 class ResultController extends AbstractController
 {
@@ -25,6 +27,7 @@ class ResultController extends AbstractController
      * @var QuizInstanceService
      */
     private $quizInstanceService;
+
     /**
      * @var int
      */
@@ -64,7 +67,27 @@ class ResultController extends AbstractController
         $this->resultsPerPage = $resultsPerPage;
     }
 
+    private function createCriteriaForResults(array $requestAttributes): Criteria
+    {
+        if (empty($requestAttributes)) {
+            $filters = [];
+        }
+        foreach ($requestAttributes as $key => $value) {
+            if (!in_array($key, ['page', 'order', 'orderBy'], true)) {
+                $filters = isset($requestAttributes[$key]) ? [$key => $requestAttributes[$key]] : [];
+            }
+        }
+        $filters = ['is_completed' => true];
+        $sorts = isset($requestAttributes['orderBy']) ? [$requestAttributes['orderBy'] => $requestAttributes['order']] : [];
+        $currentPage = $requestAttributes['page'] ?? 1;
+        $from = ($currentPage - 1) * $this->resultsPerPage;
+
+        return new Criteria($filters, $sorts, $from, $this->resultsPerPage);
+    }
+
     /**
+     * Displays all results from database in a paginated, filtered and sorted manner.
+     *
      * @param Request $request
      * @param array $requestAttributes
      * @return Response
@@ -72,12 +95,12 @@ class ResultController extends AbstractController
     public function getResults(Request $request, array $requestAttributes): Response
     {
         $currentPage = $requestAttributes['page'] ?? 1;
-        $criteria = $this->getCriteriaFromRequest($requestAttributes, $this->resultsPerPage);
+        $criteria = $this->createCriteriaForResults($requestAttributes);
         $results = $this->quizInstanceService->getResultsData($criteria);
         $paginator = new Paginator($this->quizInstanceService->getResultsNumber($criteria), $currentPage, $this->resultsPerPage);
 
         return $this->renderer->renderView('admin-results-listing.phtml',
-            ['results' => $results, 'paginator' => $paginator]);
+            ['results' => $results, 'paginator' => $paginator, 'order' => $requestAttributes['order']]);
     }
 
     /**
